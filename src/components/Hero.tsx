@@ -1,31 +1,31 @@
-'use client'
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+"use client";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const TYPEWRITER_TEXT = '브라우저에서 Git을 배워보세요'
-const TYPING_SPEED = 80
+const TYPEWRITER_TEXT = "브라우저에서 Git을 배워보세요";
+const TYPING_SPEED = 80;
 
 export function Hero() {
-  const [text, setText] = useState('')
-  const [showCursor, setShowCursor] = useState(true)
+  const [text, setText] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
-    let i = 0
+    let i = 0;
     const timer = setInterval(() => {
       if (i < TYPEWRITER_TEXT.length) {
-        setText(TYPEWRITER_TEXT.slice(0, i + 1))
-        i++
+        setText(TYPEWRITER_TEXT.slice(0, i + 1));
+        i++;
       } else {
-        clearInterval(timer)
+        clearInterval(timer);
       }
-    }, TYPING_SPEED)
-    return () => clearInterval(timer)
-  }, [])
+    }, TYPING_SPEED);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
-    const cursor = setInterval(() => setShowCursor((c) => !c), 520)
-    return () => clearInterval(cursor)
-  }, [])
+    const cursor = setInterval(() => setShowCursor((c) => !c), 520);
+    return () => clearInterval(cursor);
+  }, []);
 
   return (
     <section className="py-20 px-4">
@@ -42,7 +42,7 @@ export function Hero() {
             <p className="text-zinc-400">$ git-github-101</p>
             <p className="text-orange-400 mt-2 text-lg">
               {text}
-              <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity`}>▊</span>
+              <span className={`${showCursor ? "opacity-100" : "opacity-0"} transition-opacity`}>▊</span>
             </p>
           </div>
         </div>
@@ -50,9 +50,7 @@ export function Hero() {
         {/* CTA */}
         <div className="mt-8 text-center">
           <h1 className="text-3xl font-bold mb-4">Git & GitHub 101</h1>
-          <p className="text-zinc-500 dark:text-zinc-400 mb-6">
-            설치 없이, 브라우저에서 바로 Git을 실습해보세요.
-          </p>
+          <p className="text-zinc-500 dark:text-zinc-400 mb-6">설치 없이, 브라우저에서 바로 Git을 실습해보세요.</p>
           <Link
             href="/lessons/what-is-git"
             className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors"
@@ -62,5 +60,5 @@ export function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }

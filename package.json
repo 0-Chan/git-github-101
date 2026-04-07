@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
@@ -26,6 +28,7 @@
     "remark-html": "^16.0.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
     "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
@@ -35,8 +38,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.1",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.2",
     "fake-indexeddb": "^6.2.5",
     "jsdom": "^29.0.1",
     "tailwindcss": "^4",

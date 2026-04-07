@@ -1,77 +1,81 @@
-'use client'
-import { useState, useCallback } from 'react'
-import dynamic from 'next/dynamic'
-import { GuidePanel } from './GuidePanel'
-import { Sidebar } from './Sidebar'
-import { useProgress } from '@/hooks/useProgress'
-import { useTabLock } from '@/hooks/useTabLock'
-import { validateAllSteps } from '@/lib/validation'
-import { FIXTURE_VERSION_KEY } from '@/lib/fixtures'
-import type { LessonContent, Section } from '@/types'
-import type { Shell } from '@/lib/shell/Shell'
+"use client";
+import dynamic from "next/dynamic";
+import { useCallback, useState } from "react";
+import { useProgress } from "@/hooks/useProgress";
+import { useTabLock } from "@/hooks/useTabLock";
+import { FIXTURE_VERSION_KEY } from "@/lib/fixtures";
+import type { Shell } from "@/lib/shell/Shell";
+import { validateAllSteps } from "@/lib/validation";
+import type { LessonContent, Section } from "@/types";
+import { GuidePanel } from "./GuidePanel";
+import { Sidebar } from "./Sidebar";
 
-const TerminalPanel = dynamic(
-  () => import('./TerminalPanel').then((m) => ({ default: m.TerminalPanel })),
-  { ssr: false }
-)
+const TerminalPanel = dynamic(() => import("./TerminalPanel").then((m) => ({ default: m.TerminalPanel })), {
+  ssr: false,
+});
 
 interface LessonLayoutProps {
-  lesson: LessonContent
-  sections: Section[]
+  lesson: LessonContent;
+  sections: Section[];
 }
 
 export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
-  const { progress, markComplete } = useProgress()
-  const isLocked = useTabLock(lesson.meta.slug)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [completedSteps, setCompletedSteps] = useState<boolean[]>(
-    new Array(lesson.meta.steps.length).fill(false)
-  )
-  const [terminalKey, setTerminalKey] = useState(0)
-  const currentStep = completedSteps.findIndex((c) => !c)
-  const allComplete = completedSteps.every(Boolean)
+  const { progress, markComplete } = useProgress();
+  const isLocked = useTabLock(lesson.meta.slug);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState<boolean[]>(new Array(lesson.meta.steps.length).fill(false));
+  const [terminalKey, setTerminalKey] = useState(0);
+  const currentStep = completedSteps.findIndex((c) => !c);
+  const _allComplete = completedSteps.every(Boolean);
 
-  const handleStepComplete = useCallback((stepIndex: number) => {
-    setCompletedSteps((prev) => {
-      const next = [...prev]
-      next[stepIndex] = true
-      if (next.every(Boolean)) {
-        markComplete(lesson.meta.slug)
-      }
-      return next
-    })
-  }, [lesson.meta.slug, markComplete])
+  const handleStepComplete = useCallback(
+    (stepIndex: number) => {
+      setCompletedSteps((prev) => {
+        const next = [...prev];
+        next[stepIndex] = true;
+        if (next.every(Boolean)) {
+          markComplete(lesson.meta.slug);
+        }
+        return next;
+      });
+    },
+    [lesson.meta.slug, markComplete],
+  );
 
   const handleReset = useCallback(async () => {
-    const { destroyFS } = await import('@/lib/shell/filesystem')
-    const slug = lesson.meta.slug
-    await destroyFS(`lesson-${slug}`)
-    localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`)
-    setCompletedSteps(new Array(lesson.meta.steps.length).fill(false))
-    setTerminalKey((k) => k + 1)
-  }, [lesson.meta.slug, lesson.meta.steps.length])
+    const { destroyFS } = await import("@/lib/shell/filesystem");
+    const slug = lesson.meta.slug;
+    await destroyFS(`lesson-${slug}`);
+    localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`);
+    setCompletedSteps(new Array(lesson.meta.steps.length).fill(false));
+    setTerminalKey((k) => k + 1);
+  }, [lesson.meta.slug, lesson.meta.steps.length]);
 
-  const handleShellReady = useCallback(async (shell: Shell) => {
-    if (lesson.meta.steps.length > 0) {
-      const results = await validateAllSteps(lesson.meta.steps, shell.getFS(), '/')
-      setCompletedSteps(results)
-      if (results.every(Boolean)) {
-        markComplete(lesson.meta.slug)
+  const handleShellReady = useCallback(
+    async (shell: Shell) => {
+      if (lesson.meta.steps.length > 0) {
+        const results = await validateAllSteps(lesson.meta.steps, shell.getFS(), "/");
+        setCompletedSteps(results);
+        if (results.every(Boolean)) {
+          markComplete(lesson.meta.slug);
+        }
       }
-    }
-  }, [lesson.meta.steps, lesson.meta.slug, markComplete])
+    },
+    [lesson.meta.steps, lesson.meta.slug, markComplete],
+  );
 
   if (isLocked) {
     return (
       <div className="flex items-center justify-center h-screen">
         <p className="text-zinc-500">이 레슨은 다른 탭에서 이미 열려 있어요.</p>
       </div>
-    )
+    );
   }
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)]">
       <button
+        type="button"
         onClick={() => setMobileMenuOpen(true)}
         className="lg:hidden fixed bottom-4 left-4 z-40 p-3 bg-orange-500 text-white rounded-full shadow-lg"
         aria-label="Open menu"
@@ -80,19 +84,26 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       </button>
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: backdrop dismiss */}
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            role="presentation"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="absolute left-0 top-0 h-full w-72 bg-white dark:bg-zinc-950 shadow-xl overflow-y-auto" onClick={() => setMobileMenuOpen(false)}>
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: nav click dismiss */}
+          <nav
+            className="absolute left-0 top-0 h-full w-72 bg-white dark:bg-zinc-950 shadow-xl overflow-y-auto"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <Sidebar sections={sections} progress={progress} />
-          </div>
+          </nav>
         </div>
       )}
       <div className="hidden lg:block">
         <Sidebar sections={sections} progress={progress} />
       </div>
-      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? 'flex-col lg:flex-row' : ''}`}>
+      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : ""}`}>
         <GuidePanel
           html={lesson.html}
           steps={lesson.meta.steps}
@@ -103,6 +114,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
           <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
             <div className="flex justify-end">
               <button
+                type="button"
                 onClick={handleReset}
                 className="text-xs px-3 py-1 rounded border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
               >
@@ -123,5 +135,5 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
         )}
       </div>
     </div>
-  )
+  );
 }

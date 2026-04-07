@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { ThemeToggle } from './ThemeToggle'
+import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Nav() {
   return (
@@ -9,12 +9,17 @@ export function Nav() {
           ▸ git-github-101
         </Link>
         <div className="flex items-center gap-2">
-          <a href="https://github.com/0-Chan/git-github-101" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-sm">
+          <a
+            href="https://github.com/0-Chan/git-github-101"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-sm"
+          >
             GitHub
           </a>
           <ThemeToggle />
         </div>
       </div>
     </header>
-  )
+  );
 }
