@@ -6,7 +6,7 @@
 
 **Architecture:** Next.js App Router with SSG for content pages. Client-side shell layer (parser → command handlers → isomorphic-git/LightningFS) rendered in xterm.js terminal. Validation system checks learner progress per step. Design follows cc101.axwith.com patterns (Geist fonts, orange accent, zinc scale, dark mode).
 
-**Tech Stack:** Next.js 15+, TypeScript, Tailwind CSS v4, isomorphic-git, @nicolo-ribaudo/lightning-fs, xterm.js, remark, remark-html, gray-matter, diff, Vitest, Playwright
+**Tech Stack:** Next.js 15+, TypeScript, Tailwind CSS v4, isomorphic-git, @isomorphic-git/lightning-fs, xterm.js, remark, remark-html, gray-matter, diff, Vitest, Playwright
 
 **Spec:** `docs/superpowers/specs/2026-04-07-git-github-101-design.md`
 
@@ -109,7 +109,7 @@ npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --
 - [ ] **Step 2: Install dependencies**
 
 ```bash
-pnpm add isomorphic-git @nicolo-ribaudo/lightning-fs @xterm/xterm @xterm/addon-fit gray-matter remark remark-html remark-gfm diff
+pnpm add isomorphic-git @isomorphic-git/lightning-fs @xterm/xterm @xterm/addon-fit gray-matter remark remark-html remark-gfm diff
 pnpm add -D vitest @vitejs/plugin-react jsdom fake-indexeddb @testing-library/react @testing-library/jest-dom @playwright/test @types/diff
 ```
 
@@ -766,7 +766,7 @@ pnpm vitest run tests/unit/filesystem.test.ts
 - [ ] **Step 3: Implement filesystem wrapper**
 
 ```typescript
-import LightningFS from '@nicolo-ribaudo/lightning-fs'
+import LightningFS from '@isomorphic-git/lightning-fs'
 
 export function createFS(namespace: string): any {
   return new LightningFS(namespace)
