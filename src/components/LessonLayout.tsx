@@ -23,6 +23,7 @@ interface LessonLayoutProps {
 export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const { progress, markComplete } = useProgress()
   const isLocked = useTabLock(lesson.meta.slug)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [completedSteps, setCompletedSteps] = useState<boolean[]>(
     new Array(lesson.meta.steps.length).fill(false)
   )
@@ -70,6 +71,24 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)]">
+      <button
+        onClick={() => setMobileMenuOpen(true)}
+        className="lg:hidden fixed bottom-4 left-4 z-40 p-3 bg-orange-500 text-white rounded-full shadow-lg"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50">
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="absolute left-0 top-0 h-full w-72 bg-white dark:bg-zinc-950 shadow-xl overflow-y-auto" onClick={() => setMobileMenuOpen(false)}>
+            <Sidebar sections={sections} progress={progress} />
+          </div>
+        </div>
+      )}
       <div className="hidden lg:block">
         <Sidebar sections={sections} progress={progress} />
       </div>
