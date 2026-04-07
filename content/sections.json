@@ -1,0 +1,105 @@
+{
+  "name": "git-github-101",
+  "description": "브라우저에서 배우는 Git & GitHub 입문",
+  "sections": [
+    {
+      "id": "01-what-is-git",
+      "order": 1,
+      "slug": "what-is-git",
+      "title": "Git이란?",
+      "description": "버전 관리 시스템의 개념과 Git이 필요한 이유를 알아봅니다",
+      "file": "01-what-is-git.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "02-first-repo",
+      "order": 2,
+      "slug": "first-repo",
+      "title": "첫 번째 저장소",
+      "description": "git init으로 첫 번째 저장소를 만들어봅니다",
+      "file": "02-first-repo.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "03-first-commit",
+      "order": 3,
+      "slug": "first-commit",
+      "title": "첫 번째 커밋",
+      "description": "파일을 만들고 첫 번째 커밋을 해봅니다",
+      "file": "03-first-commit.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "04-commit-history",
+      "order": 4,
+      "slug": "commit-history",
+      "title": "커밋 히스토리",
+      "description": "커밋 기록을 확인하고 메시지 작성법을 배웁니다",
+      "file": "04-commit-history.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "05-modify-and-diff",
+      "order": 5,
+      "slug": "modify-and-diff",
+      "title": "수정과 비교",
+      "description": "파일을 수정하고 변경사항을 비교해봅니다",
+      "file": "05-modify-and-diff.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "06-branches",
+      "order": 6,
+      "slug": "branches",
+      "title": "브랜치",
+      "description": "브랜치를 만들고 전환하는 방법을 배웁니다",
+      "file": "06-branches.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "07-merge",
+      "order": 7,
+      "slug": "merge",
+      "title": "머지",
+      "description": "브랜치를 합치는 다양한 방법을 배웁니다",
+      "file": "07-merge.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "08-merge-conflict",
+      "order": 8,
+      "slug": "merge-conflict",
+      "title": "충돌 해결",
+      "description": "머지 충돌이 발생했을 때 해결하는 방법을 배웁니다",
+      "file": "08-merge-conflict.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "09-what-is-github",
+      "order": 9,
+      "slug": "what-is-github",
+      "title": "GitHub란?",
+      "description": "원격 저장소와 GitHub의 개념을 알아봅니다",
+      "file": "09-what-is-github.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "10-remote",
+      "order": 10,
+      "slug": "remote",
+      "title": "원격 저장소",
+      "description": "원격 저장소를 연결하고 push하는 방법을 배웁니다",
+      "file": "10-remote.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "11-pull-request",
+      "order": 11,
+      "slug": "pull-request",
+      "title": "Pull Request",
+      "description": "PR을 통한 코드 리뷰 워크플로우를 알아봅니다",
+      "file": "11-pull-request.md",
+      "hasTerminal": false
+    }
+  ]
+}
