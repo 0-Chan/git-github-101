@@ -5,6 +5,7 @@ import { FitAddon } from '@xterm/addon-fit'
 import '@xterm/xterm/css/xterm.css'
 import { Shell } from '@/lib/shell/Shell'
 import { runValidation } from '@/lib/validation'
+import { getFixture, FIXTURE_VERSION_KEY } from '@/lib/fixtures'
 import type { LessonStep } from '@/types'
 
 interface TerminalPanelProps {
@@ -59,8 +60,18 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     const shell = new Shell(namespace)
     shellRef.current = shell
 
-    // NOTE: Fixture initialization is added in Task 18.
-    shell.init().then(() => {
+    shell.init().then(async () => {
+      const slug = namespace.replace(/^lesson-/, '')
+      const fixture = getFixture(slug)
+      const versionKey = `${FIXTURE_VERSION_KEY}-${slug}`
+      const storedVersion = localStorage.getItem(versionKey)
+
+      if (!storedVersion || parseInt(storedVersion) !== fixture.version) {
+        await shell.reset()
+        await fixture.setup(shell.getFS())
+        localStorage.setItem(versionKey, String(fixture.version))
+      }
+
       terminal.writeln('Git & GitHub 101 터미널')
       terminal.writeln("'도움말'을 입력하면 사용 가능한 명령어를 볼 수 있어요.\r\n")
       writePrompt()

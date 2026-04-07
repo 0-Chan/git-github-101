@@ -6,6 +6,7 @@ import { Sidebar } from './Sidebar'
 import { useProgress } from '@/hooks/useProgress'
 import { useTabLock } from '@/hooks/useTabLock'
 import { validateAllSteps } from '@/lib/validation'
+import { FIXTURE_VERSION_KEY } from '@/lib/fixtures'
 import type { LessonContent, Section } from '@/types'
 import type { Shell } from '@/lib/shell/Shell'
 
@@ -25,6 +26,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const [completedSteps, setCompletedSteps] = useState<boolean[]>(
     new Array(lesson.meta.steps.length).fill(false)
   )
+  const [terminalKey, setTerminalKey] = useState(0)
   const currentStep = completedSteps.findIndex((c) => !c)
   const allComplete = completedSteps.every(Boolean)
 
@@ -38,6 +40,15 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       return next
     })
   }, [lesson.meta.slug, markComplete])
+
+  const handleReset = useCallback(async () => {
+    const { destroyFS } = await import('@/lib/shell/filesystem')
+    const slug = lesson.meta.slug
+    await destroyFS(`lesson-${slug}`)
+    localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`)
+    setCompletedSteps(new Array(lesson.meta.steps.length).fill(false))
+    setTerminalKey((k) => k + 1)
+  }, [lesson.meta.slug, lesson.meta.steps.length])
 
   const handleShellReady = useCallback(async (shell: Shell) => {
     if (lesson.meta.steps.length > 0) {
@@ -70,14 +81,25 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
           currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
         />
         {lesson.meta.hasTerminal && (
-          <div className="lg:w-1/2 h-80 lg:h-full p-4">
-            <TerminalPanel
-              namespace={`lesson-${lesson.meta.slug}`}
-              steps={lesson.meta.steps}
-              currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
-              onStepComplete={handleStepComplete}
-              onReady={handleShellReady}
-            />
+          <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
+            <div className="flex justify-end">
+              <button
+                onClick={handleReset}
+                className="text-xs px-3 py-1 rounded border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              >
+                리셋
+              </button>
+            </div>
+            <div className="flex-1 min-h-0">
+              <TerminalPanel
+                key={terminalKey}
+                namespace={`lesson-${lesson.meta.slug}`}
+                steps={lesson.meta.steps}
+                currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
+                onStepComplete={handleStepComplete}
+                onReady={handleShellReady}
+              />
+            </div>
           </div>
         )}
       </div>
