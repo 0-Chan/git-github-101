@@ -3,6 +3,11 @@
   "assist": {
     "enabled": true
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
