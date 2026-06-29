@@ -1,11 +1,23 @@
 import LightningFS from "@isomorphic-git/lightning-fs";
 
+// One LightningFS instance per namespace. Multiple live instances on the same
+// namespace fight over the same Web Lock, and a wipe (init with `wipe: true`)
+// steals that lock — aborting the other instance with
+// "Lock broken by another request with the 'steal' option". Caching guarantees a
+// single instance so a wipe only ever releases/re-acquires its own free lock.
+const instances = new Map<string, any>();
+
 export function createFS(namespace: string): any {
-  return new LightningFS(namespace);
+  let fs = instances.get(namespace);
+  if (!fs) {
+    fs = new LightningFS(namespace);
+    instances.set(namespace, fs);
+  }
+  return fs;
 }
 
 export async function destroyFS(namespace: string): Promise<void> {
-  const fs = new LightningFS(namespace);
+  const fs = createFS(namespace); // reuse the singleton; no competing instance to steal from
   await fs.init(namespace, { wipe: true });
 }
 

@@ -34,6 +34,10 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
   useEffect(() => {
     stepsRef.current = steps;
   }, [steps]);
+  const onReadyRef = useRef(onReady);
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
 
   const writePrompt = useCallback(() => {
     const shell = shellRef.current;
@@ -44,6 +48,10 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
 
   useEffect(() => {
     if (!termRef.current) return;
+
+    // Strict Mode (dev) runs this effect twice. Guard the async init chain so the
+    // torn-down instance never writes to a disposed terminal or re-runs fixture setup.
+    let cancelled = false;
 
     const terminal = new Terminal({
       theme: {
@@ -67,6 +75,7 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     shellRef.current = shell;
 
     shell.init().then(async () => {
+      if (cancelled) return;
       const slug = namespace.replace(/^lesson-/, "");
       const fixture = getFixture(slug);
       const versionKey = `${FIXTURE_VERSION_KEY}-${slug}`;
@@ -78,10 +87,11 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         localStorage.setItem(versionKey, String(fixture.version));
       }
 
+      if (cancelled) return;
       terminal.writeln("Git & GitHub 101 터미널");
       terminal.writeln("'help'를 입력하면 사용 가능한 명령어를 볼 수 있어요.\r\n");
       writePrompt();
-      onReady(shell);
+      onReadyRef.current(shell);
     });
 
     terminal.onKey(async ({ key, domEvent }) => {
@@ -129,10 +139,11 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     resizeObserver.observe(termRef.current);
 
     return () => {
+      cancelled = true;
       resizeObserver.disconnect();
       terminal.dispose();
     };
-  }, [namespace, writePrompt, onReady]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [namespace, writePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="flex flex-col h-full bg-zinc-900 rounded-xl border border-zinc-700 overflow-hidden">
