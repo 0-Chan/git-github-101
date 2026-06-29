@@ -60,7 +60,7 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         cursor: "#f97316",
         selectionBackground: "#f9731640",
       },
-      fontFamily: "var(--font-geist-mono), monospace",
+      fontFamily: "var(--font-plex-mono), monospace",
       fontSize: 14,
       cursorBlink: true,
     });

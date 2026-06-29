@@ -19,7 +19,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+      className="p-2 rounded-lg hover:bg-surface transition-colors"
       aria-label="Toggle theme"
     >
       {dark ? "☀️" : "🌙"}

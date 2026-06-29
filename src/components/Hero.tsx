@@ -1,61 +1,78 @@
-"use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-const TYPEWRITER_TEXT = "브라우저에서 Git을 배워보세요";
-const TYPING_SPEED = 80;
+const MAIN = "var(--color-lane-main)";
+const FEATURE = "var(--color-lane-feature)";
+
+// Animations live in globals.css under prefers-reduced-motion: no-preference;
+// here we only stagger them via animationDelay. Reduced motion => final state.
+const delay = (s: number) => ({ animationDelay: `${s}s` });
 
 export function Hero() {
-  const [text, setText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-
-  useEffect(() => {
-    let i = 0;
-    const timer = setInterval(() => {
-      if (i < TYPEWRITER_TEXT.length) {
-        setText(TYPEWRITER_TEXT.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(timer);
-      }
-    }, TYPING_SPEED);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const cursor = setInterval(() => setShowCursor((c) => !c), 520);
-    return () => clearInterval(cursor);
-  }, []);
-
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Terminal window */}
-        <div className="rounded-xl border border-zinc-700 bg-zinc-900 overflow-hidden shadow-2xl">
-          <div className="flex items-center gap-2 px-4 py-3 bg-zinc-800 border-b border-zinc-700">
-            <span className="w-3 h-3 rounded-full bg-red-500" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500" />
-            <span className="w-3 h-3 rounded-full bg-green-500" />
-            <span className="ml-2 text-xs text-zinc-400 font-mono">terminal</span>
-          </div>
-          <div className="p-6 font-mono text-sm">
-            <p className="text-zinc-400">$ git-github-101</p>
-            <p className="text-orange-400 mt-2 text-lg">
-              {text}
-              <span className={`${showCursor ? "opacity-100" : "opacity-0"} transition-opacity`}>▊</span>
-            </p>
-          </div>
-        </div>
+    <section className="px-4 pt-20 pb-16">
+      <div className="mx-auto max-w-2xl text-center">
+        {/* The thesis: a branch diverges and merges back. */}
+        <svg
+          viewBox="0 0 320 112"
+          className="mx-auto w-full max-w-md"
+          fill="none"
+          role="img"
+          aria-label="브랜치가 갈라졌다가 머지로 다시 합쳐지는 커밋 그래프"
+        >
+          <path
+            d="M16 76 H 304"
+            stroke={MAIN}
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className="anim-rail"
+            style={delay(0)}
+          />
+          <path
+            d="M104 76 C 128 76 128 40 152 40 H 208 C 232 40 232 76 256 76"
+            stroke={FEATURE}
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            pathLength={1}
+            className="anim-rail"
+            style={delay(0.5)}
+          />
+          <circle cx={56} cy={76} r={6.5} fill={MAIN} className="anim-node" style={delay(0.3)} />
+          <circle cx={104} cy={76} r={6.5} fill={MAIN} className="anim-node" style={delay(0.5)} />
+          <circle cx={152} cy={40} r={6.5} fill={FEATURE} className="anim-node" style={delay(1.0)} />
+          <circle cx={208} cy={40} r={6.5} fill={FEATURE} className="anim-node" style={delay(1.2)} />
+          <circle
+            cx={256}
+            cy={76}
+            r={7.5}
+            fill="var(--color-surface)"
+            stroke={MAIN}
+            strokeWidth={3}
+            className="anim-node"
+            style={delay(1.5)}
+          />
+          <text x={268} y={70} className="anim-text font-mono" fontSize={11} fill={MAIN} style={delay(1.8)}>
+            HEAD
+          </text>
+        </svg>
 
-        {/* CTA */}
-        <div className="mt-8 text-center">
-          <h1 className="text-3xl font-bold mb-4">Git & GitHub 101</h1>
-          <p className="text-zinc-500 dark:text-zinc-400 mb-6">설치 없이, 브라우저에서 바로 Git을 실습해보세요.</p>
+        <p className="anim-text mt-8 font-mono text-sm text-muted" style={delay(1.1)}>
+          $ git init
+        </p>
+        <h1 className="anim-text mt-3 text-3xl font-bold leading-snug text-ink sm:text-4xl" style={delay(1.3)}>
+          브랜치가 갈라지고 합쳐지는 걸
+          <br />
+          직접 만들어 보세요
+        </h1>
+        <p className="anim-text mx-auto mt-4 max-w-md text-muted" style={delay(1.5)}>
+          설치 없이, 브라우저에서 바로. 11개의 레슨으로 Git의 핵심을 손에 익힙니다.
+        </p>
+        <div className="anim-text" style={delay(1.7)}>
           <Link
             href="/lessons/what-is-git"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors"
+            className="mt-8 inline-flex items-center gap-2 rounded-lg bg-lane-main px-6 py-3 font-medium text-[#1a1205] transition-transform hover:scale-[1.03]"
           >
-            시작하기 →
+            시작하기 <span aria-hidden>→</span>
           </Link>
         </div>
       </div>

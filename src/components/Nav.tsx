@@ -3,9 +3,9 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-50 h-14 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur">
+    <header className="sticky top-0 z-50 h-14 border-b border-edge bg-ground/80 backdrop-blur">
       <div className="max-w-screen-xl mx-auto h-full flex items-center justify-between px-4">
-        <Link href="/" className="font-mono font-bold text-lg text-orange-500">
+        <Link href="/" className="font-mono font-bold text-lg text-lane-main">
           ▸ git-github-101
         </Link>
         <div className="flex items-center gap-2">
@@ -13,7 +13,7 @@ export function Nav() {
             href="https://github.com/0-Chan/git-github-101"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-sm"
+            className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"
           >
             GitHub
           </a>

@@ -1,8 +1,46 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Theme-aware ground/ink; branch-lane accents stay constant across themes. */
 :root {
-  --color-accent: #f97316;
+  --ground: #eef0f4;
+  --surface: #ffffff;
+  --ink: #141a24;
+  --muted: #5b6675;
+  --edge: #d8dee8;
+}
+
+.dark {
+  --ground: #0e1320;
+  --surface: #161d2b;
+  --ink: #e7ecf3;
+  --muted: #8a93a3;
+  --edge: #283143;
+}
+
+/* Theme-aware tokens: `inline` so utilities reference the live var (flips on .dark). */
+@theme inline {
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", monospace;
+
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-edge: var(--edge);
+}
+
+/* Constant tokens: regular @theme so they're emitted as real CSS vars
+   (usable in SVG stroke/fill via var(--color-lane-*)) and as utilities. */
+@theme {
+  /* Branch lanes (topology) — never used for diff meaning */
+  --color-lane-main: #f5a524;
+  --color-lane-feature: #8b5cf6;
+  --color-lane-alt: #38bdf8;
+
+  /* Diff semantics (reserved for +/- only) */
+  --color-diff-add: #3fb950;
+  --color-diff-del: #f85149;
 }
 
 /* Custom scrollbar */
@@ -32,4 +70,48 @@
 .dark .prose code:not(pre code) {
   background: #431407;
   color: #fb923c;
+}
+
+/* Hero commit-graph reveal */
+@keyframes graph-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes node-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Default = final static state; only animate when motion is welcome.
+   (Avoids overriding inline styles with !important.) */
+@media (prefers-reduced-motion: no-preference) {
+  .anim-rail {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: graph-draw 0.6s ease-out forwards;
+  }
+  .anim-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: node-pop 0.4s ease-out both;
+  }
+  .anim-text {
+    animation: fade-up 0.5s ease-out both;
+  }
 }
