@@ -93,6 +93,8 @@ export function CommitGraph({ sections }: { sections: Section[] }) {
                   strokeWidth={2}
                   opacity={0.35}
                   className="motion-safe:animate-ping"
+                  // SVG transforms default to the viewport origin; scale around the node itself.
+                  style={{ transformBox: "fill-box", transformOrigin: "center" }}
                 />
               )}
               <circle
