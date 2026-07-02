@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-const MAIN = "var(--color-lane-main)";
-const FEATURE = "var(--color-lane-feature)";
+const MAIN = "var(--lane-main)";
+const FEATURE = "var(--lane-feature)";
 
 // Animations live in globals.css under prefers-reduced-motion: no-preference;
 // here we only stagger them via animationDelay. Reduced motion => final state.

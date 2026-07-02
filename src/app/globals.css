@@ -1,13 +1,21 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Theme-aware ground/ink; branch-lane accents stay constant across themes. */
+/* Tailwind v4 defaults dark: to prefers-color-scheme; this app toggles a .dark
+   class (theme-init.js / ThemeToggle), so bind the variant to the class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Theme-aware tokens. Lane hues keep their identity across themes but drop
+   lightness on the light ground — #f5a524 amber reads at ~1.9:1 on #eef0f4. */
 :root {
   --ground: #eef0f4;
   --surface: #ffffff;
   --ink: #141a24;
   --muted: #5b6675;
   --edge: #d8dee8;
+  --lane-main: #d97706;
+  --lane-feature: #7c3aed;
+  --lane-alt: #0284c7;
 }
 
 .dark {
@@ -16,6 +24,9 @@
   --ink: #e7ecf3;
   --muted: #8a93a3;
   --edge: #283143;
+  --lane-main: #f5a524;
+  --lane-feature: #8b5cf6;
+  --lane-alt: #38bdf8;
 }
 
 /* Theme-aware tokens: `inline` so utilities reference the live var (flips on .dark). */
@@ -28,17 +39,15 @@
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-edge: var(--edge);
+
+  /* Branch lanes (topology) — never used for diff meaning */
+  --color-lane-main: var(--lane-main);
+  --color-lane-feature: var(--lane-feature);
+  --color-lane-alt: var(--lane-alt);
 }
 
-/* Constant tokens: regular @theme so they're emitted as real CSS vars
-   (usable in SVG stroke/fill via var(--color-lane-*)) and as utilities. */
+/* Constant tokens — diff semantics (reserved for +/- only) */
 @theme {
-  /* Branch lanes (topology) — never used for diff meaning */
-  --color-lane-main: #f5a524;
-  --color-lane-feature: #8b5cf6;
-  --color-lane-alt: #38bdf8;
-
-  /* Diff semantics (reserved for +/- only) */
   --color-diff-add: #3fb950;
   --color-diff-del: #f85149;
 }

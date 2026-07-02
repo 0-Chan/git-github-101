@@ -14,7 +14,7 @@ function laneOf(order: number): 0 | 1 {
   return order >= 6 && order <= 8 ? 1 : 0;
 }
 const laneX = (lane: 0 | 1) => (lane === 1 ? FEATURE_X : TRUNK_X);
-const laneColor = (lane: 0 | 1) => (lane === 1 ? "var(--color-lane-feature)" : "var(--color-lane-main)");
+const laneColor = (lane: 0 | 1) => (lane === 1 ? "var(--lane-feature)" : "var(--lane-main)");
 
 // Deterministic 7-char hex (FNV-1a) so the same slug always shows the same hash (SSR-safe).
 function shortHash(slug: string): string {
