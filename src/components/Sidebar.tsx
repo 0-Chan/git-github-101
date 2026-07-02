@@ -12,7 +12,7 @@ export function Sidebar({ sections, progress }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 shrink-0 border-r border-zinc-200 dark:border-zinc-800 overflow-y-auto">
+    <aside className="w-64 shrink-0 border-r border-edge overflow-y-auto">
       <nav className="p-4 space-y-1">
         {sections.map((section) => {
           const href = `/lessons/${section.slug}`;

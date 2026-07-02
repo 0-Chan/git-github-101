@@ -8,22 +8,22 @@
 /* Theme-aware tokens. Lane hues keep their identity across themes but drop
    lightness on the light ground — #f5a524 amber reads at ~1.9:1 on #eef0f4. */
 :root {
-  --ground: #eef0f4;
+  --ground: #e2e6ee;
   --surface: #ffffff;
   --ink: #141a24;
   --muted: #5b6675;
-  --edge: #d8dee8;
+  --edge: #ccd4e0;
   --lane-main: #d97706;
   --lane-feature: #7c3aed;
   --lane-alt: #0284c7;
 }
 
 .dark {
-  --ground: #0e1320;
-  --surface: #161d2b;
+  --ground: #161d2e;
+  --surface: #1e2739;
   --ink: #e7ecf3;
   --muted: #8a93a3;
-  --edge: #283143;
+  --edge: #313c52;
   --lane-main: #f5a524;
   --lane-feature: #8b5cf6;
   --lane-alt: #38bdf8;
