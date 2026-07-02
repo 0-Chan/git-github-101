@@ -112,11 +112,29 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
         />
         {lesson.meta.hasTerminal && (
           <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
-            <div className="flex justify-end">
+            {/* Goal bar: the terminal column never scrolls, so this stays visible. */}
+            <div className="flex items-center gap-3 rounded-lg border border-edge bg-surface px-3 py-2">
+              {lesson.meta.steps.length > 0 && (
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  {currentStep === -1 ? (
+                    <p className="truncate text-sm text-ink">🎉 모든 단계 완료! 다음 레슨으로 넘어가 보세요.</p>
+                  ) : (
+                    <>
+                      <span className="shrink-0 font-mono text-xs font-medium text-lane-main">
+                        🎯 {currentStep + 1}/{lesson.meta.steps.length}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm text-ink">{lesson.meta.steps[currentStep].instruction}</p>
+                        <p className="truncate font-mono text-xs text-muted">$ {lesson.meta.steps[currentStep].hint}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={handleReset}
-                className="text-xs px-3 py-1 rounded border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="ml-auto shrink-0 text-xs px-3 py-1 rounded border border-edge hover:bg-ground transition-colors"
               >
                 리셋
               </button>
