@@ -37,7 +37,7 @@ export function CommitGraph({ sections }: { sections: Section[] }) {
   return (
     <div className="relative" style={{ minHeight: height }}>
       <svg
-        className="absolute inset-y-0 left-0 pointer-events-none"
+        className="absolute inset-y-0 left-0 z-10 pointer-events-none"
         width={64}
         height={height}
         viewBox={`0 0 64 ${height}`}
