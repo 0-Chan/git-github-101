@@ -16,3 +16,7 @@ export function setLessonComplete(slug: string): void {
   progress[slug] = true;
   localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
 }
+
+export function clearProgress(): void {
+  localStorage.removeItem(PROGRESS_KEY);
+}
