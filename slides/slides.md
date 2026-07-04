@@ -96,34 +96,43 @@ AI가 코드를 빠르게 만든다는 사실 자체가 문제가 아닙니다.
 
 # Git을 모르면 vs 알면
 
-<div class="grid grid-cols-2 gap-8 pt-4">
-<div>
-
-### 모르면 😨
-
-- AI가 만든 코드를 **그대로 믿거나**
-- 문제가 생겼을 때 **어디서부터 잘못됐는지** 추적하기 어렵습니다
-
+<div class="pt-1 pb-3 opacity-70">
+모르면 — AI가 만든 코드를 그대로 믿거나, 어디서부터 잘못됐는지 추적하기 어렵습니다.<br>
+알면 — AI의 결과물을 이렇게 다룹니다:
 </div>
-<div>
 
-### 알면 <span style="color: var(--lane-feature)">🛡</span>
+````md magic-move
+```bash
+# 1. AI가 방금 코드를 잔뜩 고쳤습니다. 무엇이 바뀌었을까요?
+git diff
+```
 
-<v-clicks>
+```bash
+# 2. 확인했으면 — 본진(main)을 지키면서 안전하게 실험합니다
+git diff
+git checkout -b experiment
+```
 
-- 변경사항을 `diff`로 **확인**하고
-- `branch`에서 안전하게 **실험**하고
-- `commit` 단위로 **기록**하고
-- 문제가 생기면 이전 상태로 **되돌립니다**
+```bash
+# 3. 결과가 마음에 들면, 단위별로 기록합니다
+git diff
+git checkout -b experiment
+git commit -m "AI 제안 적용: 검색 성능 개선"
+```
 
-</v-clicks>
-
-</div>
-</div>
+```bash
+# 4. 문제가 생기면? 본진으로 돌아가면 그만입니다
+git diff
+git checkout -b experiment
+git commit -m "AI 제안 적용: 검색 성능 개선"
+git checkout main   # 실험이 실패해도 본진은 그대로
+```
+````
 
 <!--
 - Git을 모르면 AI가 만든 코드를 그대로 믿거나, 문제가 생겼을 때 어디서부터 잘못되었는지 추적하기 어렵습니다.
 - 반대로 Git을 알면 AI가 만든 변경사항을 diff로 확인하고, branch에서 안전하게 실험하고, commit 단위로 기록하고, 문제가 생겼을 때 이전 상태로 되돌릴 수 있습니다.
+- [click] diff로 확인 [click] 브랜치로 실험 [click] 커밋으로 기록 [click] 본진 복귀로 되돌리기 — 네 동작 모두 이 강의에서 직접 실습합니다.
 -->
 
 ---
@@ -192,39 +201,35 @@ layout: center
 
 ---
 
-# 커리큘럼
+# 커리큘럼 — 브랜치가 갈라졌다 합쳐지는 여정
 
-<div class="grid grid-cols-2 gap-8 pt-4">
-<div>
+```mermaid {scale: 0.55, theme: 'base', themeVariables: {git0: '#d97706', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '14px'}}
+gitGraph
+  commit id: "01 Git이란?"
+  commit id: "02 첫 번째 저장소"
+  commit id: "03 첫 번째 커밋"
+  commit id: "04 커밋 히스토리"
+  commit id: "05 수정과 비교"
+  branch feature
+  commit id: "06 브랜치"
+  commit id: "07 머지"
+  commit id: "08 충돌 해결"
+  checkout main
+  merge feature id: "09 GitHub란?"
+  commit id: "10 원격 저장소"
+  commit id: "11 Pull Request"
+```
 
-**기초** <span class="font-mono text-sm opacity-60">— main</span>
-
-1. Git이란?
-2. 첫 번째 저장소
-3. 첫 번째 커밋
-4. 커밋 히스토리
-5. 수정과 비교
-
-</div>
-<div>
-
-**브랜치** <span class="font-mono text-sm" style="color: var(--lane-feature)">— feature</span>
-
-6. 브랜치
-7. 머지
-8. 충돌 해결
-
-**원격** <span class="font-mono text-sm opacity-60">— main</span>
-
-9. GitHub란?
-10. 원격 저장소
-11. Pull Request
-
-</div>
+<div class="pt-4 text-sm opacity-70">
+기초(01–05)는 <span class="font-mono" style="color: var(--lane-main)">main</span>에서,
+브랜치 실습(06–08)은 <span class="font-mono" style="color: var(--lane-feature)">feature</span>에서 —
+그리고 09강에서 실제로 머지됩니다.
 </div>
 
 <!--
-- 기초 다섯 강은 main 레인, 브랜치 세 강은 feature 레인 — 튜토리얼 사이트의 커밋 그래프와 같은 구조입니다.
+- 커리큘럼 자체가 커밋 그래프입니다. 기초 다섯 강은 main 레인, 브랜치 세 강은 feature 레인.
+- 6강에서 브랜치가 갈라지고 9강에서 머지되는 이 그림을, 여러분이 8강까지 마치면 직접 만들게 됩니다.
+- 튜토리얼 사이트의 레슨 내비게이션도 이 그래프와 같은 구조입니다.
 -->
 
 ---
