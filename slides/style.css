@@ -1,8 +1,9 @@
-/* 덱 시각 토큰 — 웹 앱(src/app/globals.css)의 main lane 색과 일치시킨다.
+/* 덱 시각 토큰 — 덱은 colorSchema: dark이므로 웹 앱(src/app/globals.css)의
+   다크 모드 main lane 값(#f5a524)과 일치시킨다.
    슬라이드 내 <style>은 per-slide scoped라 :root가 무효화되므로 반드시 여기에 둔다.
    feature lane violet(#7c3aed)은 mermaid gitGraph에서만 hex로 직접 사용한다. */
 :root {
-  --lane-main: #d97706;
+  --lane-main: #f5a524;
 }
 
 .slidev-layout h1 {
