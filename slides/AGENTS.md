@@ -62,13 +62,15 @@ pnpm add -D playwright-chromium
 
 ## Recommended Slidev skill
 
-에이전트 환경에서 skills를 쓸 수 있으면 Slidev 작업 전에 공식 skill을 설치하거나 활성화한다.
+공식 Slidev skill이 **이미 이 디렉터리의 `.agents/skills/slidev`에 설치돼 있다**
+(`skills-lock.json`에 해시 고정 — 재설치 불필요). Slidev 문법이 필요한 작업 전에:
 
-```bash
-npx skills add slidevjs/slidev
-```
+1. `.agents/skills/slidev/SKILL.md`(인덱스)를 읽는다.
+2. 필요한 주제의 `references/*.md`만 추가로 읽는다 (예: 애니메이션은 `core-animations.md`).
 
-설치가 불가능해도 작업은 계속하되, Slidev 문법을 추측하지 말고 기존 `slides.md`, 현재 테마, 공식 문서를 기준으로 수정한다.
+skill 시스템에 등록되지 않은 에이전트도 위 파일을 직접 읽으면 된다. 다른 환경에서 새로
+설치해야 하면 `npx skills add slidevjs/slidev`. 어떤 경우에도 Slidev 문법을 추측하지 말고
+기존 `slides.md`, 현재 테마, 공식 문서를 기준으로 수정한다.
 
 ## Project structure
 
