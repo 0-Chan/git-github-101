@@ -11,7 +11,8 @@ const apiHost = (process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.c
   "//$1.i.posthog.com",
 );
 
-if (token) {
+function initPostHog() {
+  if (!token) return;
   try {
     posthog.init(token, {
       api_host: apiHost,
@@ -23,4 +24,14 @@ if (token) {
   } catch (err) {
     console.warn("PostHog 초기화 실패:", err);
   }
+}
+
+// instrumentation-client는 DOMContentLoaded 이후·readyState "interactive"
+// 시점에 실행될 수 있는데, posthog-js는 그 틈에 init되면 이미 지나간
+// DOMContentLoaded를 기다리며 모든 전송을 큐에 무한 보류한다.
+// readyState "complete"가 보장되는 시점까지 init을 미룬다.
+if (document.readyState === "complete") {
+  initPostHog();
+} else {
+  window.addEventListener("load", initPostHog, { once: true });
 }
