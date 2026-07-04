@@ -1,0 +1,18 @@
+/* 덱 시각 토큰 — 웹 앱(src/app/globals.css)의 lane 팔레트와 일치시킨다.
+   슬라이드 내 <style>은 per-slide scoped라 :root가 무효화되므로 반드시 여기에 둔다. */
+:root {
+  --lane-main: #d97706;
+  --lane-feature: #7c3aed;
+}
+
+.slidev-layout h1 {
+  color: var(--lane-main);
+}
+.slidev-layout code {
+  color: var(--lane-main);
+}
+
+/* global-bottom.vue의 배경 이미지가 비치도록 슬라이드 자체 배경을 비운다 */
+.slidev-layout {
+  background: transparent;
+}

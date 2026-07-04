@@ -3,6 +3,7 @@ theme: default
 title: Git & GitHub 101
 info: 브라우저에서 배우는 Git & GitHub 입문 강의 슬라이드
 routerMode: hash
+colorSchema: dark
 fonts:
   sans: IBM Plex Sans KR
   mono: IBM Plex Mono
@@ -11,15 +12,6 @@ drawings:
   persist: false
 transition: slide-left
 ---
-
-<style>
-:root {
-  --lane-main: #d97706;
-  --lane-feature: #7c3aed;
-}
-.slidev-layout h1 { color: var(--lane-main); }
-.slidev-layout code { color: var(--lane-main); }
-</style>
 
 # ▸ git-github-101
 
