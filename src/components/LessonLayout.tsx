@@ -8,6 +8,7 @@ import type { Shell } from "@/lib/shell/Shell";
 import { validateAllSteps } from "@/lib/validation";
 import type { LessonContent, Section } from "@/types";
 import { GuidePanel } from "./GuidePanel";
+import { MarkReadButton } from "./MarkReadButton";
 import { Sidebar } from "./Sidebar";
 
 const TerminalPanel = dynamic(() => import("./TerminalPanel").then((m) => ({ default: m.TerminalPanel })), {
@@ -103,13 +104,16 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       <div className="hidden lg:block">
         <Sidebar sections={sections} progress={progress} />
       </div>
-      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : ""}`}>
+      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : "flex-col"}`}>
         <GuidePanel
           html={lesson.html}
           steps={lesson.meta.steps}
           completedSteps={completedSteps}
           currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
         />
+        {!lesson.meta.hasTerminal && (
+          <MarkReadButton done={!!progress[lesson.meta.slug]} onMarkRead={() => markComplete(lesson.meta.slug)} />
+        )}
         {lesson.meta.hasTerminal && (
           <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
             {/* Goal bar: the terminal column never scrolls, so this stays visible. */}

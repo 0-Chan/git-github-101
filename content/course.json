@@ -26,7 +26,12 @@
             { "id": "sv-collab", "label": "conflict 해결, rebase, pull request 협업 흐름을 이해하고 쓴다" }
           ]
         },
-        { "type": "lecture", "id": "s1-lecture-opening", "title": "오프닝 덱 — Git이 있기 전의 세계", "deck": "/slides" },
+        {
+          "type": "lecture",
+          "id": "s1-lecture-opening",
+          "title": "오프닝 덱 — Git이 있기 전의 세계",
+          "deck": "/slides"
+        },
         { "type": "lesson", "id": "s1-l01", "slug": "what-is-git" },
         { "type": "lesson", "id": "s1-l02", "slug": "first-repo" },
         { "type": "lesson", "id": "s1-l03", "slug": "first-commit" },
@@ -64,10 +69,7 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": [
-        { "type": "checkin", "id": "s2-checkin" },
-        { "type": "checkout", "id": "s2-checkout" }
-      ]
+      "activities": [{ "type": "checkin", "id": "s2-checkin" }, { "type": "checkout", "id": "s2-checkout" }]
     },
     {
       "id": "s3",
@@ -82,10 +84,7 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": [
-        { "type": "checkin", "id": "s3-checkin" },
-        { "type": "checkout", "id": "s3-checkout" }
-      ]
+      "activities": [{ "type": "checkin", "id": "s3-checkin" }, { "type": "checkout", "id": "s3-checkout" }]
     },
     {
       "id": "s4",
@@ -100,10 +99,7 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": [
-        { "type": "checkin", "id": "s4-checkin" },
-        { "type": "checkout", "id": "s4-checkout" }
-      ]
+      "activities": [{ "type": "checkin", "id": "s4-checkin" }, { "type": "checkout", "id": "s4-checkout" }]
     }
   ]
 }

@@ -3,6 +3,7 @@ import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import { useCallback, useEffect, useRef } from "react";
 import "@xterm/xterm/css/xterm.css";
+import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
 import { Shell } from "@/lib/shell/Shell";
 import { runValidation } from "@/lib/validation";
@@ -118,6 +119,7 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
             const step = stepsRef.current[stepIdx];
             const passed = await runValidation(step.validation, shell.getFS(), "/");
             if (passed) {
+              emitLessonStep(namespace.replace(/^lesson-/, ""), step.id);
               onStepCompleteRef.current(stepIdx);
             }
           }
