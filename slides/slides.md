@@ -199,7 +199,7 @@ dragPos:
 
 # 커리큘럼: 브랜치가 갈라졌다 합쳐지는 여정
 
-```mermaid {scale: 0.55, theme: 'base', themeVariables: {git0: '#d97706', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '14px'}}
+```mermaid {scale: 0.55, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '14px'}}
 gitGraph
   commit id: "01 Git이란?"
   commit id: "02 첫 번째 저장소"
