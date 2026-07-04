@@ -1,0 +1,14 @@
+{
+  "name": "slides",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md --base /slides/ --out ../public/slides"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^52.16.0",
+    "@slidev/theme-default": "^0.25.0",
+    "vue": "^3.5.39"
+  }
+}

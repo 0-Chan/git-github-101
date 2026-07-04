@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "dev:slides": "pnpm --filter slides dev",
+    "build": "pnpm --filter slides build && next build",
     "start": "next start",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",

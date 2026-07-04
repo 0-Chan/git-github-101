@@ -10,6 +10,14 @@ export function Nav() {
         </Link>
         <div className="flex items-center gap-2">
           <a
+            href="/slides"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"
+          >
+            슬라이드
+          </a>
+          <a
             href="https://github.com/0-Chan/git-github-101"
             target="_blank"
             rel="noopener noreferrer"
