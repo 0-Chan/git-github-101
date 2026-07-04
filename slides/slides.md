@@ -58,7 +58,7 @@ AI 코딩 에이전트가 보편화되는 시대, 이제 AI는:
 
 </v-clicks>
 
-<div v-click class="pt-6 text-lg" style="color: var(--lane-feature)">
+<div v-click class="pt-6 text-lg">
 그렇다면 Git이 필요한 이유는 뭘까요?
 </div>
 
@@ -216,7 +216,7 @@ gitGraph
   commit id: "11 Pull Request"
 ```
 
-<v-drag pos="split" class="text-xs font-mono" style="color: var(--lane-feature)">
+<v-drag pos="split" class="text-xs font-mono">
 ↑ 06에서 갈라지고
 </v-drag>
 
@@ -226,7 +226,7 @@ gitGraph
 
 <div class="pt-4 text-sm opacity-70">
 기초(01–05)는 <span class="font-mono" style="color: var(--lane-main)">main</span>에서,
-브랜치 실습(06–08)은 <span class="font-mono" style="color: var(--lane-feature)">feature</span>에서.
+브랜치 실습(06–08)은 <span class="font-mono">feature</span>에서.
 그리고 09강에서 실제로 머지됩니다.
 </div>
 
