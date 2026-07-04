@@ -4,11 +4,16 @@ import { useEvents } from "@/hooks/useEvents";
 import { useParticipant } from "@/hooks/useParticipant";
 import { getCourse } from "@/lib/course";
 import { buildLeaderboard } from "@/lib/courseProgress";
-import type { Activity, ActivityStatus, Participant, ProgressEvent } from "@/types";
+import type { Activity, ActivityStatus, Participant, ProgressEvent, Session } from "@/types";
 import sectionsData from "../../content/sections.json";
 import { Tooltip } from "./Tooltip";
 
 const lessonOrder = new Map(sectionsData.sections.map((s) => [s.slug, s.order]));
+
+// 체크아웃은 세션 페이지에서 임시 숨김 상태라 리더보드 열도 함께 감춘다
+function visibleActivities(session: Session): Activity[] {
+  return session.activities.filter((a) => a.type !== "checkout");
+}
 
 function activityLabel(activity: Activity): string {
   switch (activity.type) {
@@ -105,7 +110,7 @@ export function LeaderboardMatrix() {
             {course.sessions.map((session) => (
               <th
                 key={session.id}
-                colSpan={session.activities.length}
+                colSpan={visibleActivities(session).length}
                 className="border-l border-edge px-2 py-2 text-center font-mono text-xs text-muted"
               >
                 {session.order}회차
@@ -116,7 +121,7 @@ export function LeaderboardMatrix() {
           <tr className="border-b border-edge bg-surface">
             <th className="sticky left-0 z-10 bg-surface" aria-hidden />
             {course.sessions.flatMap((session) =>
-              session.activities.map((activity, i) => (
+              visibleActivities(session).map((activity, i) => (
                 <th
                   key={activity.id}
                   className={`px-2 py-1.5 text-center font-mono text-[10px] font-normal text-muted ${i === 0 ? "border-l border-edge" : ""}`}
@@ -140,7 +145,7 @@ export function LeaderboardMatrix() {
             <tr key={row.participant.id} className="border-b border-edge last:border-b-0">
               <td className="sticky left-0 z-10 bg-ground px-4 py-2.5 font-medium text-ink">{row.participant.name}</td>
               {course.sessions.flatMap((session) =>
-                session.activities.map((activity, i) => (
+                visibleActivities(session).map((activity, i) => (
                   <td key={activity.id} className={`px-2 py-2.5 text-center ${i === 0 ? "border-l border-edge" : ""}`}>
                     <Cell activity={activity} status={row.statuses[activity.id]} />
                   </td>
