@@ -1,4 +1,4 @@
-import type { Participant, ProgressEvent, SyncAdapter } from "@/types";
+import type { ProgressEvent, SyncAdapter } from "@/types";
 import { getParticipant } from "./participant";
 
 const EVENTS_KEY = "git101-events";

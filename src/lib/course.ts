@@ -1,5 +1,5 @@
-import courseData from "../../content/course.json";
 import type { Activity, Course, Session } from "@/types";
+import courseData from "../../content/course.json";
 
 // 정적 import라 서버·클라이언트·테스트 어디서든 동일하게 동작한다
 // (reset.ts의 sections.json 패턴). 커리큘럼은 빌드 시점에 고정된다.

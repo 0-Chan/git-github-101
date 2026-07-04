@@ -16,7 +16,7 @@ export function getParticipant(): Participant | null {
       cache = null;
     }
   }
-  return cache;
+  return cache ?? null;
 }
 
 export function createParticipant(name: string): Participant {

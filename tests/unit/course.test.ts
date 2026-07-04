@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import sectionsData from "../../content/sections.json";
 import { findLessonActivity, findMissionActivity, getCourse, getSession } from "@/lib/course";
+import sectionsData from "../../content/sections.json";
 
 describe("course.json shape", () => {
   const course = getCourse();
