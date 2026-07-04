@@ -200,6 +200,10 @@ layout: center
 -->
 
 ---
+dragPos:
+  split: 300,318,150,_
+  merge: 555,120,190,_
+---
 
 # 커리큘럼: 브랜치가 갈라졌다 합쳐지는 여정
 
@@ -219,6 +223,14 @@ gitGraph
   commit id: "10 원격 저장소"
   commit id: "11 Pull Request"
 ```
+
+<v-drag pos="split" class="text-xs font-mono" style="color: var(--lane-feature)">
+↑ 06에서 갈라지고
+</v-drag>
+
+<v-drag pos="merge" class="text-xs font-mono" style="color: var(--lane-main)">
+↓ 09에서 다시 합쳐집니다
+</v-drag>
 
 <div class="pt-4 text-sm opacity-70">
 기초(01–05)는 <span class="font-mono" style="color: var(--lane-main)">main</span>에서,
