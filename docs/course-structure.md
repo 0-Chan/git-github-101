@@ -47,7 +47,8 @@
    자동 체크. GitHub 실전 미션은 수강생이 직접 체크하는 수동 스텝(시트의 "자동차 경주 5단계" 방식).
 3. **이벤트 소싱, 로컬-퍼스트.** 상태 덮어쓰기 대신 append-only 이벤트 로그. 지금은
    localStorage, 추후 동기화 어댑터가 이벤트를 그대로 밀어올려 리더보드를 전원으로 확장.
-   - 백엔드는 **보류** 상태. Phase 2에서 결정 (Supabase 실시간 구독 vs Next API+DB 폴링).
+   - 백엔드는 **Supabase를 유력 후보로 고려** (작업 가설, 최종 확정은 Phase 2 착수 시).
+     Phase 1은 여전히 백엔드 없이 진행하되, 아래 Supabase 스케치와 어긋나지 않게 설계한다.
 
 ## 데이터 모델 (러프)
 
@@ -127,6 +128,31 @@ interface SyncAdapter {
 이벤트 소싱을 고른 이유: ① 추후 동기화가 "이벤트 전송"이라는 단순 문제로 환원(상태 병합 충돌
 없음) ② 타임스탬프로 "마지막 활동 이후 경과"를 계산 → 누가 어디서 막혔는지 자동 파악.
 
+### Supabase 스케치 (Phase 2 유력 후보 — 러프)
+
+이벤트 로그 모델이 Supabase와 자연스럽게 맞아떨어진다:
+
+```sql
+-- 테이블 하나면 충분: ProgressEvent를 행으로 그대로 적재
+create table progress_events (
+  id          bigint generated always as identity primary key,
+  cohort      text not null,            -- "1기" — 기수 격리
+  participant_id uuid not null,
+  participant_name text not null,       -- 리더보드 표시명 (비정규화로 단순화)
+  event       jsonb not null,           -- ProgressEvent 그대로 (kind/sessionId/…/at)
+  created_at  timestamptz default now()
+);
+```
+
+- **쓰기**: `SyncAdapter.publish` = `insert` 한 줄. 익명 키(anon key)로 접근하되 RLS로
+  insert-only + 자기 participant_id 강제.
+- **읽기/실시간**: 리더보드가 `cohort` 필터로 select + **Realtime 구독**(insert 스트림) →
+  들어오는 이벤트를 기존 reduce에 흘려보내면 끝. UI 무변경이라는 Phase 1 설계 목표와 일치.
+- **정체성**: 로그인 없음. `Participant`(uuid+이름)를 localStorage에 유지하고 이벤트에 실어 보냄
+  — 교실 신뢰 모델(시트에 아무나 쓸 수 있던 것과 동일 수준). 악용 방지는 기수 코드 정도로 충분.
+- **보관**: 기수별 데이터가 테이블에 남아 "다음 기수 난이도 조절 근거"(시트가 하던 역할) 충족.
+- 무료 티어로 교실 규모(수십 명 × 이벤트 수백 건) 여유.
+
 ## UI 골격 (초안)
 
 - **상단 nav**: 회차 선택 (1~4회차). 회차 페이지 = 학습 목표 + 교시 시간표 + 활동 목록
@@ -140,7 +166,7 @@ interface SyncAdapter {
 | Phase | 내용 | 비고 |
 |-------|------|------|
 | 1 | course.json + 회차 nav/페이지 + 체크인·자가진단·미션 UI + 리더보드(로컬 1인) + 이벤트 발행 배선 | 백엔드 없음 |
-| 2 | SyncAdapter 구현(Supabase 실시간 vs API 폴링 — 그때 결정) → 리더보드 전원 확장 | 백엔드 결정 시점 |
+| 2 | SyncAdapter 구현 — **Supabase 유력**(위 스케치, 착수 시 최종 확정) → 리더보드 전원 확장 | 백엔드 결정 시점 |
 | 3+ | 미션 자동 검증(PR URL 등), 강사용 집계 뷰, 기수 데이터 보관 | 추후 개선 |
 
 ## 미해결 사항
@@ -150,4 +176,4 @@ interface SyncAdapter {
 - [ ] 읽기 레슨(01·09·11) 완료 처리 — 리더보드에 "영원히 미완료"로 보이는 문제, 완료 장치 필요
 - [ ] 리더보드 공개 범위 세부 (이유 텍스트까지 전부 공개인지)
 - [ ] 체크인 시 회차 판별 UX 세부 (상단 nav 선택으로 확정, 잘못 선택 방지 장치는 추후)
-- [ ] Phase 2 백엔드 선택 (Supabase vs Next API+DB)
+- [ ] Phase 2 백엔드 최종 확정 — **Supabase 유력 후보로 고려 중** (스케치 반영됨, 착수 시 확정)
