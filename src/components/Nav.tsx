@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCourse } from "@/lib/course";
+import { DeckLink } from "./DeckLink";
 import { SessionMenu } from "./SessionMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -20,14 +21,12 @@ export function Nav() {
           >
             리더보드
           </Link>
-          <a
-            href="/slides"
-            target="_blank"
-            rel="noopener noreferrer"
+          <DeckLink
+            source="nav"
             className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"
           >
             슬라이드
-          </a>
+          </DeckLink>
           <a
             href="https://github.com/0-Chan/git-github-101"
             target="_blank"

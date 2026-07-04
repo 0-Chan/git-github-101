@@ -8,6 +8,7 @@ import { appendEvent } from "@/lib/events";
 import type { Activity, ActivityStatusMap, Session } from "@/types";
 import sectionsData from "../../content/sections.json";
 import { CheckinForm } from "./CheckinForm";
+import { DeckLink } from "./DeckLink";
 import { MissionChecklist } from "./MissionChecklist";
 import { SurveyForm } from "./SurveyForm";
 
@@ -77,14 +78,13 @@ function LectureCard({ activity, done }: { activity: Extract<Activity, { type: "
       <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink">{activity.title}</p>
         <div className="flex items-center gap-2">
-          <a
+          <DeckLink
+            source="lecture-card"
             href={activity.deck ?? "/slides"}
-            target="_blank"
-            rel="noopener noreferrer"
             className="rounded-lg border border-edge px-3 py-1.5 text-xs text-ink transition-colors hover:bg-ground"
           >
             덱 열기 ↗
-          </a>
+          </DeckLink>
           {!done && (
             <button
               type="button"
