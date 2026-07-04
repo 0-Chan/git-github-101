@@ -1,7 +1,7 @@
 ---
 theme: default
 title: Git & GitHub 101
-info: 브라우저에서 배우는 Git & GitHub 입문 — 강의 슬라이드
+info: 브라우저에서 배우는 Git & GitHub 입문 강의 슬라이드
 routerMode: hash
 fonts:
   sans: IBM Plex Sans KR
@@ -39,7 +39,7 @@ $ git init
 
 <v-clicks>
 
-- 효율적인 협업과 안정적인 프로젝트 관리를 위해 **버전 관리 시스템**이 점점 강조됩니다
+- 효율적인 협업과 안정적인 프로젝트 관리를 위해 **버전 관리 시스템**이 점점 더 중요해집니다
 - 많은 회사가 구성원에게 요구하는 능력:
   - 코드·문서의 **변경 이력 관리**
   - 다른 사람과 **충돌 없이 협업**
@@ -47,15 +47,15 @@ $ git init
 </v-clicks>
 
 <!--
-- 효율적인 협업과 안정적인 프로젝트 관리를 위해 점차 버전 관리 시스템이 강조됩니다.
-- 많은 회사에서 구성원에게 코드나 문서의 변경 이력을 관리하고, 다른 사람과 충돌 없이 협업하는 능력을 요구하기도 합니다.
+- 효율적으로 협업하고 프로젝트를 안정적으로 관리하려면 버전 관리 시스템이 점점 더 중요해집니다.
+- 많은 회사에서 구성원에게 코드나 문서의 변경 이력을 관리하고 다른 사람과 충돌 없이 협업하는 능력을 요구하기도 합니다.
 -->
 
 ---
 
 # 하지만 협업이 전부가 아닙니다
 
-AI 코딩 에이전트가 보편화되는 시대 — 이제 AI는:
+AI 코딩 에이전트가 보편화되는 시대, 이제 AI는:
 
 <v-clicks>
 
@@ -71,9 +71,9 @@ AI 코딩 에이전트가 보편화되는 시대 — 이제 AI는:
 </div>
 
 <!--
-- 하지만 Git의 중요성은 단순히 협업에만 있지 않습니다.
+- 하지만 Git이 중요한 이유가 단순히 협업만은 아닙니다.
 - AI 코딩 에이전트가 보편화되는 시대에는 Git이 개발자의 필수 안전장치가 됩니다.
-- 이제 AI는 기능을 구현하고, 버그를 수정하고, 테스트 코드를 작성하고, 문서를 고치는 일까지 도와줄 수 있습니다.
+- 이제 AI는 기능을 구현하고 버그를 수정하고 테스트 코드를 작성하고, 문서까지 고쳐줍니다.
 -->
 
 ---
@@ -84,7 +84,7 @@ AI 코딩 에이전트가 보편화되는 시대 — 이제 AI는:
 
 AI가 코드를 빠르게 만든다는 사실 자체가 문제가 아닙니다.
 
-<span v-click style="color: var(--lane-main)">**그 결과물을 사람이 어떻게 검토하고 통제할 것인가**</span><span v-click> — 그것이 진짜 문제입니다.</span>
+<span v-click style="color: var(--lane-main)">**그 결과물을 사람이 어떻게 검토하고 통제할 것인가.**</span><span v-click> 그것이 진짜 문제입니다.</span>
 
 </div>
 
@@ -97,8 +97,8 @@ AI가 코드를 빠르게 만든다는 사실 자체가 문제가 아닙니다.
 # Git을 모르면 vs 알면
 
 <div class="pt-1 pb-3 opacity-70">
-모르면 — AI가 만든 코드를 그대로 믿거나, 어디서부터 잘못됐는지 추적하기 어렵습니다.<br>
-알면 — AI의 결과물을 이렇게 다룹니다:
+모르면 AI가 만든 코드를 그대로 믿거나, 어디서부터 잘못됐는지 추적하기 어렵습니다.<br>
+알면 AI의 결과물을 이렇게 다룹니다:
 </div>
 
 ````md magic-move
@@ -108,7 +108,7 @@ git diff
 ```
 
 ```bash
-# 2. 확인했으면 — 본진(main)을 지키면서 안전하게 실험합니다
+# 2. 확인했으면 본진(main)을 지키면서 안전하게 실험합니다
 git diff
 git checkout -b experiment
 ```
@@ -131,8 +131,8 @@ git checkout main   # 실험이 실패해도 본진은 그대로
 
 <!--
 - Git을 모르면 AI가 만든 코드를 그대로 믿거나, 문제가 생겼을 때 어디서부터 잘못되었는지 추적하기 어렵습니다.
-- 반대로 Git을 알면 AI가 만든 변경사항을 diff로 확인하고, branch에서 안전하게 실험하고, commit 단위로 기록하고, 문제가 생겼을 때 이전 상태로 되돌릴 수 있습니다.
-- [click] diff로 확인 [click] 브랜치로 실험 [click] 커밋으로 기록 [click] 본진 복귀로 되돌리기 — 네 동작 모두 이 강의에서 직접 실습합니다.
+- 반대로 Git을 알면 AI가 만든 변경사항을 diff로 확인하고 branch에서 안전하게 실험하고 commit 단위로 기록하고, 문제가 생겼을 때 이전 상태로 되돌릴 수 있습니다.
+- [click] diff로 확인 [click] 브랜치로 실험 [click] 커밋으로 기록 [click] 본진 복귀로 되돌리기. 이 네 동작 모두 이 강의에서 직접 실습합니다.
 -->
 
 ---
@@ -154,7 +154,7 @@ layout: center
 
 # Git은 개발자만의 것이 아닙니다
 
-이 강의는 이런 분들을 위한 것입니다:
+이 강의는 이런 분들을 위해 준비했습니다:
 
 <div class="grid grid-cols-3 gap-3 pt-6 text-center">
 <v-clicks>
@@ -177,7 +177,7 @@ layout: center
 
 ---
 
-# 시작 전에 — 나는 어디쯤일까요?
+# 시작 전에, 나는 어디쯤일까요?
 
 <v-clicks>
 
@@ -189,7 +189,7 @@ layout: center
 </v-clicks>
 
 <div v-click class="pt-6 text-sm opacity-80">
-하나도 체크하지 못했어도 괜찮습니다 — 이 강의는 <span class="font-mono" style="color: var(--lane-main)">git init</span>부터 함께 시작합니다.<br>
+하나도 체크하지 못했어도 괜찮습니다. 이 강의는 <span class="font-mono" style="color: var(--lane-main)">git init</span>부터 함께 시작합니다.<br>
 네 가지 모두 익숙하다면 이 강의는 너무 쉬울 수 있어요.
 </div>
 
@@ -201,7 +201,7 @@ layout: center
 
 ---
 
-# 커리큘럼 — 브랜치가 갈라졌다 합쳐지는 여정
+# 커리큘럼: 브랜치가 갈라졌다 합쳐지는 여정
 
 ```mermaid {scale: 0.55, theme: 'base', themeVariables: {git0: '#d97706', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '14px'}}
 gitGraph
@@ -222,7 +222,7 @@ gitGraph
 
 <div class="pt-4 text-sm opacity-70">
 기초(01–05)는 <span class="font-mono" style="color: var(--lane-main)">main</span>에서,
-브랜치 실습(06–08)은 <span class="font-mono" style="color: var(--lane-feature)">feature</span>에서 —
+브랜치 실습(06–08)은 <span class="font-mono" style="color: var(--lane-feature)">feature</span>에서.
 그리고 09강에서 실제로 머지됩니다.
 </div>
 
