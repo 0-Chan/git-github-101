@@ -8,6 +8,7 @@ import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
 import { HistoryNavigator, loadHistory, pushHistory, saveHistory } from "@/lib/shell/interactive/history";
 import { renderLine, rowOf } from "@/lib/shell/interactive/render";
+import { ghostSuggestion } from "@/lib/shell/interactive/suggest";
 import { Shell } from "@/lib/shell/Shell";
 import { runValidation } from "@/lib/validation";
 import type { LessonStep } from "@/types";
@@ -141,11 +142,12 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
 
     // 프롬프트 + 컬러 입력(+ ghost) 한 블록을 통째로 다시 그린다.
     // WebGL 렌더러라 키 입력마다 리페인트해도 비용이 없다.
-    const paint = (ghost = "") => {
+    // ghost는 매 페인트마다 (입력, 히스토리)에서 재계산 — 별도 무효화 상태가 없다.
+    const paint = (ghostOverride?: string) => {
       const { data, cursorRow } = renderLine({
         prompt: shell.prompt,
         input: inputRef.current,
-        ghost,
+        ghost: ghostOverride ?? ghostSuggestion(inputRef.current, history),
         cols: terminal.cols,
         prevCursorRow: prevCursorRowRef.current,
       });
@@ -204,6 +206,14 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         const entry = historyNav.down();
         if (entry !== null) {
           inputRef.current = entry;
+          paint();
+        }
+      } else if (domEvent.key === "ArrowRight") {
+        // ghost 수락 — 표시가 잘려 있어도 전체 제안을 붙인다.
+        // (ArrowLeft는 의도적 no-op: 이 터미널은 커서 중간 편집을 지원하지 않는다)
+        const ghost = ghostSuggestion(inputRef.current, history);
+        if (ghost) {
+          inputRef.current += ghost;
           paint();
         }
       } else if (domEvent.key === "Tab") {
