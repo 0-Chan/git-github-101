@@ -193,7 +193,7 @@ $ git init
 </template>
 <template #1>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-2.png" class="max-h-full rounded-lg" alt="픽사 스튜디오"></div>
-<div class="pt-3 text-center opacity-90">픽사가 2년째 만들던 영화였습니다</div>
+<div class="pt-3 text-center opacity-90">3D 애니메이션의 선두 주자 픽사, Toy Story 2 제작 2년차에 접어들 무렵이었습니다</div>
 </template>
 <template #2>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-3.png" class="max-h-full rounded-lg" alt="터미널 화면"></div>
@@ -201,15 +201,15 @@ $ git init
 </template>
 <template #3>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-4.png" class="max-h-full rounded-lg" alt="데이터 유실"></div>
-<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 사라졌지만</span>, 안타깝게도 백업 시스템이 없었습니다.</div>
+<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 사라졌지만</span>, 안타깝게도 백업 시스템은 정상이 아니었습니다.</div>
 </template>
 <template #4>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-5.png" class="max-h-full rounded-lg" alt="Galyn Susman 인터뷰"></div>
-<div class="pt-3 text-center opacity-90">영화를 구한 건 출산 후 재택근무 중이던 기술 감독 <span style="color: var(--lane-main)">Galyn Susman의 집 컴퓨터</span></div>
+<div class="pt-3 text-center opacity-90">중앙의 원본이 사라진 지금, 유일한 희망은 재택근무 중이던 기술 감독 <span style="color: var(--lane-main)">Galyn Susman의 집 컴퓨터</span></div>
 </template>
 <template #5>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-6.jpeg" class="max-h-full rounded-lg" alt="담요로 감싼 컴퓨터"></div>
-<div class="pt-3 text-center opacity-90">전체 사본이 담긴 그 컴퓨터를 담요에 싸서 운반해, 영화를 복구했습니다</div>
+<div class="pt-3 text-center opacity-90">우여곡절 끝에 사본을 담은 컴퓨터를 무사히 운반했고, 영화는 기간 내에 완성됐습니다</div>
 </template>
 </v-switch>
 
@@ -218,15 +218,15 @@ $ git init
 
 Toy Story 2가 개봉을 앞두고 있었습니다.
 
-[click] 픽사가 2년 동안 공들여 만들던 영화였죠.
+[click] 당시 픽사는 3D 애니메이션의 선두 주자였고, Toy Story 2 제작 2년차에 접어들고 있었습니다.
 
 [click] 그런데 어느 날, 누군가 영화 에셋이 담긴 서버에서 삭제 명령을 실행합니다. 우디의 모자가 사라지고, 우디가 사라지고, 폴더가 눈앞에서 하나씩 증발하기 시작했습니다.
 
 [click] 2년치 작업의 90%가 몇 분 만에 사라졌습니다. 백업이 있으니 괜찮다고 생각했는데, 확인해보니 백업 시스템이 한 달째 조용히 실패하고 있었습니다. "백업이 있다"와 "복구할 수 있다"는 다른 말이었던 거죠.
 
-[click] 영화를 구한 건 기술 감독 Galyn Susman이었습니다. 출산 직후 재택근무를 하느라 집 컴퓨터에 영화 전체 사본을 갖고 있었거든요.
+[click] 중앙에 모여 있던 원본이 전부 사라진 상황. 유일한 희망은 기술 감독 Galyn Susman이었습니다. 출산 직후 재택근무를 하느라 집 컴퓨터에 영화 전체 사본을 갖고 있었거든요.
 
-[click] 그 컴퓨터를 담요에 싸서 조심조심 픽사까지 운반했고, 영화는 살아났습니다. 여기서 기억할 것 하나. 영화를 구한 건 백업 시스템이 아니라 "전체 사본을 가진 또 한 사람"이었습니다. 아까 본 분산 버전 관리가 바로 이 장면입니다. Susman의 집 컴퓨터가 해준 일을, Git에서는 clone 한 번이 해줍니다. 나중에 원격 저장소를 배울 때 이 장면을 다시 떠올리게 될 겁니다.
+[click] 그 컴퓨터를 담요에 싸서 조심조심 픽사까지 운반했고, 우여곡절 끝에 영화는 개봉 일정 안에 완성됐습니다. 여기서 기억할 것 하나. 영화를 구한 건 백업 시스템이 아니라 "전체 사본을 가진 또 한 사람"이었습니다. 아까 본 분산 버전 관리가 바로 이 장면입니다. Susman의 집 컴퓨터가 해준 일을, Git에서는 clone 한 번이 해줍니다. 나중에 원격 저장소를 배울 때 이 장면을 다시 떠올리게 될 겁니다.
 
 출처: 픽사 공식 영상 "Studio Stories: The Movie Vanishes", 에드 캣멀 『Creativity, Inc.』
 -->
