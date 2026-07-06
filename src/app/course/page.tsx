@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getCourse } from "@/lib/course";
 
-export const metadata = { title: "강의 — git-github-101" };
+export const metadata = { title: "강의 · git-github-101" };
 
 export default function CoursePage() {
   const course = getCourse();

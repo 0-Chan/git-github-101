@@ -79,7 +79,7 @@ git add greeting.txt
 git commit -m "merge: resolve greeting.txt conflict"
 ```
 
-> **팁**: 실무에서 쓰는 VS Code 같은 에디터는 충돌 마커를 하이라이트하고 "Accept Current/Incoming" 버튼도 제공합니다. 원리는 방금 한 것과 같습니다 — 마커를 지우고 원하는 내용만 남기기.
+> **팁**: 실무에서 쓰는 VS Code 같은 에디터는 충돌 마커를 하이라이트하고 "Accept Current/Incoming" 버튼도 제공합니다. 원리는 방금 한 것과 같습니다. 마커를 지우고 원하는 내용만 남기면 됩니다.
 
 ---
 

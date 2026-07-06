@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "slidev slides.md --open",
-    "build": "slidev build slides.md --base /slides/ --out ../public/slides"
+    "dev": "slidev session-1.md --open",
+    "dev:s2": "slidev session-2.md --open",
+    "dev:s3": "slidev session-3.md --open",
+    "dev:s4": "slidev session-4.md --open",
+    "build": "slidev build session-1.md --base /slides/s1/ --out ../public/slides/s1 && slidev build session-2.md --base /slides/s2/ --out ../public/slides/s2 && slidev build session-3.md --base /slides/s3/ --out ../public/slides/s3 && slidev build session-4.md --base /slides/s4/ --out ../public/slides/s4"
   },
   "devDependencies": {
     "@slidev/cli": "^52.16.0",
