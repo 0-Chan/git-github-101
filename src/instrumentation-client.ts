@@ -18,8 +18,14 @@ function initPostHog() {
       api_host: apiHost,
       // 프리셋이 SPA history 전환 페이지뷰 캡처를 포함한다
       defaults: "2026-05-30",
-      // 교실 신뢰 모델: 이름·체크인 이유 입력까지 리플레이에서 그대로 본다
-      session_recording: { maskAllInputs: false },
+      // 교실 신뢰 모델: 입력을 마스킹 없이 그대로 본다. 터미널은 WebGL
+      // 캔버스로 렌더링되므로 캔버스 녹화(주기 스냅샷, 기본 4fps)를 켠다 —
+      // resolutionScale은 리플레이 바이트 절감용.
+      session_recording: {
+        maskAllInputs: false,
+        captureCanvas: { recordCanvas: true },
+        canvasCapture: { resolutionScale: 0.6 },
+      },
     });
   } catch (err) {
     console.warn("PostHog 초기화 실패:", err);

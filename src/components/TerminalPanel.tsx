@@ -1,7 +1,8 @@
 "use client";
 import { FitAddon } from "@xterm/addon-fit";
+import { WebglAddon } from "@xterm/addon-webgl";
 import { Terminal } from "@xterm/xterm";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "@xterm/xterm/css/xterm.css";
 import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
@@ -17,11 +18,24 @@ interface TerminalPanelProps {
   onReady: (shell: Shell) => void;
 }
 
+function probeWebgl(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+}
+
 export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, onReady }: TerminalPanelProps) {
   const termRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<Shell | null>(null);
   const terminalRef = useRef<Terminal | null>(null);
   const inputRef = useRef("");
+  // WebGL 렌더러 여부가 리플레이 녹화 방식을 가른다 (아래 ph-no-capture 참고).
+  // 첫 렌더 전에 확정해야 rrweb 초기 스냅샷이 올바른 모드로 찍힌다.
+  const [gpuRenderer, setGpuRenderer] = useState(probeWebgl);
+  const gpuRef = useRef(gpuRenderer);
   const currentStepRef = useRef(currentStep);
   const onStepCompleteRef = useRef(onStepComplete);
   const stepsRef = useRef(steps);
@@ -54,6 +68,8 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     // torn-down instance never writes to a disposed terminal or re-runs fixture setup.
     let cancelled = false;
 
+    // WebGL/캔버스 렌더러는 CSS 변수를 해석하지 못하므로 실제 폰트명으로 푼다
+    const monoVar = getComputedStyle(termRef.current).getPropertyValue("--font-plex-mono").trim();
     const terminal = new Terminal({
       theme: {
         background: "#18181b",
@@ -61,7 +77,7 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         cursor: "#f97316",
         selectionBackground: "#f9731640",
       },
-      fontFamily: "var(--font-plex-mono), monospace",
+      fontFamily: monoVar ? `${monoVar}, monospace` : "monospace",
       fontSize: 14,
       cursorBlink: true,
     });
@@ -69,6 +85,24 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     const fitAddon = new FitAddon();
     terminal.loadAddon(fitAddon);
     terminal.open(termRef.current);
+
+    // GPU 렌더러: DOM 변이가 사라져 rrweb 직렬화 비용이 없어지고,
+    // 터미널은 PostHog 캔버스 녹화(주기 스냅샷)로 리플레이에 담긴다.
+    if (gpuRef.current) {
+      try {
+        const webgl = new WebglAddon();
+        webgl.onContextLoss(() => {
+          webgl.dispose(); // xterm이 DOM 렌더러로 자동 복귀
+          gpuRef.current = false;
+          setGpuRenderer(false);
+        });
+        terminal.loadAddon(webgl);
+      } catch {
+        gpuRef.current = false;
+        setGpuRenderer(false);
+      }
+    }
+
     fitAddon.fit();
     terminalRef.current = terminal;
 
@@ -148,11 +182,13 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
   }, [namespace, writePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    // ph-no-capture: xterm은 키 입력·출력마다 행 전체 span을 다시 그려서
-    // PostHog 세션 리플레이(rrweb)가 그 변이를 직렬화하면 키 하나에
-    // 50~200ms씩 메인 스레드가 막힌다 (프로덕션에서 명령당 수 초 지연).
-    // 터미널 서브트리를 녹화에서 제외한다 — 리플레이에는 빈 박스로 보인다.
-    <div className="ph-no-capture flex flex-col h-full bg-zinc-900 rounded-xl border border-zinc-700 overflow-hidden">
+    // DOM 렌더러 폴백일 때만 ph-no-capture: xterm DOM 렌더러는 키 입력·출력마다
+    // 행 전체 span을 다시 그려서 rrweb 직렬화가 키 하나에 50~200ms씩 메인
+    // 스레드를 막는다 (프로덕션에서 명령당 수 초 지연). WebGL 렌더러일 때는
+    // 캔버스 녹화가 담당하므로 제외하지 않는다.
+    <div
+      className={`${gpuRenderer ? "" : "ph-no-capture "}flex flex-col h-full bg-zinc-900 rounded-xl border border-zinc-700 overflow-hidden`}
+    >
       <div className="flex items-center gap-2 px-4 py-2 bg-zinc-800 border-b border-zinc-700">
         <span className="w-3 h-3 rounded-full bg-red-500" />
         <span className="w-3 h-3 rounded-full bg-yellow-500" />
