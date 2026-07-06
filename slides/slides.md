@@ -452,7 +452,7 @@ flowchart LR
   subgraph proj["&nbsp;📁 내 프로젝트 폴더 = 작업 디렉터리 (working directory)&nbsp;"]
     direction LR
     W["작업 파일들<br/><small>&nbsp;대기실&nbsp;</small>"]
-    subgraph git["&nbsp;<img src='Git-Logo-White.svg' style='display:inline;height:15px;vertical-align:-2px' alt='Git'> .git = 로컬 저장소 (local repository)&nbsp;"]
+    subgraph git["&nbsp;<img src='Git-Logo-DarkBg.svg' style='display:inline;height:15px;vertical-align:-2px' alt='Git'> .git = 로컬 저장소 (local repository)&nbsp;"]
       direction LR
       S["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"]
       R["커밋 히스토리<br/><small>&nbsp;repository · 앨범&nbsp;</small>"]
