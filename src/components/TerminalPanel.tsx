@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "@xterm/xterm/css/xterm.css";
 import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
+import { HistoryNavigator, loadHistory, pushHistory, saveHistory } from "@/lib/shell/interactive/history";
 import { renderLine, rowOf } from "@/lib/shell/interactive/render";
 import { Shell } from "@/lib/shell/Shell";
 import { runValidation } from "@/lib/validation";
@@ -114,6 +115,10 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     const shell = new Shell(namespace);
     shellRef.current = shell;
 
+    // 명령 히스토리 — 레슨(namespace) 단위로 localStorage에 유지
+    let history = loadHistory(namespace);
+    let historyNav = new HistoryNavigator(history);
+
     shell.init().then(async () => {
       if (cancelled) return;
       const slug = namespace.replace(/^lesson-/, "");
@@ -155,6 +160,9 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         prevCursorRowRef.current = 0;
         const input = inputRef.current.trim();
         inputRef.current = "";
+        history = pushHistory(history, input);
+        saveHistory(namespace, history);
+        historyNav = new HistoryNavigator(history);
 
         if (input) {
           const result = await shell.execute(input);
@@ -184,6 +192,18 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
       } else if (domEvent.key === "Backspace") {
         if (inputRef.current.length > 0) {
           inputRef.current = inputRef.current.slice(0, -1);
+          paint();
+        }
+      } else if (domEvent.key === "ArrowUp") {
+        const entry = historyNav.up(inputRef.current);
+        if (entry !== null) {
+          inputRef.current = entry;
+          paint();
+        }
+      } else if (domEvent.key === "ArrowDown") {
+        const entry = historyNav.down();
+        if (entry !== null) {
+          inputRef.current = entry;
           paint();
         }
       } else if (domEvent.key === "Tab") {

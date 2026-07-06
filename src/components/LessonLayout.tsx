@@ -45,9 +45,11 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
 
   const handleReset = useCallback(async () => {
     const { destroyFS } = await import("@/lib/shell/filesystem");
+    const { clearHistory } = await import("@/lib/shell/interactive/history");
     const slug = lesson.meta.slug;
     await destroyFS(`lesson-${slug}`);
     localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`);
+    clearHistory(`lesson-${slug}`);
     setCompletedSteps(new Array(lesson.meta.steps.length).fill(false));
     setTerminalKey((k) => k + 1);
   }, [lesson.meta.slug, lesson.meta.steps.length]);

@@ -3,6 +3,7 @@ import { clearEvents } from "./events";
 import { FIXTURE_VERSION_KEY } from "./fixtures";
 import { clearProgress } from "./progress";
 import { destroyFS } from "./shell/filesystem";
+import { clearHistory } from "./shell/interactive/history";
 
 /**
  * Full learning-state reset: every lesson filesystem, fixture version marker,
@@ -16,6 +17,7 @@ export async function resetAllProgress(): Promise<void> {
       await destroyFS(`lesson-${section.slug}`);
     }
     localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${section.slug}`);
+    clearHistory(`lesson-${section.slug}`);
   }
   clearProgress();
   // 이벤트 로그도 함께 — 남겨두면 리셋 후 lesson-done 이벤트가 리더보드
