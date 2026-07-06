@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCourse } from "@/lib/course";
-import { DeckLink } from "./DeckLink";
+import { DeckMenu } from "./DeckMenu";
 import { SessionMenu } from "./SessionMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -15,12 +15,7 @@ export function Nav() {
         </Link>
         <div className="flex items-center gap-2">
           <SessionMenu sessions={sessions} />
-          <DeckLink
-            source="nav"
-            className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"
-          >
-            슬라이드
-          </DeckLink>
+          <DeckMenu sessions={sessions} />
           <a
             href="https://github.com/0-Chan/git-github-101"
             target="_blank"
