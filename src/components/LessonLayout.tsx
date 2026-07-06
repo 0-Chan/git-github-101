@@ -1,9 +1,12 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useCallback, useState } from "react";
+import Link from "next/link";
+import { useCallback, useRef, useState } from "react";
 import { useProgress } from "@/hooks/useProgress";
 import { useTabLock } from "@/hooks/useTabLock";
+import { celebrate } from "@/lib/confetti";
 import { FIXTURE_VERSION_KEY } from "@/lib/fixtures";
+import { nextSection } from "@/lib/nextSection";
 import type { Shell } from "@/lib/shell/Shell";
 import { validateAllSteps } from "@/lib/validation";
 import type { LessonContent, Section } from "@/types";
@@ -28,6 +31,10 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const [terminalKey, setTerminalKey] = useState(0);
   const currentStep = completedSteps.findIndex((c) => !c);
   const _allComplete = completedSteps.every(Boolean);
+  const nextLesson = nextSection(sections, lesson.meta.slug);
+  const terminalColRef = useRef<HTMLDivElement>(null);
+  // 라이브 완주 순간에만 한 번 터뜨린다 (Strict Mode 이중 호출·복원 경로 방지)
+  const celebrationFiredRef = useRef(false);
 
   const handleStepComplete = useCallback(
     (stepIndex: number) => {
@@ -36,6 +43,10 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
         next[stepIndex] = true;
         if (next.every(Boolean)) {
           markComplete(lesson.meta.slug);
+          if (!celebrationFiredRef.current) {
+            celebrationFiredRef.current = true;
+            celebrate(terminalColRef.current);
+          }
         }
         return next;
       });
@@ -50,6 +61,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
     await destroyFS(`lesson-${slug}`);
     localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`);
     clearHistory(`lesson-${slug}`);
+    celebrationFiredRef.current = false; // 재완주 시 다시 축하
     setCompletedSteps(new Array(lesson.meta.steps.length).fill(false));
     setTerminalKey((k) => k + 1);
   }, [lesson.meta.slug, lesson.meta.steps.length]);
@@ -61,6 +73,8 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
         setCompletedSteps(results);
         if (results.every(Boolean)) {
           markComplete(lesson.meta.slug);
+          // 복원으로 이미 완료된 레슨 — 리로드마다 confetti가 터지면 안 된다
+          celebrationFiredRef.current = true;
         }
       }
     },
@@ -114,10 +128,18 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
           currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
         />
         {!lesson.meta.hasTerminal && (
-          <MarkReadButton done={!!progress[lesson.meta.slug]} onMarkRead={() => markComplete(lesson.meta.slug)} />
+          <MarkReadButton
+            done={!!progress[lesson.meta.slug]}
+            onMarkRead={() => {
+              markComplete(lesson.meta.slug);
+              celebrate();
+            }}
+            nextHref={nextLesson ? `/lessons/${nextLesson.slug}` : undefined}
+            nextTitle={nextLesson?.title}
+          />
         )}
         {lesson.meta.hasTerminal && (
-          <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
+          <div ref={terminalColRef} className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
             <div className="flex-1 min-h-0">
               <TerminalPanel
                 key={terminalKey}
@@ -133,9 +155,17 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
               {lesson.meta.steps.length > 0 && (
                 <div className="flex min-w-0 flex-1 items-center gap-4">
                   {currentStep === -1 ? (
-                    <p className="truncate text-base font-medium text-ink">
-                      🎉 모든 단계 완료! 다음 레슨으로 넘어가 보세요.
-                    </p>
+                    <div className="flex min-w-0 flex-1 items-center justify-between gap-4">
+                      <p className="truncate text-base font-medium text-ink">🎉 모든 단계 완료!</p>
+                      {nextLesson && (
+                        <Link
+                          href={`/lessons/${nextLesson.slug}`}
+                          className="shrink-0 flex items-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2 text-base font-medium text-white transition-colors hover:bg-orange-600"
+                        >
+                          다음 레슨: {nextLesson.title} →
+                        </Link>
+                      )}
+                    </div>
                   ) : (
                     <>
                       <span className="shrink-0 font-mono text-base font-bold text-lane-main">
