@@ -67,7 +67,60 @@ $ git init
 
 [click] 그리고 대망의 "진짜최종2_이걸로". 다들 이런 폴더 하나쯤 있으시죠? 이게 바로 버전 관리입니다. 우리 모두 이미 하고 있어요.
 
-[click] 그런데 두 가지 질문에는 답하기 어렵습니다. 어느 게 진짜 최종인지, 그리고 지난주 버전으로 돌아갈 수 있는지. 이 두 질문에 제대로 답하게 해주는 도구가 오늘 배울 Git입니다.
+[click] 그런데 두 가지 질문에는 답하기 어렵습니다. 어느 게 진짜 최종인지, 그리고 지난주 버전으로 돌아갈 수 있는지. 내 기획안 정도면 웃고 넘어갈 수 있는데, 이게 수억 달러짜리 프로젝트에서 터지면 어떻게 될까요? 실제로 있었던 일입니다.
+-->
+
+---
+
+# 픽사도 겪은 일입니다
+
+<div class="text-xl opacity-75 -mt-2 pb-3">
+1998년, Toy Story 2가 통째로 사라질 뻔한 날
+</div>
+
+<v-switch>
+<template #0>
+<div class="h-56 flex items-center justify-center"><img src="./public/toystory-1.png" class="max-h-full rounded-lg" alt="Toy Story 2 포스터"></div>
+<div class="pt-3 text-center opacity-90">1998년, 개봉을 앞둔 Toy Story 2</div>
+</template>
+<template #1>
+<div class="h-56 flex items-center justify-center"><img src="./public/toystory-2.png" class="max-h-full rounded-lg" alt="픽사 스튜디오"></div>
+<div class="pt-3 text-center opacity-90">픽사가 2년째 만들던 영화였습니다</div>
+</template>
+<template #2>
+<div class="h-56 flex items-center justify-center"><img src="./public/toystory-3.png" class="max-h-full rounded-lg" alt="터미널 화면"></div>
+<div class="pt-3 text-center opacity-90">어느 날 누군가 서버에서 삭제 명령을 실행합니다: <span class="font-mono" style="color: var(--lane-main)">rm -rf *</span></div>
+</template>
+<template #3>
+<div class="h-56 flex items-center justify-center"><img src="./public/toystory-4.png" class="max-h-full rounded-lg" alt="데이터 유실"></div>
+<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 몇 분 만에</span> 사라졌습니다. 백업은 한 달째 조용히 실패하는 중이었죠</div>
+</template>
+<template #4>
+<div class="h-56 flex items-center justify-center"><img src="./public/toystory-5.png" class="max-h-full rounded-lg" alt="Galyn Susman 인터뷰"></div>
+<div class="pt-3 text-center opacity-90">영화를 구한 건 출산 후 재택근무 중이던 기술 감독 <span style="color: var(--lane-main)">Galyn Susman의 집 컴퓨터</span></div>
+</template>
+<template #5>
+<div class="h-56 flex items-center justify-center"><img src="./public/toystory-6.jpeg" class="max-h-full rounded-lg" alt="담요로 감싼 컴퓨터"></div>
+<div class="pt-3 text-center opacity-90">전체 사본이 담긴 그 컴퓨터를 담요에 싸서 운반해, 영화를 복구했습니다</div>
+</template>
+</v-switch>
+
+<!--
+방금 그 질문의 실화 버전입니다. 1998년 픽사에서 있었던 일이에요.
+
+Toy Story 2가 개봉을 앞두고 있었습니다.
+
+[click] 픽사가 2년 동안 공들여 만들던 영화였죠.
+
+[click] 그런데 어느 날, 누군가 영화 에셋이 담긴 서버에서 삭제 명령을 실행합니다. 우디의 모자가 사라지고, 우디가 사라지고, 폴더가 눈앞에서 하나씩 증발하기 시작했습니다.
+
+[click] 2년치 작업의 90%가 몇 분 만에 사라졌습니다. 백업이 있으니 괜찮다고 생각했는데, 확인해보니 백업 시스템이 한 달째 조용히 실패하고 있었습니다. "백업이 있다"와 "복구할 수 있다"는 다른 말이었던 거죠.
+
+[click] 영화를 구한 건 기술 감독 Galyn Susman이었습니다. 출산 직후 재택근무를 하느라 집 컴퓨터에 영화 전체 사본을 갖고 있었거든요.
+
+[click] 그 컴퓨터를 담요에 싸서 조심조심 픽사까지 운반했고, 영화는 살아났습니다. 여기서 기억할 것 하나. 영화를 구한 건 백업 시스템이 아니라 "전체 사본을 가진 또 한 사람"이었습니다. 모두가 전체 사본을 갖게 하는 것, 그게 바로 Git의 방식입니다. 나중에 원격 저장소를 배울 때 이 장면을 다시 떠올리게 될 겁니다.
+
+출처: 픽사 공식 영상 "Studio Stories: The Movie Vanishes", 에드 캣멀 『Creativity, Inc.』
 -->
 
 ---
