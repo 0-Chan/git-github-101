@@ -17,3 +17,6 @@
 .slidev-layout {
   background: transparent;
 }
+
+/* mermaid 스타일 주의: Slidev는 mermaid를 shadow DOM에 렌더링하므로
+   여기(전역 CSS)서는 손댈 수 없다. 코드 블록의 themeCSS 옵션을 쓸 것. */

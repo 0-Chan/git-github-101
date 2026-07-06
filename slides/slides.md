@@ -5,6 +5,7 @@ info: 브라우저에서 배우는 Git & GitHub 입문 강의 슬라이드
 routerMode: hash
 colorSchema: dark
 canvasWidth: 740
+favicon: /favicon.ico
 fonts:
   sans: IBM Plex Sans KR
   mono: IBM Plex Mono
@@ -436,6 +437,51 @@ git commit -m "첫 커밋" # 기록
 첫 실습에서 만날 세 가지 명령입니다. 파일을 만들고, git add로 스테이징하고, git commit으로 기록합니다. 지금은 외우지 않으셔도 됩니다. 곧 직접 쳐볼 거니까요.
 
 커밋은 게임의 세이브 포인트라고 생각하시면 됩니다. 보스전 앞에서 세이브해두면 져도 거기서 다시 시작할 수 있잖아요. 커밋도 똑같습니다. 기록해둔 시점으로 언제든 돌아올 수 있습니다.
+-->
+
+---
+
+# 커밋은 단체사진입니다
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+add는 사진에 들어갈 파일을 무대에 올리는 일, commit은 셔터를 누르는 일
+</div>
+
+```mermaid {scale: 0.7, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); } .cluster-label { color: #f5a524; }'}
+flowchart LR
+  subgraph proj["&nbsp;📁 내 프로젝트 폴더 = 작업 디렉터리 (working directory)&nbsp;"]
+    direction LR
+    W["작업 파일들<br/><small>&nbsp;대기실&nbsp;</small>"]
+    subgraph git["&nbsp;<img src='Git-Logo-DarkBg.svg' style='display:inline;height:15px;vertical-align:-2px' alt='Git'> .git = 로컬 저장소 (local repository)&nbsp;"]
+      direction LR
+      S["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"]
+      R["커밋 히스토리<br/><small>&nbsp;repository · 앨범&nbsp;</small>"]
+      S -- "git commit" --> R
+    end
+    W -- "git add" --> S
+  end
+```
+
+<v-clicks>
+
+- 커밋은 **단체사진**입니다. 그 순간을 통째로 찍는 스냅샷이죠
+- `git add`는 사진에 들어갈 파일을 **무대에 올리는** 일입니다
+- 셔터를 누르면, 바꾼 것 전부가 아니라 **무대에 올린 것만** 찍힙니다
+
+</v-clicks>
+
+<!--
+방금 명령이 두 줄이었죠. add, 그리고 commit. 왜 굳이 두 단계일까요? 이 그림이 Git의 핵심 구조입니다. 모든 일은 내 프로젝트 폴더 안에서 벌어집니다. 우리가 파일을 만들고 고치는 이 폴더 전체가 작업 디렉터리이고, 그 안에 숨어 있는 .git 폴더가 로컬 저장소입니다. git init이 만드는 게 바로 이 .git 폴더고요. 파일은 작업 공간에서 스테이징 영역을 거쳐 커밋 히스토리에 기록됩니다.
+
+[click] 커밋은 단체사진이라고 생각하세요. 그 순간의 모습을 통째로 찍는 스냅샷입니다.
+
+[click] git add는 사진에 들어갈 파일을 무대에 올리는 일입니다. 스테이징(staging)이라는 이름 그대로요. 아직 찍힌 게 아니라, 찍힐 준비를 시킨 겁니다.
+
+[click] 그리고 이게 스테이징 영역이 존재하는 이유인데, 셔터를 누르면 바꾼 것 전부가 아니라 무대에 올린 것만 찍힙니다. 오늘 한 작업이 뒤죽박죽 열 가지여도, 의미 있는 것만 골라 깔끔하게 기록할 수 있는 거죠.
+
+아까 자가진단 두 번째 항목이 바로 이 세 단어였습니다. 작업 디렉터리, 스테이징 영역, 저장소. 오늘 실습을 마치면 이 항목에 체크할 수 있게 됩니다.
+
+(Git 로고: Jason Long 作, CC BY 3.0)
 -->
 
 ---
