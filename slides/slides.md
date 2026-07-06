@@ -443,7 +443,7 @@ git commit -m "첫 커밋" # 기록
 
 # 커밋은 단체사진, add는 무대에 올리는 일
 
-```mermaid {scale: 0.8, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}}
+```mermaid {scale: 0.8, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
 flowchart LR
   A["작업 디렉터리<br/><small>&nbsp;working directory · 대기실&nbsp;</small>"] -- "git add" --> B["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"] -- "git commit" --> C["저장소<br/><small>&nbsp;repository · 앨범&nbsp;</small>"]
 ```
