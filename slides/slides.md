@@ -447,9 +447,16 @@ git commit -m "첫 커밋" # 기록
 add는 사진에 들어갈 파일을 무대에 올리는 일, commit은 셔터를 누르는 일
 </div>
 
-```mermaid {scale: 0.8, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
+```mermaid {scale: 0.7, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); } .cluster-label { color: #f5a524; }'}
 flowchart LR
-  A["작업 디렉터리<br/><small>&nbsp;working directory · 대기실&nbsp;</small>"] -- "git add" --> B["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"] -- "git commit" --> C["저장소<br/><small>&nbsp;repository · 앨범&nbsp;</small>"]
+  W["작업 디렉터리<br/><small>&nbsp;working directory · 대기실&nbsp;</small>"]
+  subgraph git["&nbsp;📁 .git = 로컬 저장소 (local repository)&nbsp;"]
+    direction LR
+    S["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"]
+    R[("커밋 히스토리<br/><small>&nbsp;repository · 앨범&nbsp;</small>")]
+    S -- "git commit" --> R
+  end
+  W -- "git add" --> S
 ```
 
 <v-clicks>
@@ -461,7 +468,7 @@ flowchart LR
 </v-clicks>
 
 <!--
-방금 명령이 두 줄이었죠. add, 그리고 commit. 왜 굳이 두 단계일까요? 이 그림이 Git의 핵심 구조입니다. 파일은 작업 디렉터리에서 시작해서, 스테이징 영역을 거쳐, 저장소에 기록됩니다.
+방금 명령이 두 줄이었죠. add, 그리고 commit. 왜 굳이 두 단계일까요? 이 그림이 Git의 핵심 구조입니다. 파일은 작업 디렉터리에서 시작해서, 스테이징 영역을 거쳐, 커밋 히스토리에 기록됩니다. 그리고 그림에서 보이듯 스테이징 영역과 커밋 히스토리는 전부 .git이라는 폴더 안에 있습니다. git init이 만드는 게 바로 이 폴더고, 이 폴더가 곧 로컬 저장소입니다.
 
 [click] 커밋은 단체사진이라고 생각하세요. 그 순간의 모습을 통째로 찍는 스냅샷입니다.
 
