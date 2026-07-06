@@ -45,9 +45,6 @@ git merge feature
 ```
 Updating abc1234..def5678
 Fast-forward
- feature.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 feature.txt
 ```
 
 이제 `ls`를 실행하면 `feature.txt`가 `main` 브랜치에도 나타납니다!

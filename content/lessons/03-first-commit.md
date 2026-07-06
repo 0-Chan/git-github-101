@@ -18,7 +18,7 @@ steps:
       path: hello.txt
   - id: commit
     instruction: "첫 번째 커밋을 만들어보세요"
-    hint: 'git commit -m "첫 번째 커밋"'
+    hint: 'git commit -m "my first commit"'
     validation:
       type: commit-count
       min: 1
@@ -63,7 +63,7 @@ git status
 이제 커밋을 만들 차례입니다. `-m` 옵션으로 커밋 메시지를 함께 작성합니다:
 
 ```bash
-git commit -m "첫 번째 커밋"
+git commit -m "my first commit"
 ```
 
 좋은 커밋 메시지는 **무엇을 변경했는지** 명확하게 설명해야 합니다. 나중에 이력을 볼 때 큰 도움이 됩니다.
@@ -71,7 +71,7 @@ git commit -m "첫 번째 커밋"
 커밋이 성공하면 다음과 같은 메시지가 나타납니다:
 
 ```
-[main (root-commit) abc1234] 첫 번째 커밋
+[main (root-commit) abc1234] my first commit
  1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 hello.txt
 ```

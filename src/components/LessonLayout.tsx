@@ -8,6 +8,7 @@ import type { Shell } from "@/lib/shell/Shell";
 import { validateAllSteps } from "@/lib/validation";
 import type { LessonContent, Section } from "@/types";
 import { GuidePanel } from "./GuidePanel";
+import { MarkReadButton } from "./MarkReadButton";
 import { Sidebar } from "./Sidebar";
 
 const TerminalPanel = dynamic(() => import("./TerminalPanel").then((m) => ({ default: m.TerminalPanel })), {
@@ -44,9 +45,11 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
 
   const handleReset = useCallback(async () => {
     const { destroyFS } = await import("@/lib/shell/filesystem");
+    const { clearHistory } = await import("@/lib/shell/interactive/history");
     const slug = lesson.meta.slug;
     await destroyFS(`lesson-${slug}`);
     localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`);
+    clearHistory(`lesson-${slug}`);
     setCompletedSteps(new Array(lesson.meta.steps.length).fill(false));
     setTerminalKey((k) => k + 1);
   }, [lesson.meta.slug, lesson.meta.steps.length]);
@@ -103,42 +106,18 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       <div className="hidden lg:block">
         <Sidebar sections={sections} progress={progress} />
       </div>
-      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : ""}`}>
+      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : "flex-col"}`}>
         <GuidePanel
           html={lesson.html}
           steps={lesson.meta.steps}
           completedSteps={completedSteps}
           currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
         />
+        {!lesson.meta.hasTerminal && (
+          <MarkReadButton done={!!progress[lesson.meta.slug]} onMarkRead={() => markComplete(lesson.meta.slug)} />
+        )}
         {lesson.meta.hasTerminal && (
           <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
-            {/* Goal bar: the terminal column never scrolls, so this stays visible. */}
-            <div className="flex items-center gap-3 rounded-lg border border-edge bg-surface px-3 py-2">
-              {lesson.meta.steps.length > 0 && (
-                <div className="flex min-w-0 flex-1 items-center gap-3">
-                  {currentStep === -1 ? (
-                    <p className="truncate text-sm text-ink">🎉 모든 단계 완료! 다음 레슨으로 넘어가 보세요.</p>
-                  ) : (
-                    <>
-                      <span className="shrink-0 font-mono text-xs font-medium text-lane-main">
-                        🎯 {currentStep + 1}/{lesson.meta.steps.length}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate text-sm text-ink">{lesson.meta.steps[currentStep].instruction}</p>
-                        <p className="truncate font-mono text-xs text-muted">$ {lesson.meta.steps[currentStep].hint}</p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={handleReset}
-                className="ml-auto shrink-0 text-xs px-3 py-1 rounded border border-edge hover:bg-ground transition-colors"
-              >
-                리셋
-              </button>
-            </div>
             <div className="flex-1 min-h-0">
               <TerminalPanel
                 key={terminalKey}
@@ -148,6 +127,37 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
                 onStepComplete={handleStepComplete}
                 onReady={handleShellReady}
               />
+            </div>
+            {/* Goal bar: the terminal column never scrolls, so this stays visible below it. */}
+            <div className="flex items-center gap-4 rounded-xl border border-edge bg-surface px-4 py-3">
+              {lesson.meta.steps.length > 0 && (
+                <div className="flex min-w-0 flex-1 items-center gap-4">
+                  {currentStep === -1 ? (
+                    <p className="truncate text-base font-medium text-ink">
+                      🎉 모든 단계 완료! 다음 레슨으로 넘어가 보세요.
+                    </p>
+                  ) : (
+                    <>
+                      <span className="shrink-0 font-mono text-base font-bold text-lane-main">
+                        🎯 {currentStep + 1}/{lesson.meta.steps.length}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate text-base font-medium text-ink">
+                          {lesson.meta.steps[currentStep].instruction}
+                        </p>
+                        <p className="truncate font-mono text-sm text-muted">$ {lesson.meta.steps[currentStep].hint}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={handleReset}
+                className="ml-auto shrink-0 text-sm px-3 py-1.5 rounded-lg border border-edge hover:bg-ground transition-colors"
+              >
+                리셋
+              </button>
             </div>
           </div>
         )}

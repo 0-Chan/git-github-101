@@ -28,10 +28,10 @@ git log
 
 ```
 commit abc123def456... (HEAD -> main)
-Author: 홍길동 <hong@example.com>
+Author: Learner <learner@git101.dev>
 Date:   Mon Apr 7 10:00:00 2026 +0900
 
-    첫 번째 커밋
+    my first commit
 ```
 
 각 항목의 의미는 다음과 같습니다:
@@ -49,7 +49,7 @@ git log --oneline
 ```
 
 ```
-abc1234 첫 번째 커밋
+abc1234 (HEAD -> main) my first commit
 ```
 
 ## 그래프로 보기
@@ -60,9 +60,9 @@ abc1234 첫 번째 커밋
 git log --oneline --graph --all
 ```
 
-## git log 종료하기
+## 참고: 실제 git의 페이저(pager)
 
-`git log`를 실행하면 터미널이 페이저(pager) 모드로 진입합니다. 종료하려면 키보드에서 `q`를 누르세요.
+이 튜토리얼 터미널은 로그를 한 번에 출력하지만, 실제 git에서는 `git log` 실행 시 페이저(pager) 모드로 진입합니다. 그때는 방향키로 스크롤하고 `q`를 눌러 종료하면 됩니다.
 
 ---
 

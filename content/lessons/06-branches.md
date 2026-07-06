@@ -18,7 +18,7 @@ steps:
       name: feature
   - id: create-file-on-branch
     instruction: "feature.txt 파일을 만들고 커밋하세요"
-    hint: 'touch feature.txt && git add feature.txt && git commit -m "feature 브랜치에서 파일 추가"'
+    hint: 'touch feature.txt && git add feature.txt && git commit -m "add file on feature branch"'
     validation:
       type: file-exists
       path: /feature.txt
@@ -66,7 +66,7 @@ git checkout feature
 ```bash
 touch feature.txt
 git add feature.txt
-git commit -m "feature 브랜치에서 파일 추가"
+git commit -m "add file on feature branch"
 ```
 
 이 변경사항은 `feature` 브랜치에만 존재합니다. `main` 브랜치로 돌아가면 `feature.txt` 파일이 보이지 않습니다.

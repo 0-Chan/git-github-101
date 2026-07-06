@@ -27,7 +27,7 @@ git init
 명령어를 실행하면 아래와 같은 메시지가 나타납니다:
 
 ```
-Initialized empty Git repository in /your/path/.git/
+Initialized empty Git repository in /.git/
 ```
 
 축하합니다! 첫 번째 Git 저장소가 만들어졌습니다.

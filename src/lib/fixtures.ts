@@ -1,7 +1,7 @@
 import git from "isomorphic-git";
 import type { FixtureConfig } from "@/types";
 
-const author = { name: "학습자", email: "learner@git101.dev" };
+const author = { name: "Learner", email: "learner@git101.dev" };
 
 async function initRepo(fs: any) {
   await git.init({ fs, dir: "/", defaultBranch: "main" });
@@ -23,70 +23,70 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   "first-commit": {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
       // Commit a placeholder so the 'main' branch ref is created;
       // then remove it so the working tree appears empty for the learner.
-      await addAndCommit(fs, ".gitkeep", "", "(초기 설정)");
+      await addAndCommit(fs, ".gitkeep", "", "(initial setup)");
       await fs.promises.unlink("/.gitkeep");
     },
   },
   "commit-history": {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
-      await addAndCommit(fs, "README.md", "# My Project", "프로젝트 시작");
-      await addAndCommit(fs, "hello.txt", "Hello!", "인사말 추가");
-      await addAndCommit(fs, "config.txt", "setting=true", "설정 파일 추가");
+      await addAndCommit(fs, "README.md", "# My Project", "start project");
+      await addAndCommit(fs, "hello.txt", "Hello!", "add greeting");
+      await addAndCommit(fs, "config.txt", "setting=true", "add config file");
     },
   },
   "modify-and-diff": {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
-      await addAndCommit(fs, "hello.txt", "Hello, World!", "파일 생성");
+      await addAndCommit(fs, "hello.txt", "Hello, World!", "create hello.txt");
     },
   },
   branches: {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
-      await addAndCommit(fs, "main.txt", "main content", "main 파일 생성");
+      await addAndCommit(fs, "main.txt", "main content", "create main file");
     },
   },
   merge: {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
-      await addAndCommit(fs, "main.txt", "main", "main 커밋");
+      await addAndCommit(fs, "main.txt", "main", "commit on main");
       await git.branch({ fs, dir: "/", ref: "feature" });
       await git.checkout({ fs, dir: "/", ref: "feature" });
-      await addAndCommit(fs, "feature.txt", "feature work", "feature 커밋");
+      await addAndCommit(fs, "feature.txt", "feature work", "commit on feature");
       await git.checkout({ fs, dir: "/", ref: "main" });
     },
   },
   "merge-conflict": {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
-      await addAndCommit(fs, "greeting.txt", "안녕하세요", "인사말 추가");
+      await addAndCommit(fs, "greeting.txt", "Hello", "add greeting");
       await git.branch({ fs, dir: "/", ref: "feature" });
       await git.checkout({ fs, dir: "/", ref: "feature" });
-      await fs.promises.writeFile("/greeting.txt", "안녕! 반가워!");
+      await fs.promises.writeFile("/greeting.txt", "Hi! Nice to meet you!");
       await git.add({ fs, dir: "/", filepath: "greeting.txt" });
-      await git.commit({ fs, dir: "/", message: "feature: 인사말 수정", author });
+      await git.commit({ fs, dir: "/", message: "feature: update greeting", author });
       await git.checkout({ fs, dir: "/", ref: "main" });
-      await fs.promises.writeFile("/greeting.txt", "안녕하세요! 환영합니다!");
+      await fs.promises.writeFile("/greeting.txt", "Hello! Welcome!");
       await git.add({ fs, dir: "/", filepath: "greeting.txt" });
-      await git.commit({ fs, dir: "/", message: "main: 인사말 수정", author });
+      await git.commit({ fs, dir: "/", message: "main: update greeting", author });
     },
   },
   remote: {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
       await initRepo(fs);
-      await addAndCommit(fs, "README.md", "# My Project", "프로젝트 시작");
+      await addAndCommit(fs, "README.md", "# My Project", "start project");
     },
   },
 };

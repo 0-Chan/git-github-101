@@ -1,0 +1,93 @@
+{
+  "cohort": "1기",
+  "sessions": [
+    {
+      "id": "s1",
+      "order": 1,
+      "title": "Git 기초 — 커밋이라는 세이브 포인트",
+      "goal": "로컬 저장소에서 커밋·브랜치·머지를 스스로 수행할 수 있다",
+      "periods": [
+        { "order": 1, "title": "OT — 오프닝", "durationMin": 45 },
+        { "order": 2, "title": "Git이란? · 첫 저장소", "durationMin": 45 },
+        { "order": 3, "title": "첫 커밋과 히스토리", "durationMin": 45 },
+        { "order": 4, "title": "수정과 비교(diff)", "durationMin": 45 },
+        { "order": 5, "title": "브랜치와 머지", "durationMin": 45 },
+        { "order": 6, "title": "충돌 해결 · 원격 맛보기", "durationMin": 45 }
+      ],
+      "activities": [
+        {
+          "type": "lecture",
+          "id": "s1-lecture-opening",
+          "title": "오프닝 덱 — Git이 있기 전의 세계",
+          "deck": "/slides"
+        },
+        { "type": "lesson", "id": "s1-l01", "slug": "what-is-git" },
+        { "type": "lesson", "id": "s1-l02", "slug": "first-repo" },
+        { "type": "lesson", "id": "s1-l03", "slug": "first-commit" },
+        { "type": "lesson", "id": "s1-l04", "slug": "commit-history" },
+        { "type": "lesson", "id": "s1-l05", "slug": "modify-and-diff" },
+        { "type": "lesson", "id": "s1-l06", "slug": "branches" },
+        { "type": "lesson", "id": "s1-l07", "slug": "merge" },
+        { "type": "lesson", "id": "s1-l08", "slug": "merge-conflict" },
+        { "type": "lesson", "id": "s1-l09", "slug": "what-is-github" },
+        { "type": "lesson", "id": "s1-l10", "slug": "remote" },
+        { "type": "lesson", "id": "s1-l11", "slug": "pull-request" },
+        {
+          "type": "mission",
+          "id": "s1-m01",
+          "title": "GitHub 준비 운동",
+          "steps": [
+            { "id": "gh-account", "label": "GitHub 계정 만들기 또는 로그인" },
+            { "id": "gh-profile", "label": "프로필에 이름 설정하기" },
+            { "id": "gh-star", "label": "강의 저장소에 Star 누르기" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "order": 2,
+      "title": "실전 GitHub — fork에서 PR까지",
+      "goal": "(설계 예정)",
+      "periods": [
+        { "order": 1, "title": "미정", "durationMin": 45 },
+        { "order": 2, "title": "미정", "durationMin": 45 },
+        { "order": 3, "title": "미정", "durationMin": 45 },
+        { "order": 4, "title": "미정", "durationMin": 45 },
+        { "order": 5, "title": "미정", "durationMin": 45 },
+        { "order": 6, "title": "미정", "durationMin": 45 }
+      ],
+      "activities": []
+    },
+    {
+      "id": "s3",
+      "order": 3,
+      "title": "심화 — 협업 워크플로우 (후보)",
+      "goal": "(설계 예정)",
+      "periods": [
+        { "order": 1, "title": "미정", "durationMin": 45 },
+        { "order": 2, "title": "미정", "durationMin": 45 },
+        { "order": 3, "title": "미정", "durationMin": 45 },
+        { "order": 4, "title": "미정", "durationMin": 45 },
+        { "order": 5, "title": "미정", "durationMin": 45 },
+        { "order": 6, "title": "미정", "durationMin": 45 }
+      ],
+      "activities": []
+    },
+    {
+      "id": "s4",
+      "order": 4,
+      "title": "미정 — 되돌리기·협업 시나리오 (후보)",
+      "goal": "(설계 예정)",
+      "periods": [
+        { "order": 1, "title": "미정", "durationMin": 45 },
+        { "order": 2, "title": "미정", "durationMin": 45 },
+        { "order": 3, "title": "미정", "durationMin": 45 },
+        { "order": 4, "title": "미정", "durationMin": 45 },
+        { "order": 5, "title": "미정", "durationMin": 45 },
+        { "order": 6, "title": "미정", "durationMin": 45 }
+      ],
+      "activities": []
+    }
+  ]
+}

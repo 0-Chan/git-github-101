@@ -24,7 +24,7 @@ git checkout -b feature/new-login
 ### 2단계: 작업 후 커밋
 ```bash
 git add .
-git commit -m "feat: 로그인 페이지 UI 구현"
+git commit -m "feat: implement login page UI"
 ```
 
 ### 3단계: 원격 저장소에 푸시

@@ -33,6 +33,49 @@ describe("fs commands", () => {
       expect(result.output).toContain("a.txt");
       expect(result.output).toContain("b.txt");
     });
+
+    it("hides dotfiles by default and shows them with -a", async () => {
+      await fs.promises.writeFile("/a.txt", "a");
+      await fs.promises.mkdir("/.git");
+      const plain = await fsCommands.ls([], ctx);
+      expect(plain.output).not.toContain(".git");
+      const withA = await fsCommands.ls(["-a"], ctx);
+      expect(withA.output).toContain(".git");
+      expect(withA.output).toContain("a.txt");
+    });
+
+    it("prints a long format with -l (type, size, name)", async () => {
+      await fs.promises.writeFile("/hello.txt", "hello");
+      await fs.promises.mkdir("/docs");
+      const result = await fsCommands.ls(["-l"], ctx);
+      expect(result.output).toContain("d      0  docs");
+      expect(result.output).toContain("-      5  hello.txt");
+    });
+
+    it("treats -al and -la identically", async () => {
+      await fs.promises.mkdir("/.git");
+      await fs.promises.writeFile("/x.txt", "x");
+      const al = await fsCommands.ls(["-al"], ctx);
+      const la = await fsCommands.ls(["-la"], ctx);
+      expect(al.output).toBe(la.output);
+      expect(al.output).toContain(".git");
+    });
+
+    it("combines flags with a path argument", async () => {
+      await fs.promises.mkdir("/docs");
+      await fs.promises.writeFile("/docs/.hidden", "h");
+      await fs.promises.writeFile("/docs/note.md", "n");
+      const result = await fsCommands.ls(["-a", "docs"], ctx);
+      expect(result.output).toContain(".hidden");
+      expect(result.output).toContain("note.md");
+    });
+
+    it("rejects unknown flags with a friendly error", async () => {
+      const result = await fsCommands.ls(["-z"], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.output).toContain("invalid option");
+      expect(result.output).toContain("-a");
+    });
   });
 
   describe("cat", () => {
@@ -74,6 +117,41 @@ describe("fs commands", () => {
       const result = await fsCommands.help([], ctx);
       expect(result.output).toContain("ls");
       expect(result.output).toContain("git");
+      expect(result.output).toContain("edit");
+    });
+  });
+
+  describe("edit", () => {
+    it("returns the file content as an edit payload", async () => {
+      await fs.promises.writeFile("/note.txt", "hello");
+      const result = await fsCommands.edit(["note.txt"], ctx);
+      expect(result.edit).toEqual({ path: "/note.txt", content: "hello" });
+      expect(result.isError).toBeUndefined();
+    });
+
+    it("opens an empty editor for a missing file (created on save)", async () => {
+      const result = await fsCommands.edit(["new.txt"], ctx);
+      expect(result.edit).toEqual({ path: "/new.txt", content: "" });
+    });
+
+    it("resolves paths relative to cwd", async () => {
+      await fs.promises.mkdir("/docs");
+      await fs.promises.writeFile("/docs/a.txt", "x");
+      const result = await fsCommands.edit(["a.txt"], { ...ctx, cwd: "/docs" });
+      expect(result.edit).toEqual({ path: "/docs/a.txt", content: "x" });
+    });
+
+    it("errors without a file operand", async () => {
+      const result = await fsCommands.edit([], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.edit).toBeUndefined();
+    });
+
+    it("errors on a directory", async () => {
+      await fs.promises.mkdir("/somedir");
+      const result = await fsCommands.edit(["somedir"], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.output).toContain("Is a directory");
     });
   });
 });

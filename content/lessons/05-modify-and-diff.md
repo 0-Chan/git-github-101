@@ -5,15 +5,15 @@ order: 5
 hasTerminal: true
 steps:
   - id: modify-file
-    instruction: "hello.txt 파일에 내용을 추가하세요"
-    hint: 'echo "안녕하세요, Git!" > hello.txt'
+    instruction: "hello.txt를 열어 내용을 Hello, Git! 으로 바꿔보세요"
+    hint: "edit hello.txt"
     validation:
       type: file-content
       path: /hello.txt
-      contains: "안녕하세요"
+      contains: "Hello, Git"
   - id: commit-changes
     instruction: "변경사항을 스테이징하고 커밋하세요"
-    hint: 'git add hello.txt && git commit -m "hello.txt 내용 추가"'
+    hint: 'git add hello.txt && git commit -m "update hello.txt"'
     validation:
       type: commit-count
       min: 2
@@ -23,13 +23,17 @@ steps:
 
 이전 레슨에서 만든 `hello.txt` 파일에 내용을 추가하고, 변경사항을 Git으로 확인해보겠습니다.
 
-## 파일 내용 추가하기
+## 파일 수정하기
 
-다음 명령어로 `hello.txt` 파일에 텍스트를 추가하세요:
+`edit` 명령어로 파일을 에디터에서 열 수 있습니다:
 
 ```bash
-echo "안녕하세요, Git!" > hello.txt
+edit hello.txt
 ```
+
+에디터가 열리면 기존 내용(`Hello, World!`)을 지우고 `Hello, Git!`으로 바꾼 뒤 **저장** 버튼을 누르세요. 평소 쓰던 메모장처럼 자유롭게 수정하면 됩니다.
+
+> **참고**: 개발자들은 `echo "Hello, Git!" > hello.txt`처럼 한 줄로 파일을 덮어쓰기도 합니다. 결과는 같습니다.
 
 ## git diff로 변경사항 비교하기
 
@@ -60,7 +64,7 @@ git diff --staged
 이제 커밋을 만들어보세요:
 
 ```bash
-git commit -m "hello.txt 내용 추가"
+git commit -m "update hello.txt"
 ```
 
 ## git status로 현재 상태 파악하기

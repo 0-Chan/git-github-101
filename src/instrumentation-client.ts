@@ -1,0 +1,43 @@
+import posthog from "posthog-js";
+
+// Vercel PostHog 통합이 Preview/Production에만 토큰을 주입한다 —
+// 로컬 dev는 토큰이 없어 전체가 no-op이고, 개발 트래픽이 섞이지 않는다.
+const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+
+// Vercel 통합이 주입하는 호스트는 앱 도메인(us.posthog.com)이라 그대로 쓰면
+// 이벤트가 전송되지 않는다 — 인제스트 도메인(us.i.posthog.com)으로 정규화한다.
+const apiHost = (process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com").replace(
+  /\/\/(us|eu)\.posthog\.com/,
+  "//$1.i.posthog.com",
+);
+
+function initPostHog() {
+  if (!token) return;
+  try {
+    posthog.init(token, {
+      api_host: apiHost,
+      // 프리셋이 SPA history 전환 페이지뷰 캡처를 포함한다
+      defaults: "2026-05-30",
+      // 교실 신뢰 모델: 입력을 마스킹 없이 그대로 본다. 터미널은 WebGL
+      // 캔버스로 렌더링되므로 캔버스 녹화(주기 스냅샷, 기본 4fps)를 켠다 —
+      // resolutionScale은 리플레이 바이트 절감용.
+      session_recording: {
+        maskAllInputs: false,
+        captureCanvas: { recordCanvas: true },
+        canvasCapture: { resolutionScale: 0.6 },
+      },
+    });
+  } catch (err) {
+    console.warn("PostHog 초기화 실패:", err);
+  }
+}
+
+// instrumentation-client는 DOMContentLoaded 이후·readyState "interactive"
+// 시점에 실행될 수 있는데, posthog-js는 그 틈에 init되면 이미 지나간
+// DOMContentLoaded를 기다리며 모든 전송을 큐에 무한 보류한다.
+// readyState "complete"가 보장되는 시점까지 init을 미룬다.
+if (document.readyState === "complete") {
+  initPostHog();
+} else {
+  window.addEventListener("load", initPostHog, { once: true });
+}
