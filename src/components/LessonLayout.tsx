@@ -191,7 +191,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
                 onClick={handleReset}
                 className="ml-auto shrink-0 text-sm px-3 py-1.5 rounded-lg border border-edge hover:bg-ground transition-colors"
               >
-                리셋
+                터미널 리셋
               </button>
             </div>
           </div>
