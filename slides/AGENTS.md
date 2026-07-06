@@ -17,7 +17,9 @@
 - **덱은 회차별 멀티 엔트리다**: `session-1.md` ~ `session-4.md` (4회차 과정, `docs/course-structure.md` 참조).
   `components/`·`style.css`·`global-bottom.vue`·`public/` 에셋은 모든 엔트리가 공유한다.
 - **`public/`은 회차별 폴더로 관리한다**: 특정 회차 전용 이미지는 `public/s{N}/`에,
-  전 덱 공유 에셋(배경, favicon, Git 로고)은 루트에 둔다.
+  전 덱 공유 에셋(favicon, Git 로고)은 루트에 둔다.
+- **배경은 회차별이다**: `public/s{N}/background-s{N}.png`를 각 엔트리 headmatter의
+  `deckBackground` 키로 지정하면 `global-bottom.vue`가 읽어 깐다.
   headmatter는 엔트리마다 복제되어 있으니 공통 설정을 바꿀 때는 4개 파일을 모두 수정한다.
 - 빌드 산출물은 `dist/`가 아니라 `../public/slides/s{N}`로 나간다 (gitignore됨, 커밋 금지).
   base는 `--base /slides/s{N}/` — 둘 다 `package.json` build script에 이미 인코딩돼 있으니 바꾸지 않는다.

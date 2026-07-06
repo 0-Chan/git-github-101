@@ -5,6 +5,7 @@ info: 브라우저에서 배우는 Git & GitHub 입문 강의 슬라이드 (2회
 routerMode: hash
 colorSchema: dark
 canvasWidth: 740
+deckBackground: s2/background-s2.png
 favicon: /favicon.ico
 fonts:
   sans: IBM Plex Sans KR
