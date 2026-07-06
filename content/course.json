@@ -4,7 +4,7 @@
     {
       "id": "s1",
       "order": 1,
-      "title": "Git 기초: 커밋이라는 세이브 포인트",
+      "title": "Git 기초와 커밋",
       "goal": "로컬 저장소에서 커밋·브랜치·머지를 스스로 수행할 수 있다",
       "periods": [
         { "order": 1, "title": "OT · 오프닝", "durationMin": 45 },
@@ -47,7 +47,7 @@
     {
       "id": "s2",
       "order": 2,
-      "title": "실전 GitHub: fork에서 PR까지",
+      "title": "브랜치와 GitHub 첫 PR",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },
@@ -62,7 +62,7 @@
     {
       "id": "s3",
       "order": 3,
-      "title": "심화: 협업 워크플로우 (후보)",
+      "title": "GitHub Actions 자동화",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },
@@ -77,7 +77,7 @@
     {
       "id": "s4",
       "order": 4,
-      "title": "미정: 되돌리기·협업 시나리오 (후보)",
+      "title": "코드 리뷰와 협업",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },
