@@ -60,9 +60,9 @@ abc1234 (HEAD -> main) my first commit
 git log --oneline --graph --all
 ```
 
-## git log 종료하기
+## 참고: 실제 git의 페이저(pager)
 
-`git log`를 실행하면 터미널이 페이저(pager) 모드로 진입합니다. 종료하려면 키보드에서 `q`를 누르세요.
+이 튜토리얼 터미널은 로그를 한 번에 출력하지만, 실제 git에서는 `git log` 실행 시 페이저(pager) 모드로 진입합니다. 그때는 방향키로 스크롤하고 `q`를 눌러 종료하면 됩니다.
 
 ---
 

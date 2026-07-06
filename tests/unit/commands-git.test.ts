@@ -158,7 +158,7 @@ describe("git commands", () => {
       // Switch back to main and merge
       await git.checkout({ fs, dir: "/", ref: "main" });
       const result = await gitCommands.merge(["feature"], ctx);
-      expect(result.output).toContain("feature");
+      expect(result.output).toMatch(/^Updating [0-9a-f]{7}\.\.[0-9a-f]{7}\nFast-forward$/);
     });
 
     it("with conflict — sets pendingMerge, output contains CONFLICT", async () => {

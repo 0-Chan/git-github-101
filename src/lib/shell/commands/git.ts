@@ -64,7 +64,7 @@ export const gitCommands: Record<string, GitSubcommand> = {
       await git.init({ fs, dir, defaultBranch: "main" });
       await git.setConfig({ fs, dir, path: "user.name", value: "Learner" });
       await git.setConfig({ fs, dir, path: "user.email", value: "learner@git101.dev" });
-      return { output: "Initialized empty Git repository" };
+      return { output: `Initialized empty Git repository in ${dir === "/" ? "" : dir}/.git/` };
     } catch (err) {
       return errorResult(err, "git init은 새로운 저장소를 만드는 명령어입니다.");
     }
@@ -357,6 +357,7 @@ export const gitCommands: Record<string, GitSubcommand> = {
       const email = (await git.getConfig({ fs, dir, path: "user.email" })) || "learner@git101.dev";
       const author = { name, email };
       const ours = (await git.currentBranch({ fs, dir })) || "main";
+      const beforeOid = await git.resolveRef({ fs, dir, ref: "HEAD" });
 
       try {
         const mergeResult = await git.merge({
@@ -376,7 +377,12 @@ export const gitCommands: Record<string, GitSubcommand> = {
         // Fast-forward or clean merge succeeded
         // Checkout the merged tree
         await git.checkout({ fs, dir, ref: ours });
-        return { output: `Merge made: '${theirs}' into '${ours}'` };
+
+        if (mergeResult.fastForward) {
+          const afterOid = await git.resolveRef({ fs, dir, ref: "HEAD" });
+          return { output: `Updating ${beforeOid.slice(0, 7)}..${afterOid.slice(0, 7)}\nFast-forward` };
+        }
+        return { output: "Merge made by the 'ort' strategy." };
       } catch (_mergeErr: any) {
         // Merge conflict - isomorphic-git throws on conflicts
         const theirsOid = await git.resolveRef({ fs, dir, ref: theirs });
