@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "@xterm/xterm/css/xterm.css";
 import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
+import { renderLine, rowOf } from "@/lib/shell/interactive/render";
 import { Shell } from "@/lib/shell/Shell";
 import { runValidation } from "@/lib/validation";
 import type { LessonStep } from "@/types";
@@ -54,11 +55,15 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     onReadyRef.current = onReady;
   }, [onReady]);
 
+  // 현재 입력 블록에서 커서가 위치한 행 (soft-wrap 리페인트용)
+  const prevCursorRowRef = useRef(0);
+
   const writePrompt = useCallback(() => {
     const shell = shellRef.current;
     const terminal = terminalRef.current;
     if (!shell || !terminal) return;
     terminal.write(`\r\n${shell.prompt}`);
+    prevCursorRowRef.current = 0;
   }, []);
 
   useEffect(() => {
@@ -129,11 +134,27 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
       onReadyRef.current(shell);
     });
 
+    // 프롬프트 + 컬러 입력(+ ghost) 한 블록을 통째로 다시 그린다.
+    // WebGL 렌더러라 키 입력마다 리페인트해도 비용이 없다.
+    const paint = (ghost = "") => {
+      const { data, cursorRow } = renderLine({
+        prompt: shell.prompt,
+        input: inputRef.current,
+        ghost,
+        cols: terminal.cols,
+        prevCursorRow: prevCursorRowRef.current,
+      });
+      terminal.write(data);
+      prevCursorRowRef.current = cursorRow;
+    };
+
     terminal.onKey(async ({ key, domEvent }) => {
       if (domEvent.key === "Enter") {
+        paint(""); // 스크롤백에 ghost 잔상이 남지 않도록 최종 줄을 확정
+        terminal.write("\r\n");
+        prevCursorRowRef.current = 0;
         const input = inputRef.current.trim();
         inputRef.current = "";
-        terminal.write("\r\n");
 
         if (input) {
           const result = await shell.execute(input);
@@ -163,15 +184,25 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
       } else if (domEvent.key === "Backspace") {
         if (inputRef.current.length > 0) {
           inputRef.current = inputRef.current.slice(0, -1);
-          terminal.write("\b \b");
+          paint();
         }
+      } else if (domEvent.key === "Tab") {
+        // 리터럴 \t 유입 방지 (key="\t"는 length 1이라 아래 분기로 새어 들어간다)
+        domEvent.preventDefault();
       } else if (key.length === 1 && !domEvent.ctrlKey && !domEvent.altKey) {
         inputRef.current += key;
-        terminal.write(key);
+        paint();
       }
     });
 
-    const resizeObserver = new ResizeObserver(() => fitAddon.fit());
+    const resizeObserver = new ResizeObserver(() => {
+      fitAddon.fit();
+      // 리플로우 후 행 수가 달라질 수 있으니 재계산 후 다시 그린다
+      if (inputRef.current.length > 0) {
+        prevCursorRowRef.current = rowOf(shell.prompt.length + inputRef.current.length, terminal.cols);
+        paint();
+      }
+    });
     resizeObserver.observe(termRef.current);
 
     return () => {
