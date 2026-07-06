@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { READY_SESSIONS } from "@/lib/course";
 import type { Session } from "@/types";
 
 interface SessionMenuProps {
@@ -51,18 +52,28 @@ export function SessionMenu({ sessions }: SessionMenuProps) {
           >
             전체 회차 보기
           </Link>
-          {sessions.map((session) => (
-            <Link
-              key={session.id}
-              href={`/course/${session.id}`}
-              onClick={() => setOpen(false)}
-              className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-surface ${
-                current?.id === session.id ? "text-lane-main" : "text-ink"
-              }`}
-            >
-              <span className="font-mono text-xs">{session.order}회차</span> {session.title}
-            </Link>
-          ))}
+          {sessions.map((session) =>
+            READY_SESSIONS.has(session.id) ? (
+              <Link
+                key={session.id}
+                href={`/course/${session.id}`}
+                onClick={() => setOpen(false)}
+                className={`block rounded-md px-3 py-2 text-sm transition-colors hover:bg-surface ${
+                  current?.id === session.id ? "text-lane-main" : "text-ink"
+                }`}
+              >
+                <span className="font-mono text-xs">{session.order}회차</span> {session.title}
+              </Link>
+            ) : (
+              <span
+                key={session.id}
+                aria-disabled="true"
+                className="block rounded-md px-3 py-2 text-sm text-muted opacity-50 cursor-not-allowed"
+              >
+                <span className="font-mono text-xs">{session.order}회차</span> {session.title} (오픈 전)
+              </span>
+            ),
+          )}
         </nav>
       )}
     </div>
