@@ -150,7 +150,8 @@ $ git init
 <div class="grid grid-cols-2 gap-4">
 
 <div v-click class="rounded-lg border border-gray-400/30 p-4">
-<div class="font-bold pb-2">중앙집중식</div>
+<div class="font-bold">중앙집중식</div>
+<div class="text-xs opacity-70 pb-2">SVN(서브버전) · CVS</div>
 <div class="text-2xl pb-2">💻 💻 💻 → 🏢</div>
 <div class="text-sm opacity-80">이력은 서버 한 곳에만 있습니다.<br>서버가 죽으면 이력도 끝입니다.</div>
 </div>
@@ -170,7 +171,7 @@ $ git init
 <!--
 리누스가 심은 그 설계가 바로 이겁니다. Git은 분산 버전 관리 시스템입니다.
 
-[click] 옛날 방식의 버전 관리는 중앙집중식이었습니다. 모든 이력이 중앙 서버 한 곳에만 있고, 각자의 컴퓨터에는 지금 작업하는 파일만 있었죠. 서버가 죽으면? 이력이 통째로 사라집니다.
+[click] 옛날 방식의 버전 관리는 중앙집중식이었습니다. 대표가 SVN, 우리말로 서브버전이라고 부르는 도구와 그 이전의 CVS입니다. 아까 리누스가 싫어했다던 바로 그 도구들이죠. 모든 이력이 중앙 서버 한 곳에만 있고, 각자의 컴퓨터에는 지금 작업하는 파일만 있습니다. 서버가 죽으면? 이력이 통째로 사라집니다. 참고로 SVN은 지금도 쓰는 회사가 있어서, 언젠가 이 이름을 만날 수 있습니다.
 
 [click] Git은 다릅니다. 저장소를 clone하는 순간, 여러분 컴퓨터에는 최신 파일만 오는 게 아니라 첫 커밋부터 지금까지의 이력 전체가 통째로 복사됩니다. 팀원이 다섯이면 완전한 사본이 다섯 개인 셈입니다.
 
