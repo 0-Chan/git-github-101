@@ -1,7 +1,7 @@
 ---
 theme: default
-title: Git & GitHub 101
-info: 브라우저에서 배우는 Git & GitHub 입문 강의 슬라이드
+title: Git & GitHub 101 (1회차)
+info: 브라우저에서 배우는 Git & GitHub 입문 강의 슬라이드 (1회차)
 routerMode: hash
 colorSchema: dark
 canvasWidth: 740

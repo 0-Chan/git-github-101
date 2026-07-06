@@ -14,13 +14,17 @@
 이 디렉터리는 독립 프로젝트가 아니라 **git-github-101 저장소의 pnpm 워크스페이스 서브패키지**다.
 아래 사실이 이 문서의 일반 지침(GitHub Pages, `dist/` 등)과 충돌하면 아래가 우선한다.
 
-- 빌드 산출물은 `dist/`가 아니라 `../public/slides`로 나간다 (gitignore됨, 커밋 금지).
-  base는 `--base /slides/` — 둘 다 `package.json` build script에 이미 인코딩돼 있으니 바꾸지 않는다.
+- **덱은 회차별 멀티 엔트리다**: `session-1.md` ~ `session-4.md` (4회차 과정, `docs/course-structure.md` 참조).
+  `components/`·`style.css`·`global-bottom.vue`·`public/` 에셋은 모든 엔트리가 공유한다.
+  headmatter는 엔트리마다 복제되어 있으니 공통 설정을 바꿀 때는 4개 파일을 모두 수정한다.
+- 빌드 산출물은 `dist/`가 아니라 `../public/slides/s{N}`로 나간다 (gitignore됨, 커밋 금지).
+  base는 `--base /slides/s{N}/` — 둘 다 `package.json` build script에 이미 인코딩돼 있으니 바꾸지 않는다.
 - 배포는 GitHub Pages가 아니라 **Vercel 단일 프로젝트**: 루트 `pnpm build`가
-  `slides build → next build`를 체인 실행하고, Next rewrite(`/slides` → `/slides/index.html`)로 서빙된다.
-- `slides.md` headmatter의 `routerMode: hash`는 필수다. 정적 서빙에 SPA 폴백이 없어
+  `slides build(엔트리 4개) → next build`를 체인 실행하고, Next rewrite(`/slides/:deck` → `/slides/:deck/index.html`)로
+  서빙된다. `/slides`는 `/slides/s1`로 redirect된다.
+- 각 엔트리 headmatter의 `routerMode: hash`는 필수다. 정적 서빙에 SPA 폴백이 없어
   history 모드로 바꾸면 딥링크가 404 난다.
-- 개발 서버는 루트에서 `pnpm dev:slides` (또는 여기서 `pnpm dev`).
+- 개발 서버는 루트에서 `pnpm dev:slides`(1회차), 다른 회차는 여기서 `pnpm dev:s2`~`dev:s4`.
 - 덱의 시각 토큰(IBM Plex, lane 팔레트 amber/violet)은 웹 앱(`src/app/globals.css`)과 일치시킨다.
 
 ## Mission

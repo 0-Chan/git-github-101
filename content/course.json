@@ -19,7 +19,7 @@
           "type": "lecture",
           "id": "s1-lecture-opening",
           "title": "오프닝 덱 — Git이 있기 전의 세계",
-          "deck": "/slides"
+          "deck": "/slides/s1"
         },
         { "type": "lesson", "id": "s1-l01", "slug": "what-is-git" },
         { "type": "lesson", "id": "s1-l02", "slug": "first-repo" },
