@@ -229,6 +229,183 @@ describe("git commands", () => {
     });
   });
 
+  describe("git log flags", () => {
+    const author = (timestamp: number) => ({
+      name: "Learner",
+      email: "learner@git101.dev",
+      timestamp,
+      timezoneOffset: 0,
+    });
+
+    async function seedLinear() {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await fs.promises.writeFile("/a.txt", "1");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      await git.commit({ fs, dir: "/", message: "first", author: author(100) });
+      await fs.promises.writeFile("/a.txt", "2");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      await git.commit({ fs, dir: "/", message: "second", author: author(200) });
+    }
+
+    async function seedDiverged() {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await fs.promises.writeFile("/base.txt", "base");
+      await git.add({ fs, dir: "/", filepath: "base.txt" });
+      await git.commit({ fs, dir: "/", message: "base", author: author(100) });
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await fs.promises.writeFile("/f.txt", "f");
+      await git.add({ fs, dir: "/", filepath: "f.txt" });
+      await git.commit({ fs, dir: "/", message: "feature work", author: author(200) });
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await fs.promises.writeFile("/m.txt", "m");
+      await git.add({ fs, dir: "/", filepath: "m.txt" });
+      await git.commit({ fs, dir: "/", message: "main work", author: author(300) });
+    }
+
+    it("--oneline prints short hash, decoration, and first message line", async () => {
+      await seedLinear();
+      const result = await gitCommands.log(["--oneline"], ctx);
+      const lines = result.output.split("\n");
+      expect(lines).toHaveLength(2);
+      expect(lines[0]).toMatch(/^[0-9a-f]{7} \(HEAD -> main\) second$/);
+      expect(lines[1]).toMatch(/^[0-9a-f]{7} first$/);
+    });
+
+    it("--graph draws a linear chain", async () => {
+      await seedLinear();
+      const result = await gitCommands.log(["--oneline", "--graph"], ctx);
+      const lines = result.output.split("\n");
+      expect(lines[0]).toMatch(/^\* [0-9a-f]{7} \(HEAD -> main\) second$/);
+      expect(lines[1]).toMatch(/^\* [0-9a-f]{7} first$/);
+    });
+
+    it("--all unions commits from every branch with decorations", async () => {
+      await seedDiverged();
+      const headOnly = await gitCommands.log(["--oneline"], ctx);
+      expect(headOnly.output).not.toContain("feature work");
+      const result = await gitCommands.log(["--oneline", "--all"], ctx);
+      expect(result.output).toContain("feature work");
+      expect(result.output).toContain("main work");
+      expect(result.output).toContain("(feature)");
+    });
+
+    it("--oneline --graph --all draws the diverged shape like real git", async () => {
+      await seedDiverged();
+      const result = await gitCommands.log(["--oneline", "--graph", "--all"], ctx);
+      const lines = result.output.split("\n");
+      expect(lines[0]).toMatch(/^\* [0-9a-f]{7} \(HEAD -> main\) main work$/);
+      expect(lines[1]).toMatch(/^\| \* [0-9a-f]{7} \(feature\) feature work$/);
+      expect(lines[2]).toBe("|/");
+      expect(lines[3]).toMatch(/^\* [0-9a-f]{7} base$/);
+    });
+
+    it("--graph draws the merge diamond after merging", async () => {
+      await seedDiverged();
+      const merged = await gitCommands.merge(["feature"], ctx);
+      expect(merged.isError).toBeUndefined();
+      const result = await gitCommands.log(["--oneline", "--graph"], ctx);
+      const lines = result.output.split("\n");
+      expect(lines[0]).toMatch(/^\* [0-9a-f]{7} \(HEAD -> main\) Merge/);
+      expect(lines[1]).toBe("|\\");
+      expect(lines[2]).toMatch(/^\* \| [0-9a-f]{7} main work$/);
+      expect(lines[3]).toMatch(/^\| \* [0-9a-f]{7} \(feature\) feature work$/);
+      expect(lines[4]).toBe("|/");
+      expect(lines[5]).toMatch(/^\* [0-9a-f]{7} base$/);
+    });
+
+    it("rejects unknown flags with a hint", async () => {
+      await seedLinear();
+      const result = await gitCommands.log(["--oneline-"], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.output).toContain("unrecognized argument");
+      expect(result.output).toContain("--oneline");
+    });
+  });
+
+  describe("git diff --staged", () => {
+    async function seedStaged() {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await fs.promises.writeFile("/a.txt", "hello");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      await git.commit({
+        fs,
+        dir: "/",
+        message: "init",
+        author: { name: "Learner", email: "learner@git101.dev", timestamp: 100, timezoneOffset: 0 },
+      });
+    }
+
+    it("shows staged modifications against HEAD", async () => {
+      await seedStaged();
+      await fs.promises.writeFile("/a.txt", "hello\nworld");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      const result = await gitCommands.diff(["--staged"], ctx);
+      expect(result.output).toContain("a.txt");
+      expect(result.output).toContain("+world");
+    });
+
+    it("is empty when nothing is staged", async () => {
+      await seedStaged();
+      await fs.promises.writeFile("/a.txt", "hello\nworld"); // 수정만, add 안 함
+      const result = await gitCommands.diff(["--staged"], ctx);
+      expect(result.output).toBe("");
+    });
+
+    it("accepts --cached as an alias", async () => {
+      await seedStaged();
+      await fs.promises.writeFile("/b.txt", "new");
+      await git.add({ fs, dir: "/", filepath: "b.txt" });
+      const result = await gitCommands.diff(["--cached"], ctx);
+      expect(result.output).toContain("b.txt");
+      expect(result.output).toContain("+new");
+    });
+  });
+
+  describe("git branch -d", () => {
+    it("deletes a non-current branch", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await fs.promises.writeFile("/a.txt", "a");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      await git.commit({
+        fs,
+        dir: "/",
+        message: "init",
+        author: { name: "Learner", email: "learner@git101.dev", timestamp: 100, timezoneOffset: 0 },
+      });
+      await git.branch({ fs, dir: "/", ref: "feature" });
+
+      const result = await gitCommands.branch(["-d", "feature"], ctx);
+      expect(result.output).toContain("Deleted branch feature");
+      expect(await git.listBranches({ fs, dir: "/" })).not.toContain("feature");
+    });
+
+    it("refuses to delete the current branch", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await fs.promises.writeFile("/a.txt", "a");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      await git.commit({
+        fs,
+        dir: "/",
+        message: "init",
+        author: { name: "Learner", email: "learner@git101.dev", timestamp: 100, timezoneOffset: 0 },
+      });
+      const result = await gitCommands.branch(["-d", "main"], ctx);
+      expect(result.isError).toBe(true);
+    });
+  });
+
+  describe("git remote -v", () => {
+    it("lists remotes with urls in fetch/push pairs", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.addRemote({ fs, dir: "/", remote: "origin", url: "https://github.com/user/repo.git" });
+      const result = await gitCommands.remote(["-v"], ctx);
+      expect(result.output).toBe(
+        "origin\thttps://github.com/user/repo.git (fetch)\norigin\thttps://github.com/user/repo.git (push)",
+      );
+    });
+  });
+
   describe("git push", () => {
     it("outputs simulation text", async () => {
       await git.init({ fs, dir: "/", defaultBranch: "main" });

@@ -49,7 +49,7 @@ git log --oneline
 ```
 
 ```
-abc1234 my first commit
+abc1234 (HEAD -> main) my first commit
 ```
 
 ## 그래프로 보기
