@@ -89,11 +89,11 @@ $ git init
 </template>
 <template #2>
 <div class="h-56 flex items-center justify-center"><img src="./public/toystory-3.png" class="max-h-full rounded-lg" alt="터미널 화면"></div>
-<div class="pt-3 text-center opacity-90">어느 날 누군가 서버에서 삭제 명령을 실행합니다: <span class="font-mono" style="color: var(--lane-main)">rm -rf *</span></div>
+<div class="pt-3 text-center opacity-90">누군가 서버에서 실수로 <span class="font-mono" style="color: var(--lane-main)">rm -rf *</span> (전체 삭제)를 실행합니다.</div>
 </template>
 <template #3>
 <div class="h-56 flex items-center justify-center"><img src="./public/toystory-4.png" class="max-h-full rounded-lg" alt="데이터 유실"></div>
-<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 몇 분 만에</span> 사라졌습니다. 백업은 한 달째 조용히 실패하는 중이었죠</div>
+<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 사라졌지만</span>, 안타깝게도 백업 시스템이 없었습니다.</div>
 </template>
 <template #4>
 <div class="h-56 flex items-center justify-center"><img src="./public/toystory-5.png" class="max-h-full rounded-lg" alt="Galyn Susman 인터뷰"></div>
