@@ -105,6 +105,47 @@ $ git init
 
 ---
 
+# Git 특징 1: 우아하게 버전 관리하기
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+파일을 늘리는 대신, 기록을 쌓습니다
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {git0: '#f5a524', gitBranchLabel0: '#ffffff', commitLabelFontSize: '13px'}}
+gitGraph
+  commit id: "발표자료 작성"
+  commit id: "피드백 반영"
+  commit id: "자료조사 보강"
+  commit id: "발표자 hotfix"
+  commit id: "최종 완성"
+```
+
+<div v-click class="pt-2">
+
+```text
+commit a1b2c3d (HEAD -> main)
+Author: 김발표 <presenter@example.com>
+Date:   Mon Jul 6 14:32:11 2026 +0900
+
+    자료조사 보강
+```
+
+</div>
+
+<div v-click class="pt-3 text-sm">
+파일 여섯 개 대신 이력 한 줄. <span style="color: var(--lane-main)">누가, 언제, 왜</span> 바꿨는지까지 남습니다
+</div>
+
+<!--
+아까 그 여섯 개의 파일, Git으로 관리하면 이렇게 됩니다. 파일은 발표자료.pptx 하나뿐이고, 수정·보강·hotfix의 각 시점이 이력 위의 점, 즉 커밋으로 남습니다.
+
+[click] 각 커밋에는 이런 정보가 자동으로 붙습니다. git log 명령으로 확인할 수 있는데, 누가(Author), 언제(Date), 무엇을 바꿨는지(메시지)가 전부 기록됩니다. "이 최종본 누가 언제 고친 거야?"라는 질문에 파일명을 뒤지는 대신 로그를 읽으면 됩니다.
+
+[click] 정리하면 이겁니다. 파일 여섯 개 대신 이력 한 줄. 파일명 짓기 고민이 커밋 메시지 한 줄로 바뀌는 거죠. 그런데 이 우아한 도구가 어떻게 태어났는지, 잠깐 역사를 보고 가겠습니다.
+-->
+
+---
+
 # Git은 이제 갓 스무 살입니다
 
 <div class="text-xl opacity-75 -mt-2 pb-4">
@@ -141,10 +182,10 @@ $ git init
 
 ---
 
-# Git은 분산 버전 관리 시스템입니다
+# Git 특징 2: 모두가 완전한 사본을 갖습니다
 
 <div class="text-xl opacity-75 -mt-2 pb-4">
-모두가 저장소의 완전한 사본을 갖습니다
+분산 버전 관리 시스템(DVCS)이라고 부릅니다
 </div>
 
 <div class="grid grid-cols-2 gap-4">
