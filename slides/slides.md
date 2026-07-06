@@ -441,7 +441,11 @@ git commit -m "첫 커밋" # 기록
 
 ---
 
-# 커밋은 단체사진, add는 무대에 올리는 일
+# 커밋은 단체사진입니다
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+add는 사진에 들어갈 파일을 무대에 올리는 일, commit은 셔터를 누르는 일
+</div>
 
 ```mermaid {scale: 0.8, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
 flowchart LR
