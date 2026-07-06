@@ -32,9 +32,9 @@ export function MarkReadButton({ done, onMarkRead, nextHref, nextTitle }: MarkRe
         <button
           type="button"
           onClick={onMarkRead}
-          className="rounded-lg bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-600"
+          className="ml-auto rounded-xl bg-orange-500 px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-orange-600"
         >
-          읽음 완료
+          읽음 완료 ✓
         </button>
       )}
     </div>
