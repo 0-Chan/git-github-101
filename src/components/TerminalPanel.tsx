@@ -8,7 +8,7 @@ import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
 import { HistoryNavigator, loadHistory, pushHistory, saveHistory } from "@/lib/shell/interactive/history";
 import { renderLine, rowOf } from "@/lib/shell/interactive/render";
-import { ghostSuggestion } from "@/lib/shell/interactive/suggest";
+import { complete, ghostSuggestion } from "@/lib/shell/interactive/suggest";
 import { Shell } from "@/lib/shell/Shell";
 import { runValidation } from "@/lib/validation";
 import type { LessonStep } from "@/types";
@@ -59,6 +59,8 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
 
   // 현재 입력 블록에서 커서가 위치한 행 (soft-wrap 리페인트용)
   const prevCursorRowRef = useRef(0);
+  // Tab 완성 비동기 처리 중 재진입 방지
+  const completingRef = useRef(false);
 
   const writePrompt = useCallback(() => {
     const shell = shellRef.current;
@@ -217,8 +219,27 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
           paint();
         }
       } else if (domEvent.key === "Tab") {
-        // 리터럴 \t 유입 방지 (key="\t"는 length 1이라 아래 분기로 새어 들어간다)
+        // 리터럴 \t 유입 방지 겸 완성 (key="\t"는 length 1이라 인쇄 분기로 샌다)
         domEvent.preventDefault();
+        if (completingRef.current) return; // 재진입 가드 (readdir 대기 중 연타)
+        completingRef.current = true;
+        const inputAtTab = inputRef.current;
+        try {
+          const result = await complete(inputAtTab, { fs: shell.getFS(), cwd: shell.cwd });
+          if (inputRef.current !== inputAtTab) return; // 대기 중 입력이 바뀌면 폐기
+          if (result.kind === "single" || result.kind === "prefix") {
+            inputRef.current += result.insert;
+            paint();
+          } else if (result.kind === "multiple") {
+            // 후보를 아래 줄에 나열하고 입력 블록을 새로 그린다
+            paint("");
+            terminal.write(`\r\n${result.candidates.join("  ")}\r\n`);
+            prevCursorRowRef.current = 0;
+            paint();
+          }
+        } finally {
+          completingRef.current = false;
+        }
       } else if (key.length === 1 && !domEvent.ctrlKey && !domEvent.altKey) {
         inputRef.current += key;
         paint();
