@@ -32,6 +32,46 @@ $ git init
 
 ---
 
+# 우리는 이미 버전 관리를 하고 있습니다
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+다만, 아주 고통스러운 방식으로
+</div>
+
+<div class="font-mono leading-loose">
+<v-clicks>
+
+<div>📄 기획안.pptx</div>
+<div>📄 기획안_수정.pptx</div>
+<div>📄 기획안_최종.pptx</div>
+<div>📄 기획안_최종_진짜최종.pptx</div>
+<div style="color: var(--lane-main)">📄 기획안_최종_진짜최종2_이걸로.pptx</div>
+
+</v-clicks>
+</div>
+
+<div v-click class="pt-6 text-lg">
+어느 게 진짜 최종일까요? <span style="color: var(--lane-main)">지난주 버전으로 돌아갈 수 있나요?</span>
+</div>
+
+<!--
+본격적으로 시작하기 전에, 장면 하나 보여드리겠습니다.
+
+[click] 기획안을 하나 씁니다.
+
+[click] 피드백을 받아서 수정본을 저장합니다.
+
+[click] 통과됐으니 이제 최종.
+
+[click] 아, 한 군데만 더 고치자고 하네요. 진짜 최종.
+
+[click] 그리고 대망의 "진짜최종2_이걸로". 다들 이런 폴더 하나쯤 있으시죠? 이게 바로 버전 관리입니다. 우리 모두 이미 하고 있어요.
+
+[click] 그런데 두 가지 질문에는 답하기 어렵습니다. 어느 게 진짜 최종인지, 그리고 지난주 버전으로 돌아갈 수 있는지. 이 두 질문에 제대로 답하게 해주는 도구가 오늘 배울 Git입니다.
+-->
+
+---
+
 # 버전 관리는 이제 기본기입니다
 
 <div class="text-xl opacity-75 -mt-2 pb-4">
@@ -47,7 +87,7 @@ $ git init
 </v-clicks>
 
 <!--
-먼저 버전 관리가 왜 기본기인지부터 이야기하겠습니다.
+방금 그 파일명 지옥에 이름을 붙이면 버전 관리 문제입니다. 왜 이게 기본기인지부터 짚고 가겠습니다.
 
 [click] 개발은 한 번에 끝나지 않습니다. 고치고, 확인하고, 다시 고치는 과정의 반복이죠.
 
