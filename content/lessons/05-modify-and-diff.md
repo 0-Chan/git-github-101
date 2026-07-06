@@ -6,14 +6,14 @@ hasTerminal: true
 steps:
   - id: modify-file
     instruction: "hello.txt 파일에 내용을 추가하세요"
-    hint: 'echo "안녕하세요, Git!" > hello.txt'
+    hint: 'echo "Hello, Git!" > hello.txt'
     validation:
       type: file-content
       path: /hello.txt
-      contains: "안녕하세요"
+      contains: "Hello, Git"
   - id: commit-changes
     instruction: "변경사항을 스테이징하고 커밋하세요"
-    hint: 'git add hello.txt && git commit -m "hello.txt 내용 추가"'
+    hint: 'git add hello.txt && git commit -m "update hello.txt"'
     validation:
       type: commit-count
       min: 2
@@ -28,7 +28,7 @@ steps:
 다음 명령어로 `hello.txt` 파일에 텍스트를 추가하세요:
 
 ```bash
-echo "안녕하세요, Git!" > hello.txt
+echo "Hello, Git!" > hello.txt
 ```
 
 ## git diff로 변경사항 비교하기
@@ -60,7 +60,7 @@ git diff --staged
 이제 커밋을 만들어보세요:
 
 ```bash
-git commit -m "hello.txt 내용 추가"
+git commit -m "update hello.txt"
 ```
 
 ## git status로 현재 상태 파악하기

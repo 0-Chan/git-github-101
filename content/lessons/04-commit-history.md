@@ -28,10 +28,10 @@ git log
 
 ```
 commit abc123def456... (HEAD -> main)
-Author: 홍길동 <hong@example.com>
+Author: Learner <learner@git101.dev>
 Date:   Mon Apr 7 10:00:00 2026 +0900
 
-    첫 번째 커밋
+    my first commit
 ```
 
 각 항목의 의미는 다음과 같습니다:
@@ -49,7 +49,7 @@ git log --oneline
 ```
 
 ```
-abc1234 첫 번째 커밋
+abc1234 my first commit
 ```
 
 ## 그래프로 보기

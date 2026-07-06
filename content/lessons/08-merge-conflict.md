@@ -6,7 +6,7 @@ hasTerminal: true
 steps:
   - id: resolve-conflict
     instruction: "greeting.txt 파일의 충돌 마커를 제거하고 내용을 정리하세요"
-    hint: 'echo "안녕하세요!" > greeting.txt'
+    hint: 'echo "Hello! Welcome! Nice to meet you!" > greeting.txt'
     validation:
       type: no-conflict-markers
       path: /greeting.txt
@@ -18,7 +18,7 @@ steps:
       path: greeting.txt
   - id: commit-merge
     instruction: "머지 커밋을 만드세요"
-    hint: 'git commit -m "충돌 해결: greeting.txt 병합"'
+    hint: 'git commit -m "merge: resolve greeting.txt conflict"'
     validation:
       type: commit-count
       min: 3
@@ -45,9 +45,9 @@ git merge feature
 
 ```
 <<<<<<< HEAD
-안녕하세요! (main 브랜치의 내용)
+Hello! Welcome! (main 브랜치의 내용)
 =======
-Hello! (feature 브랜치의 내용)
+Hi! Nice to meet you! (feature 브랜치의 내용)
 >>>>>>> feature
 ```
 
@@ -59,7 +59,7 @@ Hello! (feature 브랜치의 내용)
 충돌을 해결하려면 파일을 직접 편집해야 합니다. 충돌 마커(`<<<<<<<`, `=======`, `>>>>>>>`)를 모두 제거하고 원하는 내용만 남기세요:
 
 ```bash
-echo "안녕하세요!" > greeting.txt
+echo "Hello! Welcome! Nice to meet you!" > greeting.txt
 ```
 
 파일 내용을 확인해보세요:
@@ -74,7 +74,7 @@ cat greeting.txt
 
 ```bash
 git add greeting.txt
-git commit -m "충돌 해결: greeting.txt 병합"
+git commit -m "merge: resolve greeting.txt conflict"
 ```
 
 > **팁**: 충돌이 많을 때는 VS Code나 다른 에디터의 머지 도구를 활용하면 훨씬 편리합니다.
