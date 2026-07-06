@@ -440,6 +440,35 @@ git commit -m "첫 커밋" # 기록
 -->
 
 ---
+
+# 커밋은 단체사진, add는 무대에 올리는 일
+
+```mermaid {scale: 0.8, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}}
+flowchart LR
+  A["작업 디렉터리<br/><small>&nbsp;working directory · 대기실&nbsp;</small>"] -- "git add" --> B["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"] -- "git commit" --> C["저장소<br/><small>&nbsp;repository · 앨범&nbsp;</small>"]
+```
+
+<v-clicks>
+
+- 커밋은 **단체사진**입니다. 그 순간을 통째로 찍는 스냅샷이죠
+- `git add`는 사진에 들어갈 파일을 **무대에 올리는** 일입니다
+- 셔터를 누르면, 바꾼 것 전부가 아니라 **무대에 올린 것만** 찍힙니다
+
+</v-clicks>
+
+<!--
+방금 명령이 두 줄이었죠. add, 그리고 commit. 왜 굳이 두 단계일까요? 이 그림이 Git의 핵심 구조입니다. 파일은 작업 디렉터리에서 시작해서, 스테이징 영역을 거쳐, 저장소에 기록됩니다.
+
+[click] 커밋은 단체사진이라고 생각하세요. 그 순간의 모습을 통째로 찍는 스냅샷입니다.
+
+[click] git add는 사진에 들어갈 파일을 무대에 올리는 일입니다. 스테이징(staging)이라는 이름 그대로요. 아직 찍힌 게 아니라, 찍힐 준비를 시킨 겁니다.
+
+[click] 그리고 이게 스테이징 영역이 존재하는 이유인데, 셔터를 누르면 바꾼 것 전부가 아니라 무대에 올린 것만 찍힙니다. 오늘 한 작업이 뒤죽박죽 열 가지여도, 의미 있는 것만 골라 깔끔하게 기록할 수 있는 거죠.
+
+아까 자가진단 두 번째 항목이 바로 이 세 단어였습니다. 작업 디렉터리, 스테이징 영역, 저장소. 오늘 실습을 마치면 이 항목에 체크할 수 있게 됩니다.
+-->
+
+---
 layout: center
 ---
 
