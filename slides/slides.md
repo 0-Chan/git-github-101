@@ -452,7 +452,7 @@ flowchart LR
   subgraph proj["&nbsp;📁 내 프로젝트 폴더 = 작업 디렉터리 (working directory)&nbsp;"]
     direction LR
     W["작업 파일들<br/><small>&nbsp;대기실&nbsp;</small>"]
-    subgraph git["&nbsp;🔀 .git = 로컬 저장소 (local repository)&nbsp;"]
+    subgraph git["&nbsp;<img src='Git-Logo-White.svg' style='display:inline;height:15px;vertical-align:-2px' alt='Git'> .git = 로컬 저장소 (local repository)&nbsp;"]
       direction LR
       S["스테이징 영역<br/><small>&nbsp;staging area · 무대 위&nbsp;</small>"]
       R["커밋 히스토리<br/><small>&nbsp;repository · 앨범&nbsp;</small>"]
@@ -480,6 +480,8 @@ flowchart LR
 [click] 그리고 이게 스테이징 영역이 존재하는 이유인데, 셔터를 누르면 바꾼 것 전부가 아니라 무대에 올린 것만 찍힙니다. 오늘 한 작업이 뒤죽박죽 열 가지여도, 의미 있는 것만 골라 깔끔하게 기록할 수 있는 거죠.
 
 아까 자가진단 두 번째 항목이 바로 이 세 단어였습니다. 작업 디렉터리, 스테이징 영역, 저장소. 오늘 실습을 마치면 이 항목에 체크할 수 있게 됩니다.
+
+(Git 로고: Jason Long 作, CC BY 3.0)
 -->
 
 ---
