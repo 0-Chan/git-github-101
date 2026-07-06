@@ -4,10 +4,10 @@
     {
       "id": "s1",
       "order": 1,
-      "title": "Git 기초 — 커밋이라는 세이브 포인트",
+      "title": "Git 기초: 커밋이라는 세이브 포인트",
       "goal": "로컬 저장소에서 커밋·브랜치·머지를 스스로 수행할 수 있다",
       "periods": [
-        { "order": 1, "title": "OT — 오프닝", "durationMin": 45 },
+        { "order": 1, "title": "OT · 오프닝", "durationMin": 45 },
         { "order": 2, "title": "Git이란? · 첫 저장소", "durationMin": 45 },
         { "order": 3, "title": "첫 커밋과 히스토리", "durationMin": 45 },
         { "order": 4, "title": "수정과 비교(diff)", "durationMin": 45 },
@@ -18,7 +18,7 @@
         {
           "type": "lecture",
           "id": "s1-lecture-opening",
-          "title": "오프닝 덱 — Git이 있기 전의 세계",
+          "title": "오프닝 덱: Git이 있기 전의 세계",
           "deck": "/slides/s1"
         },
         { "type": "lesson", "id": "s1-l01", "slug": "what-is-git" },
@@ -47,7 +47,7 @@
     {
       "id": "s2",
       "order": 2,
-      "title": "실전 GitHub — fork에서 PR까지",
+      "title": "실전 GitHub: fork에서 PR까지",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },
@@ -62,7 +62,7 @@
     {
       "id": "s3",
       "order": 3,
-      "title": "심화 — 협업 워크플로우 (후보)",
+      "title": "심화: 협업 워크플로우 (후보)",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },
@@ -77,7 +77,7 @@
     {
       "id": "s4",
       "order": 4,
-      "title": "미정 — 되돌리기·협업 시나리오 (후보)",
+      "title": "미정: 되돌리기·협업 시나리오 (후보)",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },

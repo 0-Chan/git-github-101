@@ -12,7 +12,7 @@ export function MissionChecklist({ mission, status }: MissionChecklistProps) {
     <section className="rounded-xl border border-edge bg-surface p-5">
       <div className="flex items-baseline justify-between gap-2">
         <h3 className="font-mono text-sm text-muted">
-          미션 — {mission.title} {status.done && <span className="text-lane-main">✓</span>}
+          미션 · {mission.title} {status.done && <span className="text-lane-main">✓</span>}
         </h3>
         {mission.link && (
           <a
