@@ -7,25 +7,14 @@
       "title": "Git 기초 — 커밋이라는 세이브 포인트",
       "goal": "로컬 저장소에서 커밋·브랜치·머지를 스스로 수행할 수 있다",
       "periods": [
-        { "order": 1, "title": "OT — 체크인·자가진단·오프닝", "durationMin": 45 },
+        { "order": 1, "title": "OT — 오프닝", "durationMin": 45 },
         { "order": 2, "title": "Git이란? · 첫 저장소", "durationMin": 45 },
         { "order": 3, "title": "첫 커밋과 히스토리", "durationMin": 45 },
         { "order": 4, "title": "수정과 비교(diff)", "durationMin": 45 },
         { "order": 5, "title": "브랜치와 머지", "durationMin": 45 },
-        { "order": 6, "title": "충돌 해결 · 원격 맛보기 · 체크아웃", "durationMin": 45 }
+        { "order": 6, "title": "충돌 해결 · 원격 맛보기", "durationMin": 45 }
       ],
       "activities": [
-        { "type": "checkin", "id": "s1-checkin" },
-        {
-          "type": "survey",
-          "id": "s1-survey",
-          "items": [
-            { "id": "sv-basic", "label": "git init·add·commit·status로 단순한 버전 관리가 가능하다" },
-            { "id": "sv-areas", "label": "working directory, staging area, repository 개념을 알고 있다" },
-            { "id": "sv-branch", "label": "branch, merge, push, pull을 능숙하게 사용할 수 있다" },
-            { "id": "sv-collab", "label": "conflict 해결, rebase, pull request 협업 흐름을 이해하고 쓴다" }
-          ]
-        },
         {
           "type": "lecture",
           "id": "s1-lecture-opening",
@@ -52,8 +41,7 @@
             { "id": "gh-profile", "label": "프로필에 이름 설정하기" },
             { "id": "gh-star", "label": "강의 저장소에 Star 누르기" }
           ]
-        },
-        { "type": "checkout", "id": "s1-checkout" }
+        }
       ]
     },
     {
@@ -69,7 +57,7 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": [{ "type": "checkin", "id": "s2-checkin" }, { "type": "checkout", "id": "s2-checkout" }]
+      "activities": []
     },
     {
       "id": "s3",
@@ -84,7 +72,7 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": [{ "type": "checkin", "id": "s3-checkin" }, { "type": "checkout", "id": "s3-checkout" }]
+      "activities": []
     },
     {
       "id": "s4",
@@ -99,7 +87,7 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": [{ "type": "checkin", "id": "s4-checkin" }, { "type": "checkout", "id": "s4-checkout" }]
+      "activities": []
     }
   ]
 }

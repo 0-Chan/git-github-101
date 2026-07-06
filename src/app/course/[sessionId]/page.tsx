@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { ActivityList } from "@/components/ActivityList";
-import { ParticipantGate } from "@/components/ParticipantGate";
 import { getCourse, getSession } from "@/lib/course";
 import type { Period } from "@/types";
 
@@ -40,9 +39,7 @@ export default async function SessionPage({ params }: { params: Promise<{ sessio
       </header>
       <div className="space-y-4">
         <PeriodTable periods={session.periods} />
-        <ParticipantGate>
-          <ActivityList session={session} />
-        </ParticipantGate>
+        <ActivityList session={session} />
       </div>
     </main>
   );

@@ -15,12 +15,6 @@ export function Nav() {
         </Link>
         <div className="flex items-center gap-2">
           <SessionMenu sessions={sessions} />
-          <Link
-            href="/leaderboard"
-            className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"
-          >
-            리더보드
-          </Link>
           <DeckLink
             source="nav"
             className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"

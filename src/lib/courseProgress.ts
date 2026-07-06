@@ -1,12 +1,4 @@
-import type {
-  Activity,
-  ActivityStatus,
-  ActivityStatusMap,
-  Course,
-  LeaderboardRow,
-  Participant,
-  ProgressEvent,
-} from "@/types";
+import type { Activity, ActivityStatus, ActivityStatusMap, Course, ProgressEvent } from "@/types";
 import { findLessonActivity, findMissionActivity } from "./course";
 
 function initialStatus(activity: Activity): ActivityStatus {
@@ -35,9 +27,9 @@ function findSessionActivity(
 }
 
 /**
- * 이벤트 로그 → activity별 상태. 리더보드와 세션 페이지가 공유하는 유일한
- * 파생 뷰로, 별도 저장이 없다. 어떤 커리큘럼에도 매핑되지 않는 이벤트는
- * 조용히 무시한다 — course.json이 바뀌어도 과거 로그가 앱을 깨지 않는다.
+ * 이벤트 로그 → activity별 상태. 세션 페이지가 쓰는 파생 뷰로, 별도
+ * 저장이 없다. 어떤 커리큘럼에도 매핑되지 않는 이벤트는 조용히 무시한다
+ * — course.json이 바뀌어도 과거 로그가 앱을 깨지 않는다.
  */
 export function reduceEvents(course: Course, events: ProgressEvent[]): ActivityStatusMap {
   const map: ActivityStatusMap = {};
@@ -101,19 +93,4 @@ export function reduceEvents(course: Course, events: ProgressEvent[]): ActivityS
     }
   }
   return map;
-}
-
-/**
- * 리더보드 = 참가자별 reduce. Phase 1은 peers=[나] 한 명,
- * Phase 2는 SyncAdapter.subscribe가 남의 이벤트를 공급 — UI 무변경.
- */
-export function buildLeaderboard(
-  course: Course,
-  peers: { participant: Participant; events: ProgressEvent[] }[],
-): LeaderboardRow[] {
-  return peers.map(({ participant, events }) => ({
-    participant,
-    statuses: reduceEvents(course, events),
-    lastActivityAt: events.length > 0 ? Math.max(...events.map((e) => e.at)) : null,
-  }));
 }

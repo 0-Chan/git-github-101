@@ -43,17 +43,12 @@ describe("course.json shape", () => {
     expect(new Set(lessonSlugs).size).toBe(sectionsData.sections.length);
   });
 
-  it("survey exists only in s1 (OT에서 1회)", () => {
+  it("no questionnaire activities remain — 질문지·리더보드 제거 결정(2026-07-06)", () => {
     for (const session of course.sessions) {
-      const surveys = session.activities.filter((a) => a.type === "survey");
-      expect(surveys.length).toBe(session.id === "s1" ? 1 : 0);
-    }
-  });
-
-  it("every session has exactly one checkin and one checkout", () => {
-    for (const session of course.sessions) {
-      expect(session.activities.filter((a) => a.type === "checkin")).toHaveLength(1);
-      expect(session.activities.filter((a) => a.type === "checkout")).toHaveLength(1);
+      const kinds = session.activities.map((a) => a.type);
+      expect(kinds).not.toContain("checkin");
+      expect(kinds).not.toContain("checkout");
+      expect(kinds).not.toContain("survey");
     }
   });
 });

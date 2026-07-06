@@ -7,7 +7,6 @@ import { reduceEvents } from "@/lib/courseProgress";
 import { appendEvent } from "@/lib/events";
 import type { Activity, ActivityStatusMap, Session } from "@/types";
 import sectionsData from "../../content/sections.json";
-import { CheckinForm } from "./CheckinForm";
 import { DeckLink } from "./DeckLink";
 import { MissionChecklist } from "./MissionChecklist";
 
@@ -117,27 +116,6 @@ export function ActivityList({ session }: ActivityListProps) {
         const { activity } = group;
         const status = statuses[activity.id];
         switch (activity.type) {
-          case "checkin": {
-            // 자가진단 체크박스는 체크인 질문지에 병합해 함께 제출한다
-            const survey = session.activities.find((a) => a.type === "survey");
-            const surveyStatus = survey ? statuses[survey.id] : undefined;
-            return (
-              <CheckinForm
-                key={activity.id}
-                sessionId={session.id}
-                kind="checkin"
-                status={status?.type === "checkin" ? status : { type: "checkin", done: false }}
-                survey={survey}
-                surveyStatus={surveyStatus?.type === "survey" ? surveyStatus : undefined}
-              />
-            );
-          }
-          // 체크아웃은 임시 숨김 — course.json과 이벤트 스키마는 유지
-          case "checkout":
-            return null;
-          // 자가진단은 체크인 카드에 병합되어 별도 렌더링하지 않는다
-          case "survey":
-            return null;
           case "lecture":
             return <LectureCard key={activity.id} activity={activity} done={status?.done ?? false} />;
           case "mission":

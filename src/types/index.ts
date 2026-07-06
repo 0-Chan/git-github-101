@@ -157,9 +157,3 @@ export type ActivityStatus =
   | { type: "mission"; done: boolean; steps: Record<string, boolean>; at?: number };
 
 export type ActivityStatusMap = Record<string, ActivityStatus>;
-
-export interface LeaderboardRow {
-  participant: Participant;
-  statuses: ActivityStatusMap;
-  lastActivityAt: number | null;
-}
