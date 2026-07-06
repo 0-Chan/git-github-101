@@ -12,6 +12,7 @@ import { complete, ghostSuggestion } from "@/lib/shell/interactive/suggest";
 import { Shell } from "@/lib/shell/Shell";
 import { runValidation } from "@/lib/validation";
 import type { LessonStep } from "@/types";
+import { EditorOverlay } from "./EditorOverlay";
 
 interface TerminalPanelProps {
   namespace: string;
@@ -61,6 +62,10 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
   const prevCursorRowRef = useRef(0);
   // Tab 완성 비동기 처리 중 재진입 방지
   const completingRef = useRef(false);
+  // edit 명령이 연 에디터 (열림 중에는 프롬프트가 보류된다)
+  const [editing, setEditing] = useState<{ path: string; content: string } | null>(null);
+  // 에디터 저장 후 재사용할 스텝 검증 (마운트 effect 안에서 채워진다)
+  const validateCurrentStepRef = useRef<(() => Promise<void>) | null>(null);
 
   const writePrompt = useCallback(() => {
     const shell = shellRef.current;
@@ -157,6 +162,21 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
       prevCursorRowRef.current = cursorRow;
     };
 
+    // Run validation using refs to avoid stale closures.
+    // 에디터 저장 후에도 동일한 검증이 돌도록 ref로 노출한다.
+    const validateCurrentStep = async () => {
+      const stepIdx = currentStepRef.current;
+      if (stepIdx < stepsRef.current.length) {
+        const step = stepsRef.current[stepIdx];
+        const passed = await runValidation(step.validation, shell.getFS(), "/");
+        if (passed) {
+          emitLessonStep(namespace.replace(/^lesson-/, ""), step.id);
+          onStepCompleteRef.current(stepIdx);
+        }
+      }
+    };
+    validateCurrentStepRef.current = validateCurrentStep;
+
     terminal.onKey(async ({ key, domEvent }) => {
       if (domEvent.key === "Enter") {
         paint(""); // 스크롤백에 ghost 잔상이 남지 않도록 최종 줄을 확정
@@ -180,15 +200,12 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
             });
           }
 
-          // Run validation using refs to avoid stale closures
-          const stepIdx = currentStepRef.current;
-          if (stepIdx < stepsRef.current.length) {
-            const step = stepsRef.current[stepIdx];
-            const passed = await runValidation(step.validation, shell.getFS(), "/");
-            if (passed) {
-              emitLessonStep(namespace.replace(/^lesson-/, ""), step.id);
-              onStepCompleteRef.current(stepIdx);
-            }
+          await validateCurrentStep();
+
+          if (result.edit) {
+            // 에디터를 연다 — 프롬프트는 에디터가 닫힐 때 쓴다
+            setEditing(result.edit);
+            return;
           }
         }
 
@@ -276,7 +293,7 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
     // 스레드를 막는다 (프로덕션에서 명령당 수 초 지연). WebGL 렌더러일 때는
     // 캔버스 녹화가 담당하므로 제외하지 않는다.
     <div
-      className={`${gpuRenderer ? "" : "ph-no-capture "}flex flex-col h-full bg-zinc-900 rounded-xl border border-zinc-700 overflow-hidden`}
+      className={`${gpuRenderer ? "" : "ph-no-capture "}relative flex flex-col h-full bg-zinc-900 rounded-xl border border-zinc-700 overflow-hidden`}
     >
       <div className="flex items-center gap-2 px-4 py-2 bg-zinc-800 border-b border-zinc-700">
         <span className="w-3 h-3 rounded-full bg-red-500" />
@@ -285,6 +302,33 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         <span className="ml-2 text-xs text-zinc-400 font-mono">터미널</span>
       </div>
       <div ref={termRef} className="flex-1 p-2" />
+      {editing && (
+        <EditorOverlay
+          path={editing.path}
+          initialContent={editing.content}
+          onSave={async (content) => {
+            const shell = shellRef.current;
+            const terminal = terminalRef.current;
+            setEditing(null);
+            if (!shell || !terminal) return;
+            const fileName = editing.path.split("/").pop() || editing.path;
+            try {
+              await shell.getFS().promises.writeFile(editing.path, content);
+              terminal.write(`"${fileName}" 저장됨`);
+              await validateCurrentStepRef.current?.();
+            } catch {
+              terminal.write(`edit: "${fileName}" 저장 실패`);
+            }
+            writePrompt();
+            terminal.focus();
+          }}
+          onCancel={() => {
+            setEditing(null);
+            writePrompt();
+            terminalRef.current?.focus();
+          }}
+        />
+      )}
     </div>
   );
 }

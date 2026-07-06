@@ -5,8 +5,8 @@ order: 8
 hasTerminal: true
 steps:
   - id: resolve-conflict
-    instruction: "greeting.txt 파일의 충돌 마커를 제거하고 내용을 정리하세요"
-    hint: 'echo "Hello! Welcome! Nice to meet you!" > greeting.txt'
+    instruction: "greeting.txt를 열어 충돌 마커를 지우고 원하는 내용만 남기세요"
+    hint: "edit greeting.txt"
     validation:
       type: no-conflict-markers
       path: /greeting.txt
@@ -56,13 +56,15 @@ Hi! Nice to meet you! (feature 브랜치의 내용)
 
 ## 충돌 해결하기
 
-충돌을 해결하려면 파일을 직접 편집해야 합니다. 충돌 마커(`<<<<<<<`, `=======`, `>>>>>>>`)를 모두 제거하고 원하는 내용만 남기세요:
+충돌을 해결하려면 파일을 직접 편집해야 합니다. `edit` 명령어로 파일을 열어보세요:
 
 ```bash
-echo "Hello! Welcome! Nice to meet you!" > greeting.txt
+edit greeting.txt
 ```
 
-파일 내용을 확인해보세요:
+에디터에 충돌 마커가 포함된 내용이 그대로 보입니다. 마커 세 줄(`<<<<<<<`, `=======`, `>>>>>>>`)을 모두 지우고 남기고 싶은 내용만 남긴 뒤 **저장**하세요. 두 브랜치의 내용을 합쳐 `Hello! Welcome! Nice to meet you!`처럼 만들어도 좋습니다.
+
+저장 후 파일 내용을 확인해보세요:
 
 ```bash
 cat greeting.txt
@@ -77,7 +79,7 @@ git add greeting.txt
 git commit -m "merge: resolve greeting.txt conflict"
 ```
 
-> **팁**: 충돌이 많을 때는 VS Code나 다른 에디터의 머지 도구를 활용하면 훨씬 편리합니다.
+> **팁**: 실무에서 쓰는 VS Code 같은 에디터는 충돌 마커를 하이라이트하고 "Accept Current/Incoming" 버튼도 제공합니다. 원리는 방금 한 것과 같습니다 — 마커를 지우고 원하는 내용만 남기기.
 
 ---
 

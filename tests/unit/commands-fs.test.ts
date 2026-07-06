@@ -74,6 +74,41 @@ describe("fs commands", () => {
       const result = await fsCommands.help([], ctx);
       expect(result.output).toContain("ls");
       expect(result.output).toContain("git");
+      expect(result.output).toContain("edit");
+    });
+  });
+
+  describe("edit", () => {
+    it("returns the file content as an edit payload", async () => {
+      await fs.promises.writeFile("/note.txt", "hello");
+      const result = await fsCommands.edit(["note.txt"], ctx);
+      expect(result.edit).toEqual({ path: "/note.txt", content: "hello" });
+      expect(result.isError).toBeUndefined();
+    });
+
+    it("opens an empty editor for a missing file (created on save)", async () => {
+      const result = await fsCommands.edit(["new.txt"], ctx);
+      expect(result.edit).toEqual({ path: "/new.txt", content: "" });
+    });
+
+    it("resolves paths relative to cwd", async () => {
+      await fs.promises.mkdir("/docs");
+      await fs.promises.writeFile("/docs/a.txt", "x");
+      const result = await fsCommands.edit(["a.txt"], { ...ctx, cwd: "/docs" });
+      expect(result.edit).toEqual({ path: "/docs/a.txt", content: "x" });
+    });
+
+    it("errors without a file operand", async () => {
+      const result = await fsCommands.edit([], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.edit).toBeUndefined();
+    });
+
+    it("errors on a directory", async () => {
+      await fs.promises.mkdir("/somedir");
+      const result = await fsCommands.edit(["somedir"], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.output).toContain("Is a directory");
     });
   });
 });

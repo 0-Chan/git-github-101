@@ -11,6 +11,7 @@ export interface CommandResult {
   isError?: boolean;
   clear?: boolean;
   cwd?: string; // set by cd command to update shell cwd
+  edit?: { path: string; content: string }; // edit 명령 — 에디터 오버레이를 연다
 }
 
 export type CommandHandler = (args: string[], context: ShellContext) => Promise<CommandResult>;

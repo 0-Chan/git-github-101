@@ -46,6 +46,21 @@ export const fsCommands: Record<string, FsCommandHandler> = {
   echo: async (args) => {
     return { output: args.join(" ") };
   },
+  edit: async (args, ctx) => {
+    if (!args[0]) return { output: "edit: missing file operand\n사용법: edit <파일>", isError: true };
+    const filePath = resolvePath(ctx.cwd, args[0]);
+    try {
+      const stat = await ctx.fs.promises.stat(filePath);
+      if (stat.isDirectory()) {
+        return { output: `edit: ${args[0]}: Is a directory`, isError: true };
+      }
+      const content = await ctx.fs.promises.readFile(filePath, "utf8");
+      return { output: "", edit: { path: filePath, content } };
+    } catch {
+      // 없는 파일 — 빈 에디터를 열고 저장 시 생성한다
+      return { output: "", edit: { path: filePath, content: "" } };
+    }
+  },
   cd: async (args, ctx) => {
     if (!args[0] || args[0] === "~") return { output: "", cwd: "/" };
     const target = resolvePath(ctx.cwd, args[0]);
@@ -74,6 +89,7 @@ export const fsCommands: Record<string, FsCommandHandler> = {
       "  cat <파일>             파일 내용 출력",
       "  mkdir <디렉토리>       디렉토리 생성",
       "  touch <파일>           빈 파일 생성",
+      "  edit <파일>            에디터로 파일 열기/수정",
       '  echo "텍스트" > 파일   파일에 쓰기',
       '  echo "텍스트" >> 파일  파일에 추가',
       "  cd <디렉토리>          작업 디렉토리 변경",
