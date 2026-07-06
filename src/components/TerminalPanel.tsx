@@ -240,6 +240,13 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         } finally {
           completingRef.current = false;
         }
+      } else if (domEvent.ctrlKey && domEvent.key === "c") {
+        // 작성 중이던 줄을 버리고 새 프롬프트
+        paint("");
+        terminal.write("^C");
+        inputRef.current = "";
+        historyNav.reset();
+        writePrompt();
       } else if (key.length === 1 && !domEvent.ctrlKey && !domEvent.altKey) {
         inputRef.current += key;
         paint();
