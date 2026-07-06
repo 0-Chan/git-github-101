@@ -119,27 +119,27 @@ Git을 소개할 때 꼭 짚어야 할 특징이 하나 있습니다. Git은 분
 
 <v-switch>
 <template #0>
-<div class="h-56 flex items-center justify-center"><img src="./public/toystory-1.png" class="max-h-full rounded-lg" alt="Toy Story 2 포스터"></div>
+<div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-1.png" class="max-h-full rounded-lg" alt="Toy Story 2 포스터"></div>
 <div class="pt-3 text-center opacity-90">1998년, 개봉을 앞둔 Toy Story 2</div>
 </template>
 <template #1>
-<div class="h-56 flex items-center justify-center"><img src="./public/toystory-2.png" class="max-h-full rounded-lg" alt="픽사 스튜디오"></div>
+<div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-2.png" class="max-h-full rounded-lg" alt="픽사 스튜디오"></div>
 <div class="pt-3 text-center opacity-90">픽사가 2년째 만들던 영화였습니다</div>
 </template>
 <template #2>
-<div class="h-56 flex items-center justify-center"><img src="./public/toystory-3.png" class="max-h-full rounded-lg" alt="터미널 화면"></div>
+<div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-3.png" class="max-h-full rounded-lg" alt="터미널 화면"></div>
 <div class="pt-3 text-center opacity-90">누군가 서버에서 실수로 <span class="font-mono" style="color: var(--lane-main)">rm -rf *</span> (전체 삭제)를 실행합니다.</div>
 </template>
 <template #3>
-<div class="h-56 flex items-center justify-center"><img src="./public/toystory-4.png" class="max-h-full rounded-lg" alt="데이터 유실"></div>
+<div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-4.png" class="max-h-full rounded-lg" alt="데이터 유실"></div>
 <div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 사라졌지만</span>, 안타깝게도 백업 시스템이 없었습니다.</div>
 </template>
 <template #4>
-<div class="h-56 flex items-center justify-center"><img src="./public/toystory-5.png" class="max-h-full rounded-lg" alt="Galyn Susman 인터뷰"></div>
+<div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-5.png" class="max-h-full rounded-lg" alt="Galyn Susman 인터뷰"></div>
 <div class="pt-3 text-center opacity-90">영화를 구한 건 출산 후 재택근무 중이던 기술 감독 <span style="color: var(--lane-main)">Galyn Susman의 집 컴퓨터</span></div>
 </template>
 <template #5>
-<div class="h-56 flex items-center justify-center"><img src="./public/toystory-6.jpeg" class="max-h-full rounded-lg" alt="담요로 감싼 컴퓨터"></div>
+<div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-6.jpeg" class="max-h-full rounded-lg" alt="담요로 감싼 컴퓨터"></div>
 <div class="pt-3 text-center opacity-90">전체 사본이 담긴 그 컴퓨터를 담요에 싸서 운반해, 영화를 복구했습니다</div>
 </template>
 </v-switch>
