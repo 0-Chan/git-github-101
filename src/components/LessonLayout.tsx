@@ -1,17 +1,19 @@
 "use client";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { useProgress } from "@/hooks/useProgress";
 import { useTabLock } from "@/hooks/useTabLock";
 import { celebrate } from "@/lib/confetti";
 import { FIXTURE_VERSION_KEY } from "@/lib/fixtures";
+import { openNameDialog } from "@/lib/nameDialog";
 import { nextSection } from "@/lib/nextSection";
+import { getParticipant } from "@/lib/participant";
 import type { Shell } from "@/lib/shell/Shell";
 import { validateAllSteps } from "@/lib/validation";
 import type { LessonContent, Section } from "@/types";
 import { GuidePanel } from "./GuidePanel";
 import { MarkReadButton } from "./MarkReadButton";
+import { NextLessonButton } from "./NextLessonButton";
 import { Sidebar } from "./Sidebar";
 
 const TerminalPanel = dynamic(() => import("./TerminalPanel").then((m) => ({ default: m.TerminalPanel })), {
@@ -94,7 +96,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       <button
         type="button"
         onClick={() => setMobileMenuOpen(true)}
-        className="lg:hidden fixed bottom-4 left-4 z-40 p-3 bg-orange-500 text-white rounded-full shadow-lg"
+        className="lg:hidden fixed bottom-20 left-4 z-40 p-3 bg-orange-500 text-white rounded-full shadow-lg"
         aria-label="Open menu"
       >
         ☰
@@ -133,6 +135,8 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
             onMarkRead={() => {
               markComplete(lesson.meta.slug);
               celebrate();
+              // 완료는 즉시 처리하고, 이름이 없으면 입력을 유도한다
+              if (!getParticipant()) openNameDialog();
             }}
             nextHref={nextLesson ? `/lessons/${nextLesson.slug}` : undefined}
             nextTitle={nextLesson?.title}
@@ -157,14 +161,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
                   {currentStep === -1 ? (
                     <div className="flex min-w-0 flex-1 items-center justify-between gap-4">
                       <p className="truncate text-base font-medium text-ink">🎉 모든 단계 완료!</p>
-                      {nextLesson && (
-                        <Link
-                          href={`/lessons/${nextLesson.slug}`}
-                          className="shrink-0 flex items-center gap-1.5 rounded-lg bg-orange-500 px-4 py-2 text-base font-medium text-white transition-colors hover:bg-orange-600"
-                        >
-                          다음 레슨: {nextLesson.title} →
-                        </Link>
-                      )}
+                      {nextLesson && <NextLessonButton href={`/lessons/${nextLesson.slug}`} title={nextLesson.title} />}
                     </div>
                   ) : (
                     <>

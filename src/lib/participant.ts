@@ -31,6 +31,21 @@ export function createParticipant(name: string): Participant {
   return participant;
 }
 
+/** 이름만 갱신 — 기존 uuid를 보존해 이벤트 로그의 식별자 연속성을 지킨다. 없으면 생성. */
+export function setParticipantName(name: string): Participant {
+  const existing = getParticipant();
+  if (!existing) return createParticipant(name);
+  const updated: Participant = { id: existing.id, name: name.trim() };
+  cache = updated;
+  try {
+    localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(updated));
+  } catch (err) {
+    console.warn("git101-participant 저장 실패:", err);
+  }
+  window.dispatchEvent(new Event(CHANGE_EVENT));
+  return updated;
+}
+
 export function clearParticipant(): void {
   cache = undefined;
   localStorage.removeItem(PARTICIPANT_KEY);

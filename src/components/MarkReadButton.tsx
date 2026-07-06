@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { NextLessonButton } from "./NextLessonButton";
 
 interface MarkReadButtonProps {
   done: boolean;
@@ -19,14 +19,7 @@ export function MarkReadButton({ done, onMarkRead, nextHref, nextTitle }: MarkRe
           <p className="text-base font-medium text-muted">
             <span className="text-lane-main">✓</span> 읽기 완료된 레슨이에요.
           </p>
-          {nextHref && (
-            <Link
-              href={nextHref}
-              className="shrink-0 rounded-lg bg-orange-500 px-4 py-2 text-base font-medium text-white transition-colors hover:bg-orange-600"
-            >
-              다음 레슨: {nextTitle} →
-            </Link>
-          )}
+          {nextHref && <NextLessonButton href={nextHref} title={nextTitle ?? ""} />}
         </>
       ) : (
         <button

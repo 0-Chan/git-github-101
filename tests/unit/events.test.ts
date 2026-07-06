@@ -8,7 +8,7 @@ import {
   setSyncAdapter,
   subscribeEvents,
 } from "@/lib/events";
-import { clearParticipant, createParticipant, getParticipant } from "@/lib/participant";
+import { clearParticipant, createParticipant, getParticipant, setParticipantName } from "@/lib/participant";
 import type { ProgressEvent } from "@/types";
 
 const checkin: ProgressEvent = { kind: "checkin", sessionId: "s1", score: 7, reason: "기대돼요", at: 1000 };
@@ -129,5 +129,20 @@ describe("participant", () => {
     clearParticipant();
     localStorage.setItem("git101-participant", '{"id":123}');
     expect(getParticipant()).toBeNull();
+  });
+
+  it("setParticipantName preserves the uuid when renaming", () => {
+    const original = createParticipant("처음");
+    const renamed = setParticipantName("  바꾼이름 ");
+    expect(renamed.id).toBe(original.id);
+    expect(renamed.name).toBe("바꾼이름");
+    expect(getParticipant()).toEqual(renamed);
+  });
+
+  it("setParticipantName creates a participant when none exists", () => {
+    clearParticipant();
+    const created = setParticipantName("신규");
+    expect(created.id).toMatch(/^[0-9a-f-]{36}$/);
+    expect(getParticipant()?.name).toBe("신규");
   });
 });
