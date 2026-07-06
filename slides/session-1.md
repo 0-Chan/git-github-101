@@ -34,6 +34,34 @@ $ git init
 
 ---
 
+# Git이 어려운 건 여러분 탓이 아닙니다
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+그림 없이 명령어부터 외우면 누구나 헤맵니다
+</div>
+
+<v-clicks>
+
+- 대부분 이렇게 배웁니다: `add`, `commit`, `push`... **주문처럼 외우기**
+- 머릿속에 **그림(멘탈 모델)** 이 없으면, 왜 쓰는지도 무엇이 좋은지도 보이지 않습니다
+- 그래서 오늘은 명령어가 아니라 **그림부터** 그립니다
+
+</v-clicks>
+
+<!--
+시작하기 전에 하나 여쭤볼게요. Git을 배우다가 포기해본 분, 계시죠? 괜찮습니다. 여러분 잘못이 아니에요.
+
+[click] Git을 처음 배울 때 대부분 명령어부터 만납니다. add 치고, commit 치고, push 치고. 뜻도 모른 채 주문처럼 외우죠. 외운 대로 될 때는 괜찮은데, 조금만 벗어나면 바로 막힙니다.
+
+[click] 문제는 명령어가 아니라 그림입니다. 이 도구가 뒤에서 무슨 일을 하는지 대강 그려지는 그림, 멘탈 모델이 없으면 Git을 왜 쓰는지, 이게 가져다주는 진짜 장점과 매력이 뭔지 알 길이 없습니다. 그러니 어렵고 재미없게 느껴질 수밖에요.
+
+[click] 그래서 오늘 강의는 순서를 뒤집습니다. 명령어 암기가 아니라 그림부터 그립니다. 그림이 잡히면 명령어는 따라옵니다.
+
+첫 번째 그림을 그리러, 일단 Git이 없는 세상부터 보겠습니다.
+-->
+
+---
+
 # 우리는 이미 버전 관리를 하고 있습니다
 
 <div class="text-xl opacity-75 -mt-2 pb-4">
@@ -43,11 +71,12 @@ $ git init
 <div class="font-mono leading-loose">
 <v-clicks>
 
-<div>📄 기획안.pptx</div>
-<div>📄 기획안_수정.pptx</div>
-<div>📄 기획안_최종.pptx</div>
-<div>📄 기획안_최종_진짜최종.pptx</div>
-<div style="color: var(--lane-main)">📄 기획안_최종_진짜최종2_이걸로.pptx</div>
+<div>📄 발표자료.pptx</div>
+<div>📄 발표자료_수정.pptx</div>
+<div>📄 발표자료_자료조사보강.pptx</div>
+<div>📄 발표자료_최종.pptx</div>
+<div>📄 발표자료_최종_발표자_hotfix.pptx</div>
+<div style="color: var(--lane-main)">📄 발표자료_최종_진짜최종2_제발마지막.pptx</div>
 
 </v-clicks>
 </div>
@@ -59,17 +88,55 @@ $ git init
 <!--
 본격적으로 시작하기 전에, 장면 하나 보여드리겠습니다.
 
-[click] 기획안을 하나 씁니다.
+[click] 발표자료를 하나 만듭니다.
 
 [click] 피드백을 받아서 수정본을 저장합니다.
 
+[click] 자료조사가 부족하다고 해서 보강합니다.
+
 [click] 통과됐으니 이제 최종.
 
-[click] 아, 한 군데만 더 고치자고 하네요. 진짜 최종.
+[click] 그런데 발표 직전에 발표자가 급하게 몇 장을 고칩니다. hotfix죠.
 
-[click] 그리고 대망의 "진짜최종2_이걸로". 다들 이런 폴더 하나쯤 있으시죠? 이게 바로 버전 관리입니다. 우리 모두 이미 하고 있어요.
+[click] 그리고 대망의 "진짜최종2_제발마지막". 다들 이런 폴더 하나쯤 있으시죠? 이게 바로 버전 관리입니다. 우리 모두 이미 하고 있어요.
 
 [click] 그런데 두 가지 질문에는 답하기 어렵습니다. 어느 게 진짜 최종인지, 그리고 지난주 버전으로 돌아갈 수 있는지. 이 두 질문에 제대로 답하게 해주는 도구가 오늘 배울 Git입니다.
+-->
+
+---
+
+# Git은 이제 갓 스무 살입니다
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+리눅스를 만들다가 태어난 도구
+</div>
+
+<div class="grid grid-cols-2 gap-6 items-center">
+
+<img src="./public/s1/linus-with-git.jpeg" class="rounded-lg" alt="Git 20주년 아트워크와 리누스 토발즈">
+
+<div>
+<v-clicks>
+
+- **1991** 리누스 토발즈, 리눅스 시작. 전 세계 개발자의 패치를 이메일로 받아 손으로 합침
+- **2002** 상용 도구 **BitKeeper** 도입. 당시 대세는 CVS·SVN 같은 중앙 서버 방식
+- **2005** BitKeeper 무료 사용 종료. 리누스가 **2주 남짓 만에 Git 초판**을 직접 개발
+
+</v-clicks>
+</div>
+
+</div>
+
+<!--
+잠깐 역사 이야기를 하겠습니다. 사진의 주인공은 리누스 토발즈. 리눅스를 만든 사람이자, Git을 만든 사람입니다.
+
+[click] 1991년에 리눅스를 시작했는데, 규모가 커지면서 전 세계 수천 명이 보내는 수정본을 이메일로 받아 손으로 합치고 있었습니다. 방금 본 파일명 지옥의 초대형판이죠.
+
+[click] 2002년부터는 BitKeeper라는 상용 버전 관리 도구를 썼습니다. 당시 무료 도구는 CVS나 SVN 같은 중앙 서버 방식뿐이었는데, 리누스는 그 방식을 너무 싫어해서 상용 도구를 택했을 정도였어요.
+
+[click] 그런데 2005년, BitKeeper를 무료로 쓸 수 없게 됩니다. 리누스의 선택은 놀랍게도 직접 만들기였고, 2주 남짓 만에 Git의 첫 버전이 나왔습니다. 그게 2005년이니 Git은 이제 갓 스무 살, 생각보다 젊은 도구입니다. 그리고 리누스가 Git에 심은 가장 중요한 설계가 하나 있는데, 그게 다음 장입니다.
+
+이미지: GitHub의 Git 20주년 아트워크
 -->
 
 ---
@@ -83,7 +150,8 @@ $ git init
 <div class="grid grid-cols-2 gap-4">
 
 <div v-click class="rounded-lg border border-gray-400/30 p-4">
-<div class="font-bold pb-2">중앙집중식</div>
+<div class="font-bold">중앙집중식</div>
+<div class="text-xs opacity-70 pb-2">SVN(서브버전) · CVS</div>
 <div class="text-2xl pb-2">💻 💻 💻 → 🏢</div>
 <div class="text-sm opacity-80">이력은 서버 한 곳에만 있습니다.<br>서버가 죽으면 이력도 끝입니다.</div>
 </div>
@@ -101,9 +169,9 @@ $ git init
 </div>
 
 <!--
-Git을 소개할 때 꼭 짚어야 할 특징이 하나 있습니다. Git은 분산 버전 관리 시스템입니다.
+리누스가 심은 그 설계가 바로 이겁니다. Git은 분산 버전 관리 시스템입니다.
 
-[click] 옛날 방식의 버전 관리는 중앙집중식이었습니다. 모든 이력이 중앙 서버 한 곳에만 있고, 각자의 컴퓨터에는 지금 작업하는 파일만 있었죠. 서버가 죽으면? 이력이 통째로 사라집니다.
+[click] 옛날 방식의 버전 관리는 중앙집중식이었습니다. 대표가 SVN, 우리말로 서브버전이라고 부르는 도구와 그 이전의 CVS입니다. 아까 리누스가 싫어했다던 바로 그 도구들이죠. 모든 이력이 중앙 서버 한 곳에만 있고, 각자의 컴퓨터에는 지금 작업하는 파일만 있습니다. 서버가 죽으면? 이력이 통째로 사라집니다. 참고로 SVN은 지금도 쓰는 회사가 있어서, 언젠가 이 이름을 만날 수 있습니다.
 
 [click] Git은 다릅니다. 저장소를 clone하는 순간, 여러분 컴퓨터에는 최신 파일만 오는 게 아니라 첫 커밋부터 지금까지의 이력 전체가 통째로 복사됩니다. 팀원이 다섯이면 완전한 사본이 다섯 개인 셈입니다.
 
@@ -125,7 +193,7 @@ Git을 소개할 때 꼭 짚어야 할 특징이 하나 있습니다. Git은 분
 </template>
 <template #1>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-2.png" class="max-h-full rounded-lg" alt="픽사 스튜디오"></div>
-<div class="pt-3 text-center opacity-90">픽사가 2년째 만들던 영화였습니다</div>
+<div class="pt-3 text-center opacity-90">3D 애니메이션의 선두 주자 픽사, Toy Story 2 제작 2년차에 접어들 무렵이었습니다</div>
 </template>
 <template #2>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-3.png" class="max-h-full rounded-lg" alt="터미널 화면"></div>
@@ -133,15 +201,15 @@ Git을 소개할 때 꼭 짚어야 할 특징이 하나 있습니다. Git은 분
 </template>
 <template #3>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-4.png" class="max-h-full rounded-lg" alt="데이터 유실"></div>
-<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 사라졌지만</span>, 안타깝게도 백업 시스템이 없었습니다.</div>
+<div class="pt-3 text-center opacity-90">2년치 작업의 <span style="color: var(--lane-main)">90%가 사라졌지만</span>, 안타깝게도 백업 시스템은 정상이 아니었습니다.</div>
 </template>
 <template #4>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-5.png" class="max-h-full rounded-lg" alt="Galyn Susman 인터뷰"></div>
-<div class="pt-3 text-center opacity-90">영화를 구한 건 출산 후 재택근무 중이던 기술 감독 <span style="color: var(--lane-main)">Galyn Susman의 집 컴퓨터</span></div>
+<div class="pt-3 text-center opacity-90">중앙의 원본이 사라진 지금, 유일한 희망은 재택근무 중이던 기술 감독 <span style="color: var(--lane-main)">Galyn Susman의 집 컴퓨터</span></div>
 </template>
 <template #5>
 <div class="h-56 flex items-center justify-center"><img src="./public/s1/toystory-6.jpeg" class="max-h-full rounded-lg" alt="담요로 감싼 컴퓨터"></div>
-<div class="pt-3 text-center opacity-90">전체 사본이 담긴 그 컴퓨터를 담요에 싸서 운반해, 영화를 복구했습니다</div>
+<div class="pt-3 text-center opacity-90">우여곡절 끝에 사본을 담은 컴퓨터를 무사히 운반했고, 영화는 기간 내에 완성됐습니다</div>
 </template>
 </v-switch>
 
@@ -150,27 +218,27 @@ Git을 소개할 때 꼭 짚어야 할 특징이 하나 있습니다. Git은 분
 
 Toy Story 2가 개봉을 앞두고 있었습니다.
 
-[click] 픽사가 2년 동안 공들여 만들던 영화였죠.
+[click] 당시 픽사는 3D 애니메이션의 선두 주자였고, Toy Story 2 제작 2년차에 접어들고 있었습니다.
 
 [click] 그런데 어느 날, 누군가 영화 에셋이 담긴 서버에서 삭제 명령을 실행합니다. 우디의 모자가 사라지고, 우디가 사라지고, 폴더가 눈앞에서 하나씩 증발하기 시작했습니다.
 
 [click] 2년치 작업의 90%가 몇 분 만에 사라졌습니다. 백업이 있으니 괜찮다고 생각했는데, 확인해보니 백업 시스템이 한 달째 조용히 실패하고 있었습니다. "백업이 있다"와 "복구할 수 있다"는 다른 말이었던 거죠.
 
-[click] 영화를 구한 건 기술 감독 Galyn Susman이었습니다. 출산 직후 재택근무를 하느라 집 컴퓨터에 영화 전체 사본을 갖고 있었거든요.
+[click] 중앙에 모여 있던 원본이 전부 사라진 상황. 유일한 희망은 기술 감독 Galyn Susman이었습니다. 출산 직후 재택근무를 하느라 집 컴퓨터에 영화 전체 사본을 갖고 있었거든요.
 
-[click] 그 컴퓨터를 담요에 싸서 조심조심 픽사까지 운반했고, 영화는 살아났습니다. 여기서 기억할 것 하나. 영화를 구한 건 백업 시스템이 아니라 "전체 사본을 가진 또 한 사람"이었습니다. 아까 본 분산 버전 관리가 바로 이 장면입니다. Susman의 집 컴퓨터가 해준 일을, Git에서는 clone 한 번이 해줍니다. 나중에 원격 저장소를 배울 때 이 장면을 다시 떠올리게 될 겁니다.
+[click] 그 컴퓨터를 담요에 싸서 조심조심 픽사까지 운반했고, 우여곡절 끝에 영화는 개봉 일정 안에 완성됐습니다. 여기서 기억할 것 하나. 영화를 구한 건 백업 시스템이 아니라 "전체 사본을 가진 또 한 사람"이었습니다. 아까 본 분산 버전 관리가 바로 이 장면입니다. Susman의 집 컴퓨터가 해준 일을, Git에서는 clone 한 번이 해줍니다. 나중에 원격 저장소를 배울 때 이 장면을 다시 떠올리게 될 겁니다.
 
 출처: 픽사 공식 영상 "Studio Stories: The Movie Vanishes", 에드 캣멀 『Creativity, Inc.』
 -->
 
 ---
 
-# Git은 실수를 재앙으로 만들지 않습니다
+# 만약 픽사에 Git이 있었다면 어땠을까요?
 
 <v-clicks>
 
-- 사고의 본질: **폴더가 곧 프로젝트의 전부**였다는 것
-- Git은 **커밋**으로 돌아갈 시점을 남깁니다
+- 픽사 사고의 본질: 프로젝트의 **원본이 단 한 곳**에 있었다는 것
+- Git이 있었다면: clone한 **모든 컴퓨터가 전체 이력을 담은 완전한 사본**
 
 </v-clicks>
 
@@ -181,11 +249,11 @@ Toy Story 2가 개봉을 앞두고 있었습니다.
 </div>
 
 <!--
-픽사 이야기에서 정말 중요한 지점은 삭제 명령 그 자체가 아닙니다.
+질문을 하나 바꿔보겠습니다. 만약 그때 픽사에 Git이 있었다면 어땠을까요?
 
-[click] 현재 폴더가 곧 프로젝트의 전부인 상태였다는 것, 그게 사고의 본질입니다. 폴더가 전부라면 파일 하나를 지우는 실수가 곧 프로젝트 손실이 됩니다. 아까 본 "진짜최종2_이걸로.pptx" 폴더도 정확히 같은 상태고요.
+[click] 먼저 사고의 본질부터 다시 봅시다. 삭제 명령이 문제가 아니라, 프로젝트의 원본이 서버 단 한 곳에 있었다는 게 본질입니다. 원본이 하나뿐이면 실수 한 번이 곧 전부의 손실이 됩니다. 아까 본 "진짜최종2_제발마지막.pptx" 폴더도 정확히 같은 상태고요.
 
-[click] Git을 쓰면 중요한 작업 시점마다 커밋이라는 기록을 남길 수 있습니다. 실수로 파일을 지우든 잘못 고치든, 이미 기록해둔 시점으로 언제든 돌아갈 수 있습니다.
+[click] Git이 있었다면 이야기가 다릅니다. clone한 모든 컴퓨터가 첫 커밋부터의 전체 이력을 담은 완전한 사본이니까, 팀원 전원의 컴퓨터가 Susman의 집 컴퓨터인 셈입니다. 담요에 싸서 컴퓨터를 나르는 대신, clone 한 번이면 끝났겠죠.
 
 [click] 다만 오해하면 안 되는 게, Git이 실수 자체를 없애주지는 않습니다. 실수는 앞으로도 계속 납니다. 저도 내고, 픽사도 냈으니까요. 그래서 오늘의 첫 번째 결론입니다. Git은 실수를 막는 도구가 아니라, 실수가 재앙이 되지 않게 만드는 안전장치입니다.
 -->
@@ -222,7 +290,7 @@ Toy Story 2가 개봉을 앞두고 있었습니다.
 
 # 하지만 협업이 전부가 아닙니다
 
-AI 코딩 에이전트가 보편화되는 시대, 이제 AI는:
+AI 코딩 에이전트가 널리 쓰이는 시대, 이제 AI는:
 
 <v-clicks>
 

@@ -20,3 +20,8 @@
 
 /* mermaid 스타일 주의: Slidev는 mermaid를 shadow DOM에 렌더링하므로
    여기(전역 CSS)서는 손댈 수 없다. 코드 블록의 themeCSS 옵션을 쓸 것. */
+
+/* 인용 박스의 한쪽 색 보더 금지 (한 면만 칠하는 강조는 쓰지 않는다) */
+.slidev-layout blockquote {
+  border-left: none;
+}
