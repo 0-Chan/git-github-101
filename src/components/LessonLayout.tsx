@@ -31,6 +31,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<boolean[]>(new Array(lesson.meta.steps.length).fill(false));
   const [terminalKey, setTerminalKey] = useState(0);
+  const [terminalExpanded, setTerminalExpanded] = useState(false);
   const currentStep = completedSteps.findIndex((c) => !c);
   const _allComplete = completedSteps.every(Boolean);
   const nextLesson = nextSection(sections, lesson.meta.slug);
@@ -143,7 +144,12 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
           />
         )}
         {lesson.meta.hasTerminal && (
-          <div ref={terminalColRef} className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
+          <div
+            ref={terminalColRef}
+            className={`${
+              terminalExpanded ? "lg:w-[70%] h-[60vh]" : "lg:w-1/2 h-80"
+            } lg:h-full p-4 flex flex-col gap-2 transition-[width,height] duration-300 ease-in-out`}
+          >
             <div className="flex-1 min-h-0">
               <TerminalPanel
                 key={terminalKey}
@@ -152,6 +158,8 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
                 currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
                 onStepComplete={handleStepComplete}
                 onReady={handleShellReady}
+                expanded={terminalExpanded}
+                onToggleExpand={() => setTerminalExpanded((v) => !v)}
               />
             </div>
             {/* Goal bar: the terminal column never scrolls, so this stays visible below it. */}

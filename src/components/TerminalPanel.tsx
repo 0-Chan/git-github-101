@@ -20,7 +20,13 @@ interface TerminalPanelProps {
   currentStep: number;
   onStepComplete: (stepIndex: number) => void;
   onReady: (shell: Shell) => void;
+  /** 확대 모드 — 폰트가 커지고 컬럼 폭은 LessonLayout이 함께 넓힌다 */
+  expanded: boolean;
+  onToggleExpand: () => void;
 }
+
+const FONT_SIZE_NORMAL = 14;
+const FONT_SIZE_EXPANDED = 18;
 
 function probeWebgl(): boolean {
   try {
@@ -31,7 +37,15 @@ function probeWebgl(): boolean {
   }
 }
 
-export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, onReady }: TerminalPanelProps) {
+export function TerminalPanel({
+  namespace,
+  steps,
+  currentStep,
+  onStepComplete,
+  onReady,
+  expanded,
+  onToggleExpand,
+}: TerminalPanelProps) {
   const termRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<Shell | null>(null);
   const terminalRef = useRef<Terminal | null>(null);
@@ -66,6 +80,17 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
   const [editing, setEditing] = useState<{ path: string; content: string } | null>(null);
   // 에디터 저장 후 재사용할 스텝 검증 (마운트 effect 안에서 채워진다)
   const validateCurrentStepRef = useRef<(() => Promise<void>) | null>(null);
+  // 확대 토글 시 fit + 리페인트 재사용 (마운트 effect의 리사이즈 핸들러)
+  const refitRef = useRef<(() => void) | null>(null);
+  const expandedRef = useRef(expanded);
+
+  useEffect(() => {
+    expandedRef.current = expanded;
+    const terminal = terminalRef.current;
+    if (!terminal) return;
+    terminal.options.fontSize = expanded ? FONT_SIZE_EXPANDED : FONT_SIZE_NORMAL;
+    refitRef.current?.();
+  }, [expanded]);
 
   const writePrompt = useCallback(() => {
     const shell = shellRef.current;
@@ -92,7 +117,7 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
         selectionBackground: "#f9731640",
       },
       fontFamily: monoVar ? `${monoVar}, monospace` : "monospace",
-      fontSize: 14,
+      fontSize: expandedRef.current ? FONT_SIZE_EXPANDED : FONT_SIZE_NORMAL,
       cursorBlink: true,
     });
 
@@ -270,14 +295,16 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
       }
     });
 
-    const resizeObserver = new ResizeObserver(() => {
+    const refit = () => {
       fitAddon.fit();
       // 리플로우 후 행 수가 달라질 수 있으니 재계산 후 다시 그린다
       if (inputRef.current.length > 0) {
         prevCursorRowRef.current = rowOf(shell.prompt.length + inputRef.current.length, terminal.cols);
         paint();
       }
-    });
+    };
+    refitRef.current = refit; // 확대 토글(폰트 변경)도 같은 경로로 fit한다
+    const resizeObserver = new ResizeObserver(refit);
     resizeObserver.observe(termRef.current);
 
     return () => {
@@ -298,7 +325,13 @@ export function TerminalPanel({ namespace, steps, currentStep, onStepComplete, o
       <div className="flex items-center gap-2 px-4 py-2 bg-zinc-800 border-b border-zinc-700">
         <span className="w-3 h-3 rounded-full bg-red-500" />
         <span className="w-3 h-3 rounded-full bg-yellow-500" />
-        <span className="w-3 h-3 rounded-full bg-green-500" />
+        <button
+          type="button"
+          onClick={onToggleExpand}
+          aria-label="터미널 확대/축소"
+          title={expanded ? "터미널 축소" : "터미널 확대"}
+          className="w-3 h-3 rounded-full bg-green-500 transition-transform hover:scale-125 focus-visible:scale-125 cursor-pointer"
+        />
         <span className="ml-2 text-xs text-zinc-400 font-mono">터미널</span>
       </div>
       <div ref={termRef} className="flex-1 p-2" />
