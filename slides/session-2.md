@@ -32,7 +32,7 @@ $ git remote add upstream ...
 
 ---
 
-# 오늘의 여정
+# 목차
 
 <div class="text-xl opacity-75 -mt-2 pb-6">
 어제의 질문에서 출발해, 오늘 만들 것을 정하기까지
@@ -47,48 +47,7 @@ $ git remote add upstream ...
 
 막이 바뀔 때마다 이 지도를 다시 꺼내 "지금 여기"를 짚어줌
 
-→ 첫 정거장: 어제의 복습
--->
-
----
-
-# 어제 배운 그림, 기억하시나요?
-
-<div class="text-xl opacity-75 -mt-2 pb-3">
-1분 복습 퀴즈
-</div>
-
-```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
-flowchart LR
-  subgraph proj["&nbsp;📁 작업 디렉터리&nbsp;"]
-    direction LR
-    W["작업 파일들"]
-    subgraph git["&nbsp;.git = 로컬 저장소&nbsp;"]
-      direction LR
-      S["스테이징 영역"]
-      R["커밋 히스토리"]
-      S -- "git commit" --> R
-    end
-    W -- "git add" --> S
-  end
-```
-
-<div v-click class="pt-2 text-sm">
-Q. 파일을 수정하고 <code>git add</code>까지 했습니다. 지금 어디에 있을까요?
-</div>
-
-<div v-click class="pt-2 text-sm">
-A. <span style="color: var(--lane-main)">스테이징 영역(무대 위)</span>. 셔터는 아직 안 눌렀습니다
-</div>
-
-<!--
-어제 그림 그대로 (단체사진 비유 회수)
-
-[click] Q 던지고 손들게 하기
-
-[click] A 공개 / 보너스 Q: commit하면? (커밋 히스토리로)
-
-→ 다음: 어제의 PR 이야기
+→ 첫 정거장: 어제 만든 PR
 -->
 
 ---
@@ -96,19 +55,19 @@ A. <span style="color: var(--lane-main)">스테이징 영역(무대 위)</span>.
 # 어제 만든 PR, 정확히 무슨 일이 일어난 걸까?
 
 <div class="text-xl opacity-75 -mt-2 pb-3">
-first-contributions에서 우리가 따라 한 것들
+first-contributions에서 우리가 따라 한 흐름
 </div>
 
-<v-clicks>
-
-- **Fork** 버튼을 눌렀다 → 왜 눌러야 했을까?
-- 초록 버튼의 주소로 **clone**했다 → 그 주소는 누구의 저장소였을까?
-- **push**했다 → 어디로 올라간 걸까?
-- **Create pull request**를 눌렀다 → 누구에게 무엇을 제안한 걸까?
-
-</v-clicks>
+```mermaid {scale: 0.62, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', fontSize: '16px'}}
+flowchart LR
+  F["Fork"] --> C["Clone"] --> M["Commit"] --> P["Push"] --> PR["Pull Request"]
+```
 
 <div v-click class="pt-4 text-sm">
+이 다섯 단계, 각각 정확히 무슨 일이었을까요?
+</div>
+
+<div v-click class="pt-2 text-sm">
 <span style="color: var(--lane-main)">오늘 덱이 이 질문 전부의 답입니다</span>
 </div>
 
@@ -119,11 +78,13 @@ first-contributions에서 우리가 따라 한 것들
 <!--
 훅: 어제 다들 진짜 PR을 하나씩 만들었음 (축하 다시 한번)
 
-[click]x4: 각 동작을 "따라 하긴 했는데..."로 하나씩 (웃음 유도)
+다이어그램 = 어제 따라 한 다섯 단계
+
+[click] 단계별 미스터리 짚기: Fork(왜 눌렀나) / Clone(그 주소는 누구 저장소) / Push(어디로 올라갔나) / Pull Request(누구에게 뭘 제안)
 
 [click] 오늘 덱이 이 질문의 답
 
-[click] 오늘의 약속 강조: 끝나면 전부 설명 가능 + 무엇을 만들지 스스로 정함
+[click] 약속 강조: 전부 설명 가능 + 무엇을 만들지 스스로
 
 → 첫 막: Git의 원리
 -->
