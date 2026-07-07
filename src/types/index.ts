@@ -85,6 +85,23 @@ export interface SectionsData {
   sections: Section[];
 }
 
+// Reference types — content/references.json (강의 참고 자료)
+export interface Reference {
+  title: string;
+  url: string;
+  description: string;
+  tag?: string;
+}
+
+export interface ReferenceCategory {
+  title: string;
+  items: Reference[];
+}
+
+export interface ReferenceData {
+  categories: ReferenceCategory[];
+}
+
 // Progress types
 export type ProgressMap = Record<string, boolean>;
 

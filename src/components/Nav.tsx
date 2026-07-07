@@ -16,6 +16,12 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <SessionMenu sessions={sessions} />
           <DeckMenu sessions={sessions} />
+          <Link
+            href="/reference"
+            className="p-2 rounded-lg text-sm text-muted transition-colors hover:bg-surface hover:text-ink"
+          >
+            자료
+          </Link>
           <ThemeToggle />
         </div>
       </div>
