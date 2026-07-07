@@ -11,7 +11,8 @@ describe("nextSection", () => {
   });
 
   it("returns null for the last lesson", () => {
-    expect(nextSection(sections, "pull-request")).toBeNull();
+    const last = sections[sections.length - 1];
+    expect(nextSection(sections, last.slug)).toBeNull();
   });
 
   it("returns null for an unknown slug", () => {

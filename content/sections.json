@@ -100,6 +100,15 @@
       "description": "PR을 통한 코드 리뷰 워크플로우를 알아봅니다",
       "file": "11-pull-request.md",
       "hasTerminal": false
+    },
+    {
+      "id": "12-github-tour",
+      "order": 12,
+      "slug": "github-tour",
+      "title": "GitHub 기능 둘러보기",
+      "description": "GitHub 화면을 직접 열어 주요 기능을 둘러봅니다",
+      "file": "12-github-tour.md",
+      "hasTerminal": false
     }
   ]
 }

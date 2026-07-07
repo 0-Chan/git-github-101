@@ -32,6 +32,7 @@
         { "type": "lesson", "id": "s1-l09", "slug": "what-is-github" },
         { "type": "lesson", "id": "s1-l10", "slug": "remote" },
         { "type": "lesson", "id": "s1-l11", "slug": "pull-request" },
+        { "type": "lesson", "id": "s1-l12", "slug": "github-tour" },
         {
           "type": "mission",
           "id": "s1-m01",
