@@ -34,6 +34,46 @@ $ git init
 
 ---
 
+# 강사 소개
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+만드는 것을 좋아해서, 만드는 곳을 옮겨 다녔습니다
+</div>
+
+<div class="grid grid-cols-2 gap-6 items-center">
+
+<div class="flex justify-center"><img src="./public/s1/tutor_photo.jpg" class="rounded-lg max-h-64" alt="강사 사진"></div>
+
+<div>
+<v-clicks>
+
+- 🤖 **로봇 개발자**로 커리어 시작
+- 🖥️ **프론트엔드 개발**로 전향
+- 어느덧 **현업 5년차** 개발자
+
+</v-clicks>
+
+<div v-click class="pt-4 text-sm">
+분야를 옮길 때마다 곁에 있던 도구가 <span style="color: var(--lane-main)">Git</span>이었습니다
+</div>
+</div>
+
+</div>
+
+<!--
+먼저 제 소개부터 짧게 드릴게요. (강사 이름)입니다.
+
+[click] 저는 로봇 개발자로 커리어를 시작했습니다.
+
+[click] 그러다 프론트엔드 개발로 분야를 옮겼고,
+
+[click] 어느덧 현업에서 개발한 지 5년차가 됐습니다.
+
+[click] 분야가 바뀌어도 늘 곁에 있던 도구가 하나 있는데, 그게 오늘 배울 Git입니다. 로봇 펌웨어를 만들 때도, 웹 화면을 만들 때도 Git으로 일했거든요. 여러분이 어떤 일을 하시든 이 도구가 따라간다는 뜻이기도 합니다. 그럼 4일 동안 뭘 배울지부터 보시죠.
+-->
+
+---
+
 # 4일 간 커리큘럼 안내
 
 <div class="text-xl opacity-75 -mt-2 pb-4">
