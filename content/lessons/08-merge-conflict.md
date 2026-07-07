@@ -14,8 +14,8 @@ steps:
     instruction: "충돌이 해결된 파일을 스테이징하세요"
     hint: "git add greeting.txt"
     validation:
-      type: git-staged
-      path: greeting.txt
+      type: command-run
+      matches: "^git add (greeting\\.txt|\\.)$"
   - id: commit-merge
     instruction: "머지 커밋을 만드세요"
     hint: 'git commit -m "merge: resolve greeting.txt conflict"'
@@ -37,6 +37,17 @@ git merge feature
 # Auto-merging greeting.txt
 # CONFLICT (content): Merge conflict in greeting.txt
 # Automatic merge failed; fix conflicts and then commit the result.
+```
+
+`git status`로도 어떤 파일이 충돌 중인지 확인할 수 있습니다:
+
+```bash
+git status
+# On branch main
+# You have unmerged paths.
+#
+# Unmerged paths:
+#         both modified:   greeting.txt
 ```
 
 ## 충돌 마커 이해하기

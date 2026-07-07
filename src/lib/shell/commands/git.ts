@@ -107,9 +107,14 @@ export const gitCommands: Record<string, GitSubcommand> = {
       const staged: string[] = [];
       const modified: string[] = [];
       const untracked: string[] = [];
+      const unmerged: string[] = [];
 
       for (const [filepath, head, workdir, stage] of matrix) {
-        if (head === 0 && stage === 0 && workdir === 2) {
+        if (stage === 3) {
+          // 충돌 파일 — 인덱스에 stage 1/2/3 conflict 엔트리가 남으면
+          // statusMatrix의 stage 열이 문서화 범위(0~2) 밖의 3이 된다.
+          unmerged.push(filepath as string);
+        } else if (head === 0 && stage === 0 && workdir === 2) {
           // Untracked
           untracked.push(filepath as string);
         } else if (head === 0 && stage === 2) {
@@ -127,6 +132,22 @@ export const gitCommands: Record<string, GitSubcommand> = {
       const lines: string[] = [];
       const branch = (await git.currentBranch({ fs, dir })) || "main";
       lines.push(`On branch ${branch}`);
+
+      if (unmerged.length > 0) {
+        lines.push("");
+        lines.push("You have unmerged paths.");
+        lines.push('  (fix conflicts and run "git commit")');
+        lines.push("");
+        lines.push("Unmerged paths:");
+        lines.push('  (use "git add <file>..." to mark resolution)');
+        for (const u of unmerged) {
+          lines.push(`\tboth modified:   ${u}`);
+        }
+      } else if (ctx.pendingMerge) {
+        lines.push("");
+        lines.push("All conflicts fixed but you are still merging.");
+        lines.push('  (use "git commit" to conclude merge)');
+      }
 
       if (staged.length > 0) {
         lines.push("");
@@ -152,7 +173,7 @@ export const gitCommands: Record<string, GitSubcommand> = {
         }
       }
 
-      if (staged.length === 0 && modified.length === 0 && untracked.length === 0) {
+      if (staged.length === 0 && modified.length === 0 && untracked.length === 0 && unmerged.length === 0) {
         lines.push("");
         lines.push("nothing to commit, working tree clean");
       }

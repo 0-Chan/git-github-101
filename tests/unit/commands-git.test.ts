@@ -203,6 +203,63 @@ describe("git commands", () => {
       const conflicted = await fs.promises.readFile("/file.txt", "utf8");
       expect(conflicted).toContain("<<<<<<< HEAD\nmain change\n=======\nfeature change\n>>>>>>> feature");
       expect(conflicted).not.toContain("<<<<<<< main");
+
+      // 충돌 중에는 status가 unmerged 파일을 보여줘야 한다.
+      // (statusMatrix에서 충돌 row는 stage 열이 3으로 나온다)
+      const during = await gitCommands.status([], ctx);
+      expect(during.output).toContain("You have unmerged paths.");
+      expect(during.output).toContain("both modified:   file.txt");
+      expect(during.output).not.toContain("nothing to commit");
+
+      // 해결(양쪽 병합) + add → 충돌이 걷히고 staged로 잡힌다
+      await fs.promises.writeFile("/file.txt", "main change + feature change");
+      await gitCommands.add(["file.txt"], ctx);
+      const resolved = await gitCommands.status([], ctx);
+      expect(resolved.output).not.toContain("Unmerged paths");
+      expect(resolved.output).toContain("All conflicts fixed but you are still merging.");
+      expect(resolved.output).toContain("modified:   file.txt");
+
+      // 머지 커밋으로 마무리된다
+      const commit = await gitCommands.commit(["-m", "merge"], ctx);
+      expect(commit.output).toContain("[merge ");
+      expect(ctx.pendingMerge).toBeNull();
+    });
+
+    it("resolving by keeping one side (content equal to HEAD) still allows add and merge commit", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.setConfig({ fs, dir: "/", path: "user.name", value: "학습자" });
+      await git.setConfig({ fs, dir: "/", path: "user.email", value: "learner@git101.dev" });
+      const author = { name: "학습자", email: "learner@git101.dev" };
+
+      await fs.promises.writeFile("/file.txt", "original\n");
+      await git.add({ fs, dir: "/", filepath: "file.txt" });
+      await git.commit({ fs, dir: "/", message: "init", author });
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await fs.promises.writeFile("/file.txt", "feature change\n");
+      await git.add({ fs, dir: "/", filepath: "file.txt" });
+      await git.commit({ fs, dir: "/", message: "feature change", author });
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await fs.promises.writeFile("/file.txt", "main change\n");
+      await git.add({ fs, dir: "/", filepath: "file.txt" });
+      await git.commit({ fs, dir: "/", message: "main change", author });
+
+      await gitCommands.merge(["feature"], ctx);
+
+      // 한쪽(HEAD 쪽) 내용만 남겨 해결 — add 후 인덱스가 HEAD와 같아져
+      // git-staged 검증은 불가능하지만, add와 머지 커밋은 정상 동작해야 한다.
+      await fs.promises.writeFile("/file.txt", "main change\n");
+      const addResult = await gitCommands.add(["file.txt"], ctx);
+      expect(addResult.isError).toBeFalsy();
+
+      const status = await gitCommands.status([], ctx);
+      expect(status.output).not.toContain("Unmerged paths");
+      expect(status.output).toContain("All conflicts fixed but you are still merging.");
+
+      const commit = await gitCommands.commit(["-m", "merge"], ctx);
+      expect(commit.output).toContain("[merge ");
+      const log = await git.log({ fs, dir: "/", depth: 1 });
+      expect(log[0].commit.parent).toHaveLength(2);
     });
   });
 
