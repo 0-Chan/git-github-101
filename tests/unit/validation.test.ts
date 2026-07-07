@@ -158,3 +158,35 @@ describe("runValidation", () => {
     expect(result).toBe(false);
   });
 });
+
+describe("command-run", () => {
+  const fsStub = null as any; // fs를 쓰지 않는 검증
+
+  it("passes when a matching command exists in history", async () => {
+    const ok = await runValidation({ type: "command-run", matches: "^git log" }, fsStub, "/", {
+      history: ["ls", "git log"],
+    });
+    expect(ok).toBe(true);
+  });
+
+  it("supports lookahead patterns for flag combos regardless of order", async () => {
+    const rule = { type: "command-run", matches: "^git log(?=.*--graph)(?=.*--oneline)" } as const;
+    expect(await runValidation(rule, fsStub, "/", { history: ["git log --oneline --graph --all"] })).toBe(true);
+    expect(await runValidation(rule, fsStub, "/", { history: ["git log --graph --oneline"] })).toBe(true);
+    expect(await runValidation(rule, fsStub, "/", { history: ["git log --oneline"] })).toBe(false);
+  });
+
+  it("fails without history or matching command", async () => {
+    expect(await runValidation({ type: "command-run", matches: "^git log" }, fsStub, "/")).toBe(false);
+    expect(
+      await runValidation({ type: "command-run", matches: "^git log" }, fsStub, "/", { history: ["git status"] }),
+    ).toBe(false);
+  });
+
+  it("trims whitespace around history entries", async () => {
+    const ok = await runValidation({ type: "command-run", matches: "^git checkout main$" }, fsStub, "/", {
+      history: ["  git checkout main  "],
+    });
+    expect(ok).toBe(true);
+  });
+});

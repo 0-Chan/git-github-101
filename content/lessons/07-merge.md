@@ -8,8 +8,8 @@ steps:
     instruction: "main 브랜치로 이동하세요"
     hint: "git checkout main"
     validation:
-      type: current-branch
-      name: main
+      type: command-run
+      matches: "^git checkout main$"
   - id: merge-feature
     instruction: "feature 브랜치를 main에 병합하세요"
     hint: "git merge feature"

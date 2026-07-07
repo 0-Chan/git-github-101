@@ -72,7 +72,10 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const handleShellReady = useCallback(
     async (shell: Shell) => {
       if (lesson.meta.steps.length > 0) {
-        const results = await validateAllSteps(lesson.meta.steps, shell.getFS(), "/");
+        const { loadHistory } = await import("@/lib/shell/interactive/history");
+        const results = await validateAllSteps(lesson.meta.steps, shell.getFS(), "/", {
+          history: loadHistory(`lesson-${lesson.meta.slug}`),
+        });
         setCompletedSteps(results);
         if (results.every(Boolean)) {
           markComplete(lesson.meta.slug);

@@ -1,9 +1,25 @@
 import git from "isomorphic-git";
 import type { ValidationRule } from "@/types";
 
-export async function runValidation(rule: ValidationRule, fs: any, dir: string): Promise<boolean> {
+export interface ValidationContext {
+  /** 레슨 터미널에서 실행된 명령 히스토리 (oldest→newest) */
+  history?: string[];
+}
+
+export async function runValidation(
+  rule: ValidationRule,
+  fs: any,
+  dir: string,
+  context?: ValidationContext,
+): Promise<boolean> {
   try {
     switch (rule.type) {
+      case "command-run": {
+        // 읽기 명령(git log 등)은 상태를 바꾸지 않아 결과 스냅샷으로 검증할
+        // 수 없다 — 실제로 실행했는지를 명령 히스토리로 판정한다.
+        const pattern = new RegExp(rule.matches ?? "$^");
+        return (context?.history ?? []).some((cmd) => pattern.test(cmd.trim()));
+      }
       case "file-exists": {
         await fs.promises.stat(rule.path!);
         return true;
@@ -61,6 +77,7 @@ export async function validateAllSteps(
   steps: Array<{ validation: ValidationRule }>,
   fs: any,
   dir: string,
+  context?: ValidationContext,
 ): Promise<boolean[]> {
-  return Promise.all(steps.map((step) => runValidation(step.validation, fs, dir)));
+  return Promise.all(steps.map((step) => runValidation(step.validation, fs, dir, context)));
 }

@@ -193,7 +193,7 @@ export function TerminalPanel({
       const stepIdx = currentStepRef.current;
       if (stepIdx < stepsRef.current.length) {
         const step = stepsRef.current[stepIdx];
-        const passed = await runValidation(step.validation, shell.getFS(), "/");
+        const passed = await runValidation(step.validation, shell.getFS(), "/", { history });
         if (passed) {
           emitLessonStep(namespace.replace(/^lesson-/, ""), step.id);
           onStepCompleteRef.current(stepIdx);
