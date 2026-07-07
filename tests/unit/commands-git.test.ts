@@ -195,7 +195,7 @@ describe("git commands", () => {
       });
 
       const result = await gitCommands.merge(["feature"], ctx);
-      expect(result.output).toContain("CONFLICT");
+      expect(result.output).toContain("CONFLICT (content): Merge conflict in file.txt");
       expect(ctx.pendingMerge).not.toBeNull();
     });
   });

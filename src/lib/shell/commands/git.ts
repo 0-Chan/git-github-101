@@ -383,14 +383,23 @@ export const gitCommands: Record<string, GitSubcommand> = {
           return { output: `Updating ${beforeOid.slice(0, 7)}..${afterOid.slice(0, 7)}\nFast-forward` };
         }
         return { output: "Merge made by the 'ort' strategy." };
-      } catch (_mergeErr: any) {
+      } catch (mergeErr: any) {
         // Merge conflict - isomorphic-git throws on conflicts
         const theirsOid = await git.resolveRef({ fs, dir, ref: theirs });
         ctx.setPendingMerge({ theirs: theirsOid });
 
-        return {
-          output: `Auto-merging failed\nCONFLICT (content): Merge conflict detected\n💡 충돌을 해결한 후 git add와 git commit을 사용하세요.`,
-        };
+        // MergeConflictError.data.filepaths에 충돌 파일 목록이 들어있다 —
+        // 실제 git처럼 어떤 파일이 충돌했는지 알려준다.
+        const filepaths: string[] = mergeErr?.data?.filepaths ?? [];
+        const lines =
+          filepaths.length > 0
+            ? filepaths.flatMap((f) => [`Auto-merging ${f}`, `CONFLICT (content): Merge conflict in ${f}`])
+            : ["Auto-merging failed", "CONFLICT (content): Merge conflict detected"];
+        lines.push(
+          "Automatic merge failed; fix conflicts and then commit the result.",
+          "💡 충돌 파일을 열어 <<<<<<< 표시를 정리한 뒤 git add와 git commit을 하세요.",
+        );
+        return { output: lines.join("\n") };
       }
     } catch (err) {
       return errorResult(err, "브랜치를 병합하는 명령어입니다.");
