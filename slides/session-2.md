@@ -152,36 +152,36 @@ Date:   Mon Jul 6 14:32:11 2026 +0900
 
 ---
 
-# HEAD: 지금 내가 서 있는 곳
+# HEAD: 지금 내가 선 커밋
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-checkout은 HEAD를 옮기는 일이었습니다
+지금 어느 커밋에 있고, HEAD~1은 무엇인가
 </div>
 
-```mermaid {scale: 0.7, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
-flowchart LR
-  H["HEAD<br/><small>&nbsp;내 현재 위치&nbsp;</small>"] -- "가리킴" --> B["main<br/><small>&nbsp;브랜치&nbsp;</small>"] -- "가리킴" --> C["커밋 a1b2c3d"]
+```mermaid {scale: 0.62, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
+flowchart RL
+  C3["지금 커밋<br/><small>&nbsp;HEAD&nbsp;</small>"] -- "부모" --> C2["한 칸 전<br/><small>&nbsp;HEAD~1&nbsp;</small>"] -- "부모" --> C1["두 칸 전<br/><small>&nbsp;HEAD~2&nbsp;</small>"]
 ```
 
 <v-clicks>
 
-- `git checkout feature` = HEAD를 feature 브랜치로 옮기기
-- HEAD가 옮겨가면 **작업 디렉터리가 그 시점의 모습으로 바뀝니다**
+- HEAD = **지금 내가 선 커밋**을 가리키는 포인터입니다. 보통 `main` 같은 브랜치를 거쳐 가리키고, 새 커밋도 그 위에 쌓입니다
+- `HEAD~1`은 **한 칸 전(부모 커밋)**, `HEAD~2`는 두 칸 전. HEAD 기준으로 사슬을 거슬러 세는 표기입니다
 
 </v-clicks>
 
 <div v-click class="pt-3 text-sm">
-어제 브랜치를 오가며 <span style="color: var(--lane-main)">feature.txt가 보였다 안 보였다 한 이유</span>가 이것입니다
+checkout으로 HEAD를 옮기면 <span style="color: var(--lane-main)">작업 디렉터리가 그 커밋 모습으로</span> 바뀝니다. 어제 feature.txt 미스터리가 이것
 </div>
 
 <!--
-HEAD = "지금 나" 포인터 / 커밋 사슬에서 지금 내 위치
+HEAD = "지금 나" 포인터 / 앞 슬라이드 커밋 사슬에서 지금 내 위치
 
-[click] checkout의 정체 = HEAD 이동
+[click] HEAD = 지금 선 커밋 가리킴 (보통 브랜치 거쳐) / 새 커밋 쌓이는 지점
 
-[click] 작업 디렉터리가 통째로 그 시점으로 (파일이 나타나고 사라지는 이유)
+[click] HEAD~1 = 부모, HEAD~2 = 두 칸 전 (HEAD 기준 상대 표기) → 곧 reset --hard HEAD~1에서 씀
 
-[click] 어제 실습 회수 (feature.txt 미스터리 해소)
+[click] checkout = HEAD 이동 → 작업 디렉터리 그 시점 (어제 feature.txt 미스터리)
 
 → 다음: 커밋을 가리키는 이름표, 브랜치
 -->
