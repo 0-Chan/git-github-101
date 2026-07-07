@@ -78,8 +78,8 @@ flowchart RL
 로컬과 원격을 넘나든 이 흐름, 각 단계는 무슨 일이었을까요?
 </div>
 
-<div v-click class="pt-2 text-sm opacity-80">
-약속: 끝나면 어제 한 모든 동작을 설명할 수 있고, 무엇을 만들지 스스로 정하게 됩니다
+<div v-click class="pt-2 text-sm">
+원본을 내 사본으로 복제해 내 컴퓨터에서 고친 뒤, 다시 원본에 반영을 제안한 과정입니다
 </div>
 
 <!--
@@ -89,7 +89,7 @@ flowchart RL
 
 [click] 단계별 미스터리 짚기: Fork(왜 눌렀나) / Clone(그 주소는 누구 저장소) / Push(어디로 올라갔나) / Pull Request(누구에게 뭘 제안)
 
-[click] 약속 강조: 전부 설명 가능 + 무엇을 만들지 스스로
+[click] 흐름 한 줄 요약: 복제 → 로컬 수정 → 원본에 제안
 
 → 첫 막: Git의 원리
 -->
