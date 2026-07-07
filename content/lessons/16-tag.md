@@ -1,7 +1,7 @@
 ---
 title: "고정된 이름표: tag"
 slug: tag
-order: 15
+order: 16
 hasTerminal: true
 steps:
   - id: create-tag

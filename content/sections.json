@@ -111,30 +111,39 @@
       "hasTerminal": false
     },
     {
-      "id": "13-reset",
+      "id": "13-head",
       "order": 13,
+      "slug": "head",
+      "title": "지금 내 위치: HEAD",
+      "description": "HEAD가 무엇을 가리키는지, HEAD~1 표기가 무엇인지 짚고 넘어갑니다",
+      "file": "13-head.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "14-reset",
+      "order": 14,
       "slug": "reset",
       "title": "되돌리기: reset",
       "description": "reset으로 커밋을 되돌리는 방법과 reset vs revert를 배웁니다",
-      "file": "13-reset.md",
+      "file": "14-reset.md",
       "hasTerminal": true
     },
     {
-      "id": "14-stash",
-      "order": 14,
+      "id": "15-stash",
+      "order": 15,
       "slug": "stash",
       "title": "잠깐 치워두기: stash",
       "description": "하던 작업을 커밋하지 않고 잠깐 보관했다 꺼내는 방법을 배웁니다",
-      "file": "14-stash.md",
+      "file": "15-stash.md",
       "hasTerminal": true
     },
     {
-      "id": "15-tag",
-      "order": 15,
+      "id": "16-tag",
+      "order": 16,
       "slug": "tag",
       "title": "고정된 이름표: tag",
       "description": "특정 커밋에 태그를 붙여 릴리스 지점을 표시하는 방법을 배웁니다",
-      "file": "15-tag.md",
+      "file": "16-tag.md",
       "hasTerminal": true
     }
   ]

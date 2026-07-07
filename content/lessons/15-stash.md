@@ -1,7 +1,7 @@
 ---
 title: "잠깐 치워두기: stash"
 slug: stash
-order: 14
+order: 15
 hasTerminal: true
 steps:
   - id: make-change

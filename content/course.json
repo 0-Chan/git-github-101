@@ -43,9 +43,10 @@
       "title": "Git 심화와 협업 워크플로우",
       "goal": "(설계 예정)",
       "activities": [
-        { "type": "lesson", "id": "s2-l13", "slug": "reset" },
-        { "type": "lesson", "id": "s2-l14", "slug": "stash" },
-        { "type": "lesson", "id": "s2-l15", "slug": "tag" }
+        { "type": "lesson", "id": "s2-l13", "slug": "head" },
+        { "type": "lesson", "id": "s2-l14", "slug": "reset" },
+        { "type": "lesson", "id": "s2-l15", "slug": "stash" },
+        { "type": "lesson", "id": "s2-l16", "slug": "tag" }
       ]
     },
     {
