@@ -58,24 +58,13 @@ $ git remote add upstream ...
 first-contributions에서 우리가 따라 한 흐름
 </div>
 
-```mermaid {scale: 0.5, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
-flowchart RL
-  subgraph gh["&nbsp;☁️ GitHub (원격)&nbsp;"]
-    direction TB
-    U["원본 저장소"]
-    O["내 사본"]
-  end
-  subgraph local["&nbsp;💻 내 컴퓨터 (로컬)&nbsp;"]
-    W["③ 작업 후 커밋"]
-  end
-  U -- "① Fork" --> O
-  O -- "② Clone" --> W
-  W -- "④ Push" --> O
-  O -- "⑤ Pull Request" --> U
+```mermaid {scale: 0.62, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', fontSize: '16px'}}
+flowchart LR
+  F["Fork"] --> C["Clone"] --> M["Commit"] --> P["Push"] --> PR["Pull Request"]
 ```
 
-<div v-click class="pt-3 text-sm">
-로컬과 원격을 넘나든 이 흐름, 각 단계는 무슨 일이었을까요? <span style="color: var(--lane-main)">오늘 덱이 그 답입니다</span>
+<div v-click class="pt-4 text-sm">
+이 다섯 단계, 각각 정확히 무슨 일이었을까요?
 </div>
 
 <div v-click class="pt-2 text-sm opacity-80">
@@ -85,9 +74,9 @@ flowchart RL
 <!--
 훅: 어제 다들 진짜 PR을 하나씩 만들었음 (축하 다시 한번)
 
-다이어그램 = 로컬과 원격을 넘나든 다섯 단계: 원본을 Fork(원격) → 내 컴퓨터로 Clone(원격→로컬) → 작업·커밋(로컬) → Push(로컬→원격) → 원본에 Pull Request(원격)
+다이어그램 = 어제 따라 한 다섯 단계
 
-[click] 단계별 미스터리 짚기: Fork(왜 눌렀나) / Clone(그 주소는 누구 저장소) / Push(어디로 올라갔나) / Pull Request(누구에게 뭘 제안) / 오늘 덱이 그 답
+[click] 단계별 미스터리 짚기: Fork(왜 눌렀나) / Clone(그 주소는 누구 저장소) / Push(어디로 올라갔나) / Pull Request(누구에게 뭘 제안)
 
 [click] 약속 강조: 전부 설명 가능 + 무엇을 만들지 스스로
 
