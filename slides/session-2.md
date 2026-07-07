@@ -32,6 +32,26 @@ $ git remote add upstream ...
 
 ---
 
+# 오늘의 여정
+
+<div class="text-xl opacity-75 -mt-2 pb-6">
+어제의 질문에서 출발해, 두 번째 PR까지 한 흐름으로
+</div>
+
+<SectionToc />
+
+<!--
+오늘 하루의 지도 먼저 펼치기 (어제 왔던 분들이라 "오늘 뭐 하나" 궁금)
+
+여섯 정거장: 복습·질문 → 원리 → 워크플로우 → 협업 → 기록 → 두 번째 PR
+
+막이 바뀔 때마다 이 지도를 다시 꺼내 "지금 여기"를 짚어줌
+
+→ 첫 정거장: 어제의 복습
+-->
+
+---
+
 # 어제 배운 그림, 기억하시나요?
 
 <div class="text-xl opacity-75 -mt-2 pb-3">
@@ -92,41 +112,40 @@ first-contributions에서 우리가 따라 한 것들
 <span style="color: var(--lane-main)">오늘 덱이 이 질문 전부의 답입니다</span>
 </div>
 
+<div v-click class="pt-2 text-sm opacity-80">
+약속: 끝나면 어제 한 모든 동작을 설명할 수 있고, 두 번째 PR은 스스로 보냅니다
+</div>
+
 <!--
 훅: 어제 다들 진짜 PR을 하나씩 만들었음 (축하 다시 한번)
 
 [click]x4: 각 동작을 "따라 하긴 했는데..."로 하나씩 (웃음 유도)
 
-[click] 오늘의 약속: 끝나면 전부 설명할 수 있다
+[click] 오늘 덱이 이 질문의 답
 
-→ 다음: 지도
+[click] 오늘의 약속 강조: 끝나면 전부 설명 가능 + 두 번째 PR 스스로
+
+→ 첫 막: Git의 원리
 -->
 
 ---
+layout: center
+---
 
-# 오늘의 지도
+<div class="text-sm opacity-60 font-mono pb-2">SECTION 02</div>
 
-<div class="text-xl opacity-75 -mt-2 pb-3">
-그림 → 규칙 → 구조 → 실전
-</div>
+# Git의 원리
 
-<v-clicks>
+<div class="opacity-75 pb-8 -mt-1">해시, 이름표, HEAD, 그리고 되돌리기</div>
 
-- **원리 심화**: 해시, 이름표, HEAD, 되돌리기
-- **실무 워크플로우**: GitHub Flow, conventional commits
-- **협업의 구조**: 권한과 fork, origin과 upstream
-- **두 번째 PR**: 이번엔 이해하고 스스로
-
-</v-clicks>
+<SectionToc :current="2" class="max-w-md" />
 
 <!--
-어제가 "그림 그리기"였다면 오늘은 그림의 속을 뜯어보는 날
+어제가 "그림 그리기"였다면 오늘은 그 그림의 속을 뜯어보는 막
 
-[click]x4 훑기
+지도에서 두 번째 정거장 도착 (복습·질문은 지나옴)
 
-약속: 끝나면 어제 한 모든 동작을 설명할 수 있고, 두 번째 PR은 스스로
-
-→ 2막 시작: 커밋의 정체
+→ 커밋의 정체부터
 -->
 
 ---
@@ -324,6 +343,26 @@ git stash pop    # 3. 선반에서 다시 꺼낸다
 -->
 
 ---
+layout: center
+---
+
+<div class="text-sm opacity-60 font-mono pb-2">SECTION 03</div>
+
+# 실무 워크플로우
+
+<div class="opacity-75 pb-8 -mt-1">원리를 팀의 규칙으로</div>
+
+<SectionToc :current="3" class="max-w-md" />
+
+<!--
+2막(원리) 닫고 3막 진입
+
+혼자 되던 걸 여럿이 되게 만드는 규칙들: 브랜치 전략, 커밋 규격
+
+→ branch 전략
+-->
+
+---
 
 # branch 전략: GitHub Flow
 
@@ -432,6 +471,26 @@ chore: 의존성 버전 올림
 [click] 단체사진 회수: add로 골라 담는 습관이 원자적 커밋을 만든다
 
 → 4막: 협업의 구조 (권한 이야기)
+-->
+
+---
+layout: center
+---
+
+<div class="text-sm opacity-60 font-mono pb-2">SECTION 04</div>
+
+# 협업의 구조
+
+<div class="opacity-75 pb-8 -mt-1">여럿이 한 저장소에서 일하는 법</div>
+
+<SectionToc :current="4" class="max-w-md" />
+
+<!--
+3막(워크플로우) 닫고 4막 진입
+
+여기서 어제의 fork·PR 미스터리가 전부 풀림 (1막 훅 회수 예고)
+
+→ 권한 이야기부터
 -->
 
 ---
@@ -577,6 +636,26 @@ flowchart LR
 -->
 
 ---
+layout: center
+---
+
+<div class="text-sm opacity-60 font-mono pb-2">SECTION 05</div>
+
+# 기록이 자산이 된다
+
+<div class="opacity-75 pb-8 -mt-1">남긴 것이 곧 이력서가 된다</div>
+
+<SectionToc :current="5" class="max-w-md" />
+
+<!--
+4막(협업) 닫고 5막 진입
+
+지금까지 만든 커밋·PR이 그냥 사라지지 않고 자산으로 쌓인다는 관점 전환
+
+→ README부터
+-->
+
+---
 
 # README.md: 프로젝트의 얼굴
 
@@ -639,6 +718,26 @@ flowchart LR
 [click] 로드맵 한 줄 (완성은 4일차)
 
 → 6막: 실전 준비
+-->
+
+---
+layout: center
+---
+
+<div class="text-sm opacity-60 font-mono pb-2">SECTION 06</div>
+
+# 두 번째 PR
+
+<div class="opacity-75 pb-8 -mt-1">이번엔 이해하고 스스로</div>
+
+<SectionToc :current="6" class="max-w-md" />
+
+<!--
+5막(기록) 닫고 마지막 막 진입
+
+여정의 종착지 = 오늘 배운 전부를 손으로 실행하는 미션
+
+→ 먼저 인증 준비
 -->
 
 ---
