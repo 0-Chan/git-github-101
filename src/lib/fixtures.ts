@@ -91,6 +91,26 @@ const fixtures: Record<string, FixtureConfig> = {
       await addAndCommit(fs, "README.md", "# My Project", "start project");
     },
   },
+  reset: {
+    version: 1,
+    setup: async (fs) => {
+      // 정상 커밋 2개 위에 버릴 "실수" 커밋 1개를 얹는다. 레슨에서
+      // reset --hard HEAD~1로 마지막 커밋을 되돌린다.
+      await initRepo(fs);
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\n", "create hello.txt");
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\nSecond line.\n", "add second line");
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\nSecond line.\nOops, mistake!\n", "WIP: 실수로 남긴 커밋");
+    },
+  },
+  stash: {
+    version: 1,
+    setup: async (fs) => {
+      // 커밋된 파일 하나, 작업트리는 깨끗. 레슨에서 edit으로 더티 변경을
+      // 만든 뒤 stash로 치웠다가 pop으로 되꺼낸다.
+      await initRepo(fs);
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\n", "create hello.txt");
+    },
+  },
 };
 
 export function getFixture(slug: string): FixtureConfig {

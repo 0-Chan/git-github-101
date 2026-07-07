@@ -9,6 +9,25 @@ function errorResult(err: unknown, hint: string): CommandResult {
   return { output: `${msg}\n💡 ${hint}`, isError: true };
 }
 
+// HEAD~N / HEAD^ / 브랜치명 / oid를 커밋 oid로 해석한다. resolveRef는 ~N을
+// 확장하지 못하므로 부모 커밋을 직접 거슬러 올라간다.
+async function resolveCommitish(fs: any, dir: string, target: string): Promise<string> {
+  const tilde = target.match(/^(.+?)(?:~(\d+)|(\^+))$/);
+  if (tilde) {
+    const base = tilde[1];
+    const steps = tilde[2] ? Number.parseInt(tilde[2], 10) : (tilde[3]?.length ?? 0);
+    let oid = await git.resolveRef({ fs, dir, ref: base });
+    for (let i = 0; i < steps; i++) {
+      const { commit } = await git.readCommit({ fs, dir, oid });
+      const parent = commit.parent[0];
+      if (!parent) throw new Error(`fatal: ambiguous argument '${target}': unknown revision`);
+      oid = parent;
+    }
+    return oid;
+  }
+  return git.resolveRef({ fs, dir, ref: target });
+}
+
 interface LogEntry {
   oid: string;
   commit: { parent: string[]; message: string; author: { name: string; email: string; timestamp: number } };
@@ -593,6 +612,81 @@ export const gitCommands: Record<string, GitSubcommand> = {
       return { output: lines.join("\n") };
     } catch (err) {
       return errorResult(err, "원격 저장소에 변경사항을 보내는 명령어입니다.");
+    }
+  },
+
+  async reset(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      let mode: "soft" | "mixed" | "hard" = "mixed";
+      const rest: string[] = [];
+      for (const a of args) {
+        if (a === "--soft") mode = "soft";
+        else if (a === "--mixed") mode = "mixed";
+        else if (a === "--hard") mode = "hard";
+        else if (a.startsWith("--")) {
+          return { output: `error: unknown option: ${a}\n💡 지원 옵션: --soft, --mixed, --hard`, isError: true };
+        } else rest.push(a);
+      }
+
+      const branch = await git.currentBranch({ fs, dir });
+      if (!branch) return { output: "fatal: 현재 브랜치를 찾을 수 없습니다.", isError: true };
+      const oid = await resolveCommitish(fs, dir, rest[0] || "HEAD");
+
+      // 현재 브랜치 이름표를 target 커밋으로 옮긴다.
+      await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: oid, force: true });
+
+      if (mode === "hard") {
+        // 작업트리 + 인덱스를 target으로 되돌린다.
+        await git.checkout({ fs, dir, ref: branch, force: true });
+      } else if (mode === "mixed") {
+        // 인덱스만 target으로 리셋, 작업트리는 보존.
+        await git.checkout({ fs, dir, ref: branch, noCheckout: true });
+      }
+      // soft는 ref만 이동 — 인덱스·작업트리 모두 그대로.
+
+      const { commit } = await git.readCommit({ fs, dir, oid });
+      return { output: `HEAD is now at ${oid.slice(0, 7)} ${commit.message.split("\n")[0]}` };
+    } catch (err) {
+      return errorResult(err, "커밋을 되돌리는 명령어입니다. 예: git reset --hard HEAD~1");
+    }
+  },
+
+  async stash(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      const supported = ["push", "pop", "apply", "drop", "list", "clear"] as const;
+      type StashOp = (typeof supported)[number];
+      const op = (args[0] || "push") as StashOp;
+      if (!supported.includes(op)) {
+        return {
+          output: `error: unknown stash op: ${args[0]}\n💡 지원: push, pop, apply, drop, list, clear`,
+          isError: true,
+        };
+      }
+
+      if (op === "list") {
+        const result = await git.stash({ fs, dir, op: "list" });
+        const text = typeof result === "string" ? result.trim() : "";
+        return { output: text.length > 0 ? text : "" };
+      }
+
+      await git.stash({ fs, dir, op });
+      switch (op) {
+        case "push":
+          return { output: "Saved working directory and index state WIP on branch" };
+        case "pop":
+        case "apply":
+          return { output: "Restored working directory from stash" };
+        case "drop":
+          return { output: "Dropped stash entry" };
+        case "clear":
+          return { output: "" };
+        default:
+          return { output: "" };
+      }
+    } catch (err) {
+      return errorResult(err, "작업을 잠깐 치워두는 명령어입니다. 예: git stash, git stash pop");
     }
   },
 };

@@ -109,6 +109,24 @@
       "description": "GitHub 화면을 직접 열어 주요 기능을 둘러봅니다",
       "file": "12-github-tour.md",
       "hasTerminal": false
+    },
+    {
+      "id": "13-reset",
+      "order": 13,
+      "slug": "reset",
+      "title": "되돌리기: reset",
+      "description": "reset으로 커밋을 되돌리는 방법과 reset vs revert를 배웁니다",
+      "file": "13-reset.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "14-stash",
+      "order": 14,
+      "slug": "stash",
+      "title": "잠깐 치워두기: stash",
+      "description": "하던 작업을 커밋하지 않고 잠깐 보관했다 꺼내는 방법을 배웁니다",
+      "file": "14-stash.md",
+      "hasTerminal": true
     }
   ]
 }

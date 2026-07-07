@@ -58,7 +58,10 @@
         { "order": 5, "title": "미정", "durationMin": 45 },
         { "order": 6, "title": "미정", "durationMin": 45 }
       ],
-      "activities": []
+      "activities": [
+        { "type": "lesson", "id": "s2-l13", "slug": "reset" },
+        { "type": "lesson", "id": "s2-l14", "slug": "stash" }
+      ]
     },
     {
       "id": "s3",

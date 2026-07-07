@@ -484,4 +484,88 @@ describe("git commands", () => {
       expect(result.output).toContain("Writing objects");
     });
   });
+
+  describe("git reset", () => {
+    const author = { name: "Learner", email: "learner@git101.dev" };
+    async function seed() {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.setConfig({ fs, dir: "/", path: "user.name", value: "Learner" });
+      await git.setConfig({ fs, dir: "/", path: "user.email", value: "learner@git101.dev" });
+      await fs.promises.writeFile("/hello.txt", "good\n");
+      await git.add({ fs, dir: "/", filepath: "hello.txt" });
+      await git.commit({ fs, dir: "/", message: "good commit", author });
+      await fs.promises.writeFile("/hello.txt", "good\noops\n");
+      await git.add({ fs, dir: "/", filepath: "hello.txt" });
+      await git.commit({ fs, dir: "/", message: "oops commit", author });
+    }
+
+    it("--hard HEAD~1 drops the last commit and restores the working tree", async () => {
+      await seed();
+      const result = await gitCommands.reset(["--hard", "HEAD~1"], ctx);
+      expect(result.isError).toBeFalsy();
+      expect(result.output).toContain("HEAD is now at");
+
+      const log = await git.log({ fs, dir: "/" });
+      expect(log).toHaveLength(1);
+      expect(log[0].commit.message.trim()).toBe("good commit");
+      expect(await fs.promises.readFile("/hello.txt", "utf8")).toBe("good\n");
+    });
+
+    it("--soft moves the ref but keeps the working tree", async () => {
+      await seed();
+      await fs.promises.writeFile("/hello.txt", "good\noops\nextra\n");
+      const result = await gitCommands.reset(["--soft", "HEAD~1"], ctx);
+      expect(result.isError).toBeFalsy();
+
+      const log = await git.log({ fs, dir: "/" });
+      expect(log).toHaveLength(1);
+      // 작업트리 변경은 그대로 남는다
+      expect(await fs.promises.readFile("/hello.txt", "utf8")).toBe("good\noops\nextra\n");
+    });
+
+    it("rejects an unknown option", async () => {
+      await seed();
+      const result = await gitCommands.reset(["--bogus"], ctx);
+      expect(result.isError).toBe(true);
+    });
+  });
+
+  describe("git stash", () => {
+    const author = { name: "Learner", email: "learner@git101.dev" };
+    async function seed() {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.setConfig({ fs, dir: "/", path: "user.name", value: "Learner" });
+      await git.setConfig({ fs, dir: "/", path: "user.email", value: "learner@git101.dev" });
+      await fs.promises.writeFile("/hello.txt", "committed\n");
+      await git.add({ fs, dir: "/", filepath: "hello.txt" });
+      await git.commit({ fs, dir: "/", message: "init", author });
+    }
+
+    it("push hides the dirty change, pop restores it", async () => {
+      await seed();
+      await fs.promises.writeFile("/hello.txt", "committed\nwork in progress\n");
+
+      const push = await gitCommands.stash(["push"], ctx);
+      expect(push.isError).toBeFalsy();
+      expect(await fs.promises.readFile("/hello.txt", "utf8")).toBe("committed\n");
+
+      const pop = await gitCommands.stash(["pop"], ctx);
+      expect(pop.isError).toBeFalsy();
+      expect(await fs.promises.readFile("/hello.txt", "utf8")).toBe("committed\nwork in progress\n");
+    });
+
+    it("defaults to push when no op is given", async () => {
+      await seed();
+      await fs.promises.writeFile("/hello.txt", "committed\nchange\n");
+      const result = await gitCommands.stash([], ctx);
+      expect(result.isError).toBeFalsy();
+      expect(await fs.promises.readFile("/hello.txt", "utf8")).toBe("committed\n");
+    });
+
+    it("rejects an unknown op", async () => {
+      await seed();
+      const result = await gitCommands.stash(["bogus"], ctx);
+      expect(result.isError).toBe(true);
+    });
+  });
 });
