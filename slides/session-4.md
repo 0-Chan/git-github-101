@@ -16,16 +16,32 @@ drawings:
 transition: slide-left
 ---
 
-# ▸ 4회차: 되돌리기의 기술
+# ▸ 4회차: 코드 리뷰와 오픈소스 기여
 
-주제 확정 전 가제
+리뷰를 주고받고, 세상의 코드에 기여하기
 
 <div class="pt-8 font-mono text-sm opacity-70">
-$ git revert HEAD
+$ gh pr create
 </div>
 
 <!--
-4회차 주제는 확정 전입니다. 후보: reset/revert/restore 되돌리기 3형제, stash, rebase, 협업 시나리오 미션. docs/course-structure.md의 미해결 항목 참조.
+4회차를 시작하겠습니다. 오늘은 코드 리뷰를 주고받는 법을 익히고, 실제 오픈소스 프로젝트에 기여하는 것까지 도전합니다. GitHub 프로필에 남는 실전 이력을 만드는 날이에요.
+-->
+
+---
+
+# 오늘 배울 것
+
+<v-clicks>
+
+- **코드 리뷰**: 좋은 PR 설명 쓰기, 리뷰 코멘트 주고받기
+- 리뷰 반영과 승인, Merge까지의 왕복
+- **오픈소스 기여**: 이슈 찾기부터 첫 기여 PR까지
+
+</v-clicks>
+
+<!--
+- 오늘의 목표를 소개합니다. (콘텐츠 준비 중)
 -->
 
 ---
@@ -34,8 +50,8 @@ layout: center
 
 # 콘텐츠 준비 중
 
-이 덱은 4회차 주제 확정 후 채워집니다
+이 덱은 4회차 수업 전까지 채워집니다
 
 <!--
-- 후보: 되돌리기(reset/revert/restore), stash, rebase, 협업 시나리오 미션.
+- 상세 콘텐츠 설계 시 참고: 되돌리기(reset/revert/restore)·stash·rebase는 필요시 보조 주제로 편성 가능.
 -->

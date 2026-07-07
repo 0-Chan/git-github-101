@@ -40,19 +40,19 @@ $ git init
 1~2일차는 입문, 3~4일차는 심화 과정입니다
 </div>
 
-| 일차 | 내용 |
-|------|------|
-| 1일차 | Git 기초와 커밋 |
-| 2일차 | 브랜치와 GitHub 첫 PR |
-| 3일차 | GitHub Actions 자동화 |
-| 4일차 | 코드 리뷰와 협업 |
+| 일차 | 난이도 | 내용 |
+|------|--------|------|
+| 1일차 | 🌱 입문 | Git 기초와 커밋 |
+| 2일차 | 🌿 기본 | 브랜치와 GitHub 첫 PR |
+| 3일차 | 🌳 응용 | CI/CD 파이프라인 구축 (GitHub Actions) |
+| 4일차 | 🌳 응용 | 코드 리뷰와 오픈소스 기여 |
 
 <!--
 시작하기 전에 4일 전체 그림부터 보여드리겠습니다.
 
 1일차와 2일차는 입문 과정입니다. Git을 처음 만나는 분 기준으로 진행해요. 오늘은 Git 기초와 커밋을, 내일은 브랜치와 GitHub에서의 첫 Pull Request까지 갑니다.
 
-3일차와 4일차는 심화 과정입니다. GitHub Actions로 반복 작업을 자동화하는 법, 그리고 코드 리뷰 방법을 포함한 실무 협업 기술을 다룹니다.
+3일차와 4일차는 심화 과정입니다. 3일차에는 GitHub Actions로 CI/CD 파이프라인을 직접 구축해봅니다. 커밋할 때마다 테스트와 배포가 자동으로 도는 경험을 하게 될 거예요. 4일차에는 코드 리뷰를 주고받는 법을 익히고, 실제 오픈소스 프로젝트에 기여하는 것까지 도전합니다. 여러분 GitHub 프로필에 남는 실전 이력이죠.
 
 입문 이틀을 소화하면 심화는 자연스럽게 이어지니, 지금 Git을 몰라도 전혀 걱정하지 않으셔도 됩니다.
 -->
@@ -184,9 +184,9 @@ Date:   Mon Jul 6 14:32:11 2026 +0900
 <div>
 <v-clicks>
 
-- **1991** 리누스 토발즈, 리눅스 시작. 전 세계 개발자의 패치를 이메일로 받아 손으로 합침
-- **2002** 상용 도구 **BitKeeper** 도입. 당시 대세는 CVS·SVN 같은 중앙 서버 방식
-- **2005** BitKeeper 무료 사용 종료. 리누스가 **2주 남짓 만에 Git 초판**을 직접 개발
+- **1991** 리눅스 시작. 패치를 이메일로 받아 손으로 합침
+- **2002** 상용 도구 **BitKeeper** 도입
+- **2005** 리누스가 **2주 만에 Git**을 직접 개발
 
 </v-clicks>
 </div>
@@ -356,7 +356,7 @@ Toy Story 2가 개봉을 앞두고 있었습니다.
 
 # 하지만 협업이 전부가 아닙니다
 
-AI 코딩 에이전트가 널리 쓰이는 시대, 이제 AI는:
+AI 코딩 에이전트(<img src="./public/s1/claude-color.svg" style="display:inline;height:1.1em;vertical-align:-3px" alt="Claude"> Claude · <img src="./public/s1/codex-color.svg" style="display:inline;height:1.1em;vertical-align:-3px" alt="Codex"> Codex)가 널리 쓰이는 시대, 이제 AI는:
 
 <v-clicks>
 
@@ -372,7 +372,7 @@ AI 코딩 에이전트가 널리 쓰이는 시대, 이제 AI는:
 </div>
 
 <!--
-그런데 협업 때문에만 Git이 필요한 건 아닙니다. 요즘은 AI 코딩 에이전트가 일상이 됐죠.
+그런데 협업 때문에만 Git이 필요한 건 아닙니다. 요즘은 AI 코딩 에이전트가 일상이 됐죠. Claude나 Codex 같은 도구들이요.
 
 [click] 이제 AI는 기능을 구현해주고
 
@@ -524,7 +524,7 @@ layout: center
 
 <div v-click class="pt-6 text-sm opacity-80">
 하나도 체크하지 못했어도 괜찮습니다. 이 강의는 <span class="font-mono" style="color: var(--lane-main)">git init</span>부터 함께 시작합니다.<br>
-네 가지 모두 익숙하다면 이 강의는 너무 쉬울 수 있어요.
+네 가지 모두 익숙하다면 1~2일차는 너무 쉬울 수 있어요. 반대로 3~4일차는 실무 개발자 대상이라 어려워집니다.
 </div>
 
 <!--
@@ -538,7 +538,7 @@ layout: center
 
 [click] 넷째, conflict 해결과 rebase, pull request 협업 흐름까지 이해하고 있는가.
 
-[click] 하나도 체크하지 못하셨어도 전혀 괜찮습니다. 이 강의는 git init부터 함께 시작하니까요. 반대로 네 가지가 전부 익숙하다면 오늘 강의는 좀 쉬울 수 있습니다.
+[click] 하나도 체크하지 못하셨어도 전혀 괜찮습니다. 이 강의는 git init부터 함께 시작하니까요. 반대로 네 가지가 전부 익숙하시다면 1, 2일차는 너무 쉬우실 수 있어요. 대신 3, 4일차는 실무 개발자 대상 수준으로 올라가니, 그때부터 진짜 재미를 보시게 될 겁니다.
 
 이 네 항목은 OT 자가진단으로 한 번 더 쓰이니, 지금의 상태를 기억해두세요.
 -->
@@ -671,4 +671,35 @@ layout: center
 설명은 여기까지입니다. 이제 직접 해볼 차례입니다.
 
 설치도 계정도 필요 없습니다. 브라우저에서 튜토리얼 사이트를 열어주세요. 첫 레슨부터 저와 함께 진행하겠습니다.
+-->
+
+---
+
+# git status를 읽는 법
+
+<div class="text-xl opacity-75 -mt-2 pb-3">
+터미널이 하는 말을 그림으로 옮기면 이렇습니다
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
+flowchart LR
+  U["Untracked files<br/><small>&nbsp;아직 추적하지 않는 새 파일&nbsp;</small>"]
+  M["Changes not staged<br/><small>&nbsp;수정됐지만 스테이징 전&nbsp;</small>"]
+  S["Changes to be committed<br/><small>&nbsp;스테이징 완료, 커밋 대기&nbsp;</small>"]
+  C["커밋 완료"]
+  U -- "git add" --> S
+  M -- "git add" --> S
+  S -- "git commit" --> C
+```
+
+<div v-click class="pt-3 text-sm">
+<span style="color: var(--lane-main)">add는 무대에 올리는 일, commit은 셔터.</span> 아까 그 단체사진 그림 그대로입니다
+</div>
+
+<!--
+실습을 하다 보면 git status를 정말 자주 치게 됩니다. 터미널이 하는 말을 읽는 법을 정리해두죠.
+
+Untracked files는 Git이 아직 추적하지 않는 새 파일입니다. 방금 만든 파일이 여기에 있어요. Changes not staged는 수정되었지만 아직 스테이징되지 않은 파일. 그리고 Changes to be committed는 스테이징되어 커밋 대기 중인 파일입니다. 어느 쪽이든 git add를 하면 무대 위, 그러니까 커밋 대기 상태로 올라오고, git commit을 하면 기록이 됩니다. 커밋한 파일을 다시 고치면? Changes not staged로 돌아와서 이 그림을 다시 한 바퀴 돕니다.
+
+[click] 눈치채셨겠지만 아까 단체사진 그림 그대로입니다. add는 무대에 올리는 일, commit은 셔터를 누르는 일. 실습 중에 터미널에서 이 문구들이 보이면, 이 그림에서 내 파일이 어디에 있는지 찾아보세요. 이 슬라이드는 실습 내내 띄워두겠습니다.
 -->
