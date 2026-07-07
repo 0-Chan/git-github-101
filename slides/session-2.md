@@ -52,13 +52,13 @@ $ git remote add upstream ...
 
 ---
 
-# 어제 만든 PR, 정확히 무슨 일이 일어난 걸까?
+# 어제 PR, 정확히 무슨 일이 일어난 걸까?
 
 <div class="text-xl opacity-75 -mt-2 pb-3">
 first-contributions에서 우리가 따라 한 흐름
 </div>
 
-```mermaid {scale: 0.5, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
+```mermaid {scale: 0.72, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
 flowchart RL
   subgraph gh["&nbsp;☁️ GitHub (원격)&nbsp;"]
     direction TB
@@ -73,10 +73,6 @@ flowchart RL
   W -- "④ Push" --> O
   O -- "⑤ Pull Request" --> U
 ```
-
-<div v-click class="pt-3 text-sm">
-로컬과 원격을 넘나든 이 흐름, 각 단계는 무슨 일이었을까요?
-</div>
 
 <div v-click class="pt-2 text-sm">
 원본을 내 사본으로 복제해 내 컴퓨터에서 고친 뒤, 다시 원본에 반영을 제안한 과정입니다
