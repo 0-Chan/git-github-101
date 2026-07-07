@@ -34,6 +34,46 @@ $ git init
 
 ---
 
+# 강사 소개
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+만드는 것을 좋아해서, 만드는 곳을 옮겨 다녔습니다
+</div>
+
+<div class="grid grid-cols-2 gap-6 items-center">
+
+<div class="flex justify-center"><img src="./public/s1/tutor_photo.jpg" class="rounded-lg max-h-64" alt="강사 사진"></div>
+
+<div>
+<v-clicks>
+
+- 🤖 **로봇 개발자**로 커리어 시작
+- 🖥️ **프론트엔드 개발**로 전향
+- 어느덧 **현업 5년차** 개발자
+
+</v-clicks>
+
+<div v-click class="pt-4 text-sm">
+분야를 옮기며 사용하던 언어와 프레임워크는 달라졌지만, <span style="color: var(--lane-main)">Git을 활용하는 건 같았습니다</span>
+</div>
+</div>
+
+</div>
+
+<!--
+먼저 제 소개부터 짧게 드릴게요. 김영찬입니다.
+
+[click] 저는 로봇 개발자로 커리어를 시작했습니다.
+
+[click] 그러다 프론트엔드 개발로 분야를 옮겼고,
+
+[click] 어느덧 현업에서 개발한 지 5년차가 됐습니다.
+
+[click] 분야를 옮기면서 쓰는 언어도 프레임워크도 계속 달라졌는데, 딱 하나 똑같았던 게 Git으로 일하는 방식이었습니다. 로봇 펌웨어를 만들 때도, 웹 화면을 만들 때도요. 여러분이 어떤 일을 하시든 이 도구가 따라간다는 뜻이기도 합니다. 그럼 4일 동안 뭘 배울지부터 보시죠.
+-->
+
+---
+
 # 4일 간 커리큘럼 안내
 
 <div class="text-xl opacity-75 -mt-2 pb-4">
@@ -515,10 +555,10 @@ layout: center
 
 <v-clicks>
 
-- ☐ `git init` `add` `commit` `status`로 단순한 버전 관리가 가능하다
-- ☐ working directory, staging area, repository 개념을 알고 있다
-- ☐ branch, merge, push, pull을 능숙하게 사용할 수 있다
-- ☐ conflict 해결, rebase, pull request 협업 흐름을 이해하고 쓴다
+- ☐ Git으로 파일 변경 내용을 확인하고 커밋으로 기록할 수 있다
+- ☐ working directory, staging area, repository가 무엇인지 대략 알고 있다
+- ☐ branch를 만들고 merge, push, pull을 사용해본 적이 있다
+- ☐ GitHub에서 Pull Request 협업 흐름을 경험해본 적이 있다
 
 </v-clicks>
 
@@ -530,17 +570,15 @@ layout: center
 <!--
 본격적으로 시작하기 전에, 지금 내가 어디쯤인지 가볍게 점검해봅시다. 네 가지 질문에 마음속으로 체크해보세요.
 
-[click] 첫째, git init, add, commit, status로 단순한 버전 관리를 할 수 있는가.
+[click] 첫째, Git으로 파일이 어떻게 바뀌었는지 확인하고, 커밋으로 기록할 수 있는가.
 
-[click] 둘째, working directory, staging area, repository 개념을 알고 있는가.
+[click] 둘째, working directory, staging area, repository가 무엇인지 대략 알고 있는가. 완벽하지 않아도 됩니다, 대략이면 충분해요.
 
-[click] 셋째, branch, merge, push, pull을 능숙하게 쓰는가.
+[click] 셋째, branch를 만들고 merge, push, pull을 써본 적이 있는가.
 
-[click] 넷째, conflict 해결과 rebase, pull request 협업 흐름까지 이해하고 있는가.
+[click] 넷째, GitHub에서 Pull Request로 협업해본 경험이 있는가.
 
 [click] 하나도 체크하지 못하셨어도 전혀 괜찮습니다. 이 강의는 git init부터 함께 시작하니까요. 반대로 네 가지가 전부 익숙하시다면 1, 2일차는 너무 쉬우실 수 있어요. 대신 3, 4일차는 실무 개발자 대상 수준으로 올라가니, 그때부터 진짜 재미를 보시게 될 겁니다.
-
-이 네 항목은 OT 자가진단으로 한 번 더 쓰이니, 지금의 상태를 기억해두세요.
 -->
 
 ---
