@@ -16,7 +16,7 @@ drawings:
 transition: slide-left
 ---
 
-# ▸ 2회차: Git 심화와 두 번째 PR
+# ▸ 2회차: Git 심화와 협업 워크플로우
 
 어제 따라 한 모든 동작, 오늘은 이해하고 스스로
 
@@ -35,7 +35,7 @@ $ git remote add upstream ...
 # 오늘의 여정
 
 <div class="text-xl opacity-75 -mt-2 pb-6">
-어제의 질문에서 출발해, 두 번째 PR까지 한 흐름으로
+어제의 질문에서 출발해, 오늘 만들 것을 정하기까지
 </div>
 
 <SectionToc />
@@ -43,7 +43,7 @@ $ git remote add upstream ...
 <!--
 오늘 하루의 지도 먼저 펼치기 (어제 왔던 분들이라 "오늘 뭐 하나" 궁금)
 
-여섯 정거장: 복습·질문 → 원리 → 워크플로우 → 협업 → 기록 → 두 번째 PR
+여섯 정거장: 복습·질문 → 원리 → 워크플로우 → 협업 → 기록 → 다음 걸음
 
 막이 바뀔 때마다 이 지도를 다시 꺼내 "지금 여기"를 짚어줌
 
@@ -113,7 +113,7 @@ first-contributions에서 우리가 따라 한 것들
 </div>
 
 <div v-click class="pt-2 text-sm opacity-80">
-약속: 끝나면 어제 한 모든 동작을 설명할 수 있고, 두 번째 PR은 스스로 보냅니다
+약속: 끝나면 어제 한 모든 동작을 설명할 수 있고, 무엇을 만들지 스스로 정하게 됩니다
 </div>
 
 <!--
@@ -123,7 +123,7 @@ first-contributions에서 우리가 따라 한 것들
 
 [click] 오늘 덱이 이 질문의 답
 
-[click] 오늘의 약속 강조: 끝나면 전부 설명 가능 + 두 번째 PR 스스로
+[click] 오늘의 약속 강조: 끝나면 전부 설명 가능 + 무엇을 만들지 스스로 정함
 
 → 첫 막: Git의 원리
 -->
@@ -419,7 +419,7 @@ chore: 의존성 버전 올림
 
 <v-clicks>
 
-- 형식: `타입: 요약` — 타입은 feat / fix / docs / refactor / test / chore
+- 형식은 `타입: 요약`. 타입은 feat / fix / docs / refactor / test / chore
 - 왜 쓰나: **히스토리 검색**, **자동 체인지로그**, 그리고 팀의 공용어
 
 </v-clicks>
@@ -703,7 +703,7 @@ layout: center
 </v-clicks>
 
 <div v-click class="pt-4 text-sm">
-오늘 만드는 저장소가 <span style="color: var(--lane-main)">3일차(CI 배지) → 4일차(포트폴리오)</span>로 자랍니다
+여러분의 저장소가 <span style="color: var(--lane-main)">3일차(CI 배지) → 4일차(포트폴리오)</span>로 자랍니다
 </div>
 
 <!--
@@ -726,23 +726,23 @@ layout: center
 
 <div class="text-sm opacity-60 font-mono pb-2">SECTION 06</div>
 
-# 두 번째 PR
+# 다음 걸음
 
-<div class="opacity-75 pb-8 -mt-1">이번엔 이해하고 스스로</div>
+<div class="opacity-75 pb-8 -mt-1">배운 걸로 무엇을 만들까</div>
 
 <SectionToc :current="6" class="max-w-md" />
 
 <!--
 5막(기록) 닫고 마지막 막 진입
 
-여정의 종착지 = 오늘 배운 전부를 손으로 실행하는 미션
+여정의 종착지 = 환경을 갖추고, 앞으로 무엇을 만들지 스스로 정하기
 
-→ 먼저 인증 준비
+→ 먼저 Git-GitHub 연결
 -->
 
 ---
 
-# 미션 준비: Git과 GitHub 연결
+# Git과 GitHub 연결
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
 push에서 막히면 십중팔구 인증 문제입니다
@@ -777,38 +777,39 @@ GitHub는 계정 비밀번호로 push 불가 (2021년부터) → 토큰 or 키
 
 [click] 오늘의 선택 고지 / "push 401·403 뜨면 이 장으로"
 
-→ 다음: 미션
+→ 다음: 무엇을 만들까
 -->
 
 ---
 
-# 미션: 두 번째 PR
+# 무엇을 만들어볼까?
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-이번엔 이해하고 보냅니다
+오늘 배운 워크플로우를 어디에 써볼지 정합니다
 </div>
 
 <v-clicks>
 
-- ① 강의 Organization의 연습 저장소를 **fork** (write 권한이 없으니까)
-- ② **clone** (origin = 내 fork)
-- ③ 브랜치 만들고 작업, **conventional commit**
-- ④ **push** (origin으로) → **PR** (origin에서 upstream으로 제안)
+- 평소 **불편했던 것**: 자주 쓰는 도구의 버그, 문서 오타
+- **만들어보고 싶던 것**: 작은 스크립트, 예제, 나만의 저장소
+- 관심 있는 **오픈소스**: 눈에 띄던 프로젝트의 good first issue
 
 </v-clicks>
 
 <div v-click class="pt-4 text-sm">
-어제는 따라 했고, <span style="color: var(--lane-main)">오늘은 각 단계의 이유를 알고 합니다</span>
+조건은 하나, <span style="color: var(--lane-main)">작게</span>. 오늘 정한 주제가 4일차에 실제 기여로 이어집니다
 </div>
 
 <!--
-어제와 같은 절차, 다른 점은 "이해"
+어제 PR 버튼은 눌러봤으니, "무엇을" 할지는 이제 여러분 몫
 
-[click]x4: 각 단계에 오늘 배운 개념 붙이기 (권한→fork, origin, conventional, upstream 제안)
+[click]x3: 주제를 찾는 세 갈래 (불편함 / 만들고 싶음 / 오픈소스 good first issue)
 
-[click] 차이 체감이 목표 / 막히면: 인증은 앞 장, 상태 확인은 git status
+[click] 스코프 강조: 작게 / 오늘은 결정만, 실행은 4일차
 
-미션 체크는 강의 사이트에서 (수동 체크)
+지금 이 자리에서 하나 정해보기 (옆 사람과 이야기해도 좋음)
+
+→ 마무리
 -->
 
 ---
@@ -817,16 +818,16 @@ layout: center
 
 # 오늘 남긴 것
 
-이해하고 보낸 PR 하나, 그리고 읽히는 커밋 히스토리
+이해한 협업 워크플로우, 그리고 스스로 정한 다음 주제
 
 <div class="pt-4 opacity-70 text-sm">
-내일: 이 PR에 CI와 코드 리뷰가 붙습니다
+내일: 코드가 올라올 때마다 기계가 대신 검사하는 CI/CD
 </div>
 
 <!--
-정리: 어제의 모든 동작 설명 가능 + 두 번째 PR 완료
+정리: 어제의 모든 동작 설명 가능 + 오늘 배운 협업 워크플로우 + 다음에 만들 주제 결정
 
-3일차 예고: 이 PR 위에 자동 검사(CI)와 리뷰가 붙는 것을 직접 봄
+3일차 예고: 반복 검사·빌드를 기계에게 맡기는 GitHub Actions (CI/CD)
 
 수고 인사
 -->
