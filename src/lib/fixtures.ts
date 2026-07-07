@@ -23,13 +23,12 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   "first-commit": {
-    version: 2,
+    version: 3,
     setup: async (fs) => {
+      // 커밋 0개의 갓 초기화된 저장소. placeholder 커밋을 두면 commit-count
+      // 검증(min 1)이 시작부터 충족되어 git add만으로 레슨이 완료되는 버그가
+      // 있었다. 스테이징 검증·루트 커밋 모두 unborn HEAD에서 정상 동작한다.
       await initRepo(fs);
-      // Commit a placeholder so the 'main' branch ref is created;
-      // then remove it so the working tree appears empty for the learner.
-      await addAndCommit(fs, ".gitkeep", "", "(initial setup)");
-      await fs.promises.unlink("/.gitkeep");
     },
   },
   "commit-history": {
