@@ -10,7 +10,7 @@ export function getCourse(): Course {
 }
 
 // 콘텐츠(덱·활동)가 준비된 회차만 nav에서 연다. 회차가 준비되면 여기에 추가.
-export const READY_SESSIONS = new Set(["s1"]);
+export const READY_SESSIONS = new Set(["s1", "s2"]);
 
 export function getSession(id: string): Session | null {
   return course.sessions.find((s) => s.id === id) ?? null;

@@ -48,7 +48,7 @@
     {
       "id": "s2",
       "order": 2,
-      "title": "브랜치와 GitHub 첫 PR",
+      "title": "Git 심화와 두 번째 PR",
       "goal": "(설계 예정)",
       "periods": [
         { "order": 1, "title": "미정", "durationMin": 45 },
