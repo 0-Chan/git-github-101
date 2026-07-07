@@ -37,6 +37,7 @@ $ cat .github/workflows/ci.yml
 - CI/CD가 해결하는 문제
 - **GitHub Actions** 워크플로 작성
 - 내 저장소에 자동 검사 붙이기
+- **코드 리뷰**: 좋은 PR 설명 쓰기, 리뷰 코멘트 왕복
 
 </v-clicks>
 
