@@ -40,7 +40,7 @@
     {
       "id": "s2",
       "order": 2,
-      "title": "Git 심화와 두 번째 PR",
+      "title": "Git 심화와 협업 워크플로우",
       "goal": "(설계 예정)",
       "activities": [
         { "type": "lesson", "id": "s2-l13", "slug": "reset" },
