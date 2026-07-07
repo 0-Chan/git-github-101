@@ -190,14 +190,14 @@ export function TerminalPanel({
     // Run validation using refs to avoid stale closures.
     // 에디터 저장 후에도 동일한 검증이 돌도록 ref로 노출한다.
     const validateCurrentStep = async () => {
-      const stepIdx = currentStepRef.current;
-      if (stepIdx < stepsRef.current.length) {
+      // 한 명령이 여러 스텝을 충족할 수 있다(git checkout -b 등).
+      // currentStepRef는 리렌더 후에야 갱신되므로 지역 인덱스로 이어서 검사한다.
+      for (let stepIdx = currentStepRef.current; stepIdx < stepsRef.current.length; stepIdx++) {
         const step = stepsRef.current[stepIdx];
         const passed = await runValidation(step.validation, shell.getFS(), "/", { history });
-        if (passed) {
-          emitLessonStep(namespace.replace(/^lesson-/, ""), step.id);
-          onStepCompleteRef.current(stepIdx);
-        }
+        if (!passed) break;
+        emitLessonStep(namespace.replace(/^lesson-/, ""), step.id);
+        onStepCompleteRef.current(stepIdx);
       }
     };
     validateCurrentStepRef.current = validateCurrentStep;
