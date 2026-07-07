@@ -36,6 +36,7 @@ export type ValidationType =
   | "merge-commit"
   | "no-conflict-markers"
   | "remote-exists"
+  | "tag-exists"
   | "command-run";
 
 export interface ValidationRule {

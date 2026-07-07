@@ -65,6 +65,10 @@ export async function runValidation(
         const remotes = await git.listRemotes({ fs, dir });
         return remotes.some((r: any) => r.remote === rule.name);
       }
+      case "tag-exists": {
+        const tags = await git.listTags({ fs, dir });
+        return tags.includes(rule.name!);
+      }
       default:
         return false;
     }

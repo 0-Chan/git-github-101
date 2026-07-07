@@ -111,6 +111,15 @@ const fixtures: Record<string, FixtureConfig> = {
       await addAndCommit(fs, "hello.txt", "Hello, Git!\n", "create hello.txt");
     },
   },
+  tag: {
+    version: 1,
+    setup: async (fs) => {
+      // 커밋 2개로 HEAD가 "릴리스할 지점"이 되게. 레슨에서 v1.0.0 태그를 붙인다.
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# My Project\n", "start project");
+      await addAndCommit(fs, "app.txt", "first feature\n", "add first feature");
+    },
+  },
 };
 
 export function getFixture(slug: string): FixtureConfig {

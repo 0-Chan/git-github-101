@@ -689,4 +689,32 @@ export const gitCommands: Record<string, GitSubcommand> = {
       return errorResult(err, "작업을 잠깐 치워두는 명령어입니다. 예: git stash, git stash pop");
     }
   },
+
+  async tag(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+
+      // git tag -d <name>: 태그 삭제
+      if (args[0] === "-d") {
+        if (!args[1])
+          return { output: "error: tag name required after -d\n💡 삭제할 태그 이름을 입력하세요.", isError: true };
+        await git.deleteTag({ fs, dir, ref: args[1] });
+        return { output: `Deleted tag '${args[1]}'` };
+      }
+
+      // 인자 없음: 태그 목록
+      if (args.length === 0) {
+        const tags = await git.listTags({ fs, dir });
+        return { output: [...tags].sort().join("\n") };
+      }
+
+      // git tag <name> [<commit-ish>]: 경량 태그 생성 (실제 git처럼 성공 시 무출력)
+      const ref = args[0];
+      const object = args[1] ? await resolveCommitish(fs, dir, args[1]) : undefined;
+      await git.tag({ fs, dir, ref, object });
+      return { output: "" };
+    } catch (err) {
+      return errorResult(err, "커밋에 이름표를 박아두는 명령어입니다. 예: git tag v1.0.0");
+    }
+  },
 };

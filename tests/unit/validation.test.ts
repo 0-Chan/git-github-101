@@ -157,6 +157,20 @@ describe("runValidation", () => {
     const result = await runValidation({ type: "remote-exists", name: "origin" }, fs, "/");
     expect(result).toBe(false);
   });
+
+  it("tag-exists: pass when the tag exists", async () => {
+    await fs.promises.writeFile("/a.txt", "hi");
+    await git.add({ fs, dir: "/", filepath: "a.txt" });
+    await git.commit({ fs, dir: "/", message: "init", author: { name: "학습자", email: "learner@git101.dev" } });
+    await git.tag({ fs, dir: "/", ref: "v1.0.0" });
+    const result = await runValidation({ type: "tag-exists", name: "v1.0.0" }, fs, "/");
+    expect(result).toBe(true);
+  });
+
+  it("tag-exists: fail when the tag does not exist", async () => {
+    const result = await runValidation({ type: "tag-exists", name: "v1.0.0" }, fs, "/");
+    expect(result).toBe(false);
+  });
 });
 
 describe("command-run", () => {

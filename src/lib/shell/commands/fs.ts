@@ -139,6 +139,7 @@ export const fsCommands: Record<string, FsCommandHandler> = {
       "  git diff [--staged]    변경사항 비교",
       "  git reset [--soft|--hard] <대상>  커밋 되돌리기 (예: git reset --hard HEAD~1)",
       "  git stash [pop|list]   하던 작업 잠깐 치워두기/꺼내기",
+      "  git tag [<이름>]       태그 생성/목록 (예: git tag v1.0.0)",
       "  git remote add <이름> <URL>  원격 저장소 추가 (-v: 목록)",
       "  git push <원격> <브랜치>     푸시 (시뮬레이션)",
     ].join("\n");

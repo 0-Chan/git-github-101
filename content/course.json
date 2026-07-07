@@ -44,7 +44,8 @@
       "goal": "(설계 예정)",
       "activities": [
         { "type": "lesson", "id": "s2-l13", "slug": "reset" },
-        { "type": "lesson", "id": "s2-l14", "slug": "stash" }
+        { "type": "lesson", "id": "s2-l14", "slug": "stash" },
+        { "type": "lesson", "id": "s2-l15", "slug": "tag" }
       ]
     },
     {

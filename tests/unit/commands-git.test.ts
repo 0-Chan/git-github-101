@@ -568,4 +568,43 @@ describe("git commands", () => {
       expect(result.isError).toBe(true);
     });
   });
+
+  describe("git tag", () => {
+    const author = { name: "Learner", email: "learner@git101.dev" };
+    async function seed() {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.setConfig({ fs, dir: "/", path: "user.name", value: "Learner" });
+      await git.setConfig({ fs, dir: "/", path: "user.email", value: "learner@git101.dev" });
+      await fs.promises.writeFile("/README.md", "# proj\n");
+      await git.add({ fs, dir: "/", filepath: "README.md" });
+      await git.commit({ fs, dir: "/", message: "init", author });
+    }
+
+    it("creates a lightweight tag on HEAD (silent) and lists it", async () => {
+      await seed();
+      const create = await gitCommands.tag(["v1.0.0"], ctx);
+      expect(create.isError).toBeFalsy();
+      expect(create.output).toBe("");
+      expect(await git.listTags({ fs, dir: "/" })).toContain("v1.0.0");
+
+      const list = await gitCommands.tag([], ctx);
+      expect(list.output).toContain("v1.0.0");
+    });
+
+    it("lists tags sorted", async () => {
+      await seed();
+      await gitCommands.tag(["v1.1.0"], ctx);
+      await gitCommands.tag(["v1.0.0"], ctx);
+      const list = await gitCommands.tag([], ctx);
+      expect(list.output).toBe("v1.0.0\nv1.1.0");
+    });
+
+    it("-d deletes a tag", async () => {
+      await seed();
+      await gitCommands.tag(["v1.0.0"], ctx);
+      const del = await gitCommands.tag(["-d", "v1.0.0"], ctx);
+      expect(del.output).toContain("Deleted tag 'v1.0.0'");
+      expect(await git.listTags({ fs, dir: "/" })).not.toContain("v1.0.0");
+    });
+  });
 });

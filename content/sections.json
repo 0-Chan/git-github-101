@@ -127,6 +127,15 @@
       "description": "하던 작업을 커밋하지 않고 잠깐 보관했다 꺼내는 방법을 배웁니다",
       "file": "14-stash.md",
       "hasTerminal": true
+    },
+    {
+      "id": "15-tag",
+      "order": 15,
+      "slug": "tag",
+      "title": "고정된 이름표: tag",
+      "description": "특정 커밋에 태그를 붙여 릴리스 지점을 표시하는 방법을 배웁니다",
+      "file": "15-tag.md",
+      "hasTerminal": true
     }
   ]
 }
