@@ -102,7 +102,7 @@ layout: center
 
 # Git의 원리
 
-<div class="opacity-75 pb-8 -mt-1">해시, 이름표, HEAD, 그리고 되돌리기</div>
+<div class="opacity-75 pb-8 -mt-1">해시, 이름표, HEAD, 되돌리기</div>
 
 <SectionToc :current="2" class="max-w-md" />
 
@@ -375,7 +375,7 @@ layout: center
 # branch 전략: GitHub Flow
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-요즘 팀 다수가 쓰는 단순한 규칙
+요즘 많은 팀이 쓰는 단순한 규칙
 </div>
 
 ```mermaid {scale: 0.55, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '13px'}}
@@ -393,7 +393,7 @@ gitGraph
 
 - **main은 항상 배포 가능** 상태로 지킨다
 - 모든 작업은 **브랜치에서**, 합류는 **PR로**
-- 더 복잡한 Git Flow도 있지만, 단순함이 이긴 시대입니다
+- 더 복잡한 Git Flow도 있지만, 단순함이 이겼습니다
 
 </v-clicks>
 
@@ -428,7 +428,7 @@ chore: 의존성 버전 올림
 <v-clicks>
 
 - 형식은 `타입: 요약`. 타입은 feat / fix / docs / refactor / test / chore
-- 왜 쓰나: **히스토리 검색**, **자동 체인지로그**, 그리고 팀의 공용어
+- 왜 쓰나: **히스토리 검색**, **자동 체인지로그**, 팀의 공용어
 
 </v-clicks>
 
@@ -826,7 +826,7 @@ layout: center
 
 # 오늘 남긴 것
 
-이해한 협업 워크플로우, 그리고 스스로 정한 다음 주제
+이해한 협업 워크플로우, 스스로 정한 다음 주제
 
 <div class="pt-4 opacity-70 text-sm">
 내일: 코드가 올라올 때마다 기계가 대신 검사하는 CI/CD
