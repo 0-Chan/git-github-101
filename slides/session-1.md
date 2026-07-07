@@ -749,21 +749,41 @@ feature에서 만든 파일은 <span style="color: var(--lane-main)">main으로 
 브랜치의 작업을 main으로 가져오는 일
 </div>
 
-```mermaid {scale: 0.6, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '13px'}}
-gitGraph
-  commit id: "기존 작업"
-  branch feature
-  commit id: "새 기능"
-  checkout main
-  merge feature id: "머지!"
-```
-
-<div v-click class="pt-2">
-
 ```bash
 git checkout main    # 1. 합쳐지는 쪽으로 이동
 git merge feature    # 2. feature를 main에 병합
 ```
+
+<div class="grid grid-cols-2 gap-4 pt-2">
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">Fast-forward · main이 그대로일 때</div>
+
+```mermaid {scale: 0.45, theme: 'base', themeVariables: {git0: '#f5a524', gitBranchLabel0: '#ffffff', commitLabelFontSize: '13px'}}
+gitGraph
+  commit id: "기존"
+  commit id: "작업 1"
+  commit id: "작업 2"
+```
+
+<div class="text-xs opacity-80">포인터만 앞으로 이동합니다</div>
+</div>
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">머지 커밋 · 양쪽 다 진행됐을 때</div>
+
+```mermaid {scale: 0.45, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '13px'}}
+gitGraph
+  commit id: "기존"
+  branch feature
+  commit id: "새 기능"
+  checkout main
+  commit id: "본진 수정"
+  merge feature id: "머지!"
+```
+
+<div class="text-xs opacity-80">부모가 둘인 <strong>새 커밋</strong>을 만듭니다</div>
+</div>
 
 </div>
 
@@ -772,13 +792,47 @@ git merge feature    # 2. feature를 main에 병합
 </div>
 
 <!--
-브랜치에서 작업을 끝냈으면, 그 결과를 본진으로 가져와야죠. 이걸 머지라고 합니다.
+브랜치에서 작업을 끝냈으면, 그 결과를 본진으로 가져와야죠. 이걸 머지라고 합니다. 순서가 중요한데, 머지는 합쳐지는 쪽에서 실행해요. main으로 이동한 다음 git merge feature. 이 직전에 ls를 치면 feature.txt가 안 보이다가, 머지하면 main에도 나타납니다.
 
-[click] 순서가 중요합니다. 머지는 합쳐지는 쪽에서 실행해요. 그래서 먼저 main으로 이동합니다. 이 시점에 ls를 치면 feature.txt가 안 보입니다. 그 파일은 아직 feature 브랜치에만 있으니까요. 그리고 git merge feature. 이제 main에도 feature.txt가 나타납니다.
+[click] 머지에는 두 얼굴이 있습니다. 첫째, main이 갈라진 뒤로 가만히 있었다면 Git은 포인터만 앞으로 밀면 됩니다. 이게 Fast-forward고, 실습에서 화면에 뜨는 그 단어입니다.
 
-[click] 화면에 Fast-forward라는 말이 보일 텐데, main에 새 커밋이 없어서 포인터만 앞으로 밀면 되는 가장 단순한 머지라는 뜻입니다. 병합이 끝난 브랜치는 git branch -d feature로 지워도 됩니다. 그런데 머지가 항상 이렇게 깔끔하지는 않아요. 두 브랜치가 같은 곳을 고쳤다면? 그게 다음 레슨에서 만날 충돌입니다.
+[click] 둘째, 양쪽이 다 진행됐다면 포인터만 밀 수 없죠. 이때 Git은 두 이력을 대조해서 부모가 둘인 새 커밋, 머지 커밋을 만듭니다. 그래프에서 두 선이 한 점으로 모이는 게 바로 그 커밋이에요.
+
+[click] 어느 쪽이든 규칙은 하나, 합쳐지는 쪽에서 실행한다. 병합이 끝난 브랜치는 git branch -d feature로 지워도 됩니다. 혼자여도 이런데, 여러 명이 같은 파일을 만지는 팀에서는 머지가 매일 일어납니다. 그런데 양쪽이 같은 곳을 고쳤다면 어떻게 될까요? 다음 장입니다.
 -->
 
+
+---
+
+# 충돌: Git이 표시하고, 사람이 결정합니다
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+두 브랜치가 같은 곳을 고쳤을 때만 일어납니다
+</div>
+
+```text
+<<<<<<< HEAD
+Hello! Welcome!            ← 현재 브랜치(main)의 내용
+=======
+Hi! Nice to meet you!      ← 가져오는 브랜치(feature)의 내용
+>>>>>>> feature
+```
+
+<div v-click class="pt-3 text-sm opacity-90">
+해결 순서: ① 마커를 지우고 원하는 내용만 남긴다 → ② <code>git add</code> → ③ <code>git commit</code>
+</div>
+
+<div v-click class="pt-3 text-sm">
+Git은 충돌을 <span style="color: var(--lane-main)">찾아줄 뿐, 해결하지 못합니다</span>. 어느 쪽을 남길지는 사람의 결정입니다
+</div>
+
+<!--
+양쪽이 같은 파일의 같은 부분을 다르게 고쳤다면, Git은 어느 쪽이 맞는지 알 수 없습니다. 그래서 머지를 멈추고 파일에 이런 표시를 남깁니다. 위 칸이 지금 내가 서 있는 브랜치(HEAD, 여기서는 main)의 내용이고, 아래 칸이 가져오려는 브랜치(feature)의 내용입니다. 가운데 등호 줄이 경계선이고요.
+
+[click] 해결은 생각보다 단순합니다. 마커 세 줄을 지우고 남기고 싶은 내용만 남긴 다음, 저장하고 git add, git commit. 끝입니다. 한쪽만 남겨도 되고, 두 내용을 합쳐서 "Hello! Welcome! Nice to meet you!"로 만들어도 됩니다. VS Code 같은 에디터는 Accept Current, Accept Incoming 버튼까지 주는데, 원리는 똑같습니다.
+
+[click] 여기서 기억할 것. 충돌은 오류가 아닙니다. Git이 "어느 쪽을 남길까요?"라고 묻는 질문이에요. Git은 충돌을 찾아줄 뿐 해결하지 못하고, 그 결정은 코드를 아는 사람의 몫입니다. 실습 레슨 08에서 직접 충돌을 내고 풀어봅니다.
+-->
 
 ---
 
