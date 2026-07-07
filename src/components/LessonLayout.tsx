@@ -151,7 +151,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
             ref={terminalColRef}
             className={`${
               terminalExpanded ? "lg:w-[70%] h-[60vh]" : "lg:w-1/2 h-80"
-            } lg:h-full p-4 flex flex-col gap-2 transition-[width,height] duration-300 ease-in-out`}
+            } lg:h-full lg:min-w-[420px] p-4 flex flex-col gap-2 transition-[width,height] duration-300 ease-in-out`}
           >
             <div className="flex-1 min-h-0">
               <TerminalPanel
