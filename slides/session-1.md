@@ -356,7 +356,7 @@ Toy Story 2가 개봉을 앞두고 있었습니다.
 
 # 하지만 협업이 전부가 아닙니다
 
-AI 코딩 에이전트가 널리 쓰이는 시대, 이제 AI는:
+AI 코딩 에이전트(<img src="./public/s1/claude-color.svg" style="display:inline;height:1.1em;vertical-align:-3px" alt="Claude"> Claude · <img src="./public/s1/codex-color.svg" style="display:inline;height:1.1em;vertical-align:-3px" alt="Codex"> Codex)가 널리 쓰이는 시대, 이제 AI는:
 
 <v-clicks>
 
@@ -372,7 +372,7 @@ AI 코딩 에이전트가 널리 쓰이는 시대, 이제 AI는:
 </div>
 
 <!--
-그런데 협업 때문에만 Git이 필요한 건 아닙니다. 요즘은 AI 코딩 에이전트가 일상이 됐죠.
+그런데 협업 때문에만 Git이 필요한 건 아닙니다. 요즘은 AI 코딩 에이전트가 일상이 됐죠. Claude나 Codex 같은 도구들이요.
 
 [click] 이제 AI는 기능을 구현해주고
 
