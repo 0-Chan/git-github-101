@@ -675,6 +675,37 @@ layout: center
 
 ---
 
+# git status를 읽는 법
+
+<div class="text-xl opacity-75 -mt-2 pb-3">
+터미널이 하는 말을 그림으로 옮기면 이렇습니다
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
+flowchart LR
+  U["Untracked files<br/><small>&nbsp;아직 추적하지 않는 새 파일&nbsp;</small>"]
+  M["Changes not staged<br/><small>&nbsp;수정됐지만 스테이징 전&nbsp;</small>"]
+  S["Changes to be committed<br/><small>&nbsp;스테이징 완료, 커밋 대기&nbsp;</small>"]
+  C["커밋 완료"]
+  U -- "git add" --> S
+  M -- "git add" --> S
+  S -- "git commit" --> C
+```
+
+<div v-click class="pt-3 text-sm">
+<span style="color: var(--lane-main)">add는 무대에 올리는 일, commit은 셔터.</span> 아까 그 단체사진 그림 그대로입니다
+</div>
+
+<!--
+실습을 하다 보면 git status를 정말 자주 치게 됩니다. 터미널이 하는 말을 읽는 법을 정리해두죠.
+
+Untracked files는 Git이 아직 추적하지 않는 새 파일입니다. 방금 만든 파일이 여기에 있어요. Changes not staged는 수정되었지만 아직 스테이징되지 않은 파일. 그리고 Changes to be committed는 스테이징되어 커밋 대기 중인 파일입니다. 어느 쪽이든 git add를 하면 무대 위, 그러니까 커밋 대기 상태로 올라오고, git commit을 하면 기록이 됩니다. 커밋한 파일을 다시 고치면? Changes not staged로 돌아와서 이 그림을 다시 한 바퀴 돕니다.
+
+[click] 눈치채셨겠지만 아까 단체사진 그림 그대로입니다. add는 무대에 올리는 일, commit은 셔터를 누르는 일. 실습 중에 터미널에서 이 문구들이 보이면, 이 그림에서 내 파일이 어디에 있는지 찾아보세요. 이 슬라이드는 실습 내내 띄워두겠습니다.
+-->
+
+---
+
 # 브랜치: 본진을 지키는 실험실
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
@@ -748,33 +779,41 @@ git merge feature    # 2. feature를 main에 병합
 [click] 화면에 Fast-forward라는 말이 보일 텐데, main에 새 커밋이 없어서 포인터만 앞으로 밀면 되는 가장 단순한 머지라는 뜻입니다. 병합이 끝난 브랜치는 git branch -d feature로 지워도 됩니다. 그런데 머지가 항상 이렇게 깔끔하지는 않아요. 두 브랜치가 같은 곳을 고쳤다면? 그게 다음 레슨에서 만날 충돌입니다.
 -->
 
+
 ---
 
-# git status를 읽는 법
+# GitHub: 내 저장소를 인터넷에 올립니다
 
-<div class="text-xl opacity-75 -mt-2 pb-3">
-터미널이 하는 말을 그림으로 옮기면 이렇습니다
+<div class="text-xl opacity-75 -mt-2 pb-2">
+Git은 도구, GitHub는 저장소를 호스팅하는 서비스입니다
 </div>
 
-```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
+```mermaid {scale: 0.7, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
 flowchart LR
-  U["Untracked files<br/><small>&nbsp;아직 추적하지 않는 새 파일&nbsp;</small>"]
-  M["Changes not staged<br/><small>&nbsp;수정됐지만 스테이징 전&nbsp;</small>"]
-  S["Changes to be committed<br/><small>&nbsp;스테이징 완료, 커밋 대기&nbsp;</small>"]
-  C["커밋 완료"]
-  U -- "git add" --> S
-  M -- "git add" --> S
-  S -- "git commit" --> C
+  subgraph local["&nbsp;💻 내 컴퓨터&nbsp;"]
+    L["로컬 저장소<br/><small>&nbsp;.git&nbsp;</small>"]
+  end
+  subgraph github["&nbsp;☁️ GitHub&nbsp;"]
+    R["원격 저장소<br/><small>&nbsp;remote repository&nbsp;</small>"]
+  end
+  L -- "git push (올리기)" --> R
+  R -- "git pull (내려받기)" --> L
 ```
 
+<div v-click class="pt-2 text-sm opacity-80">
+원격 저장소가 주는 것: <strong>백업 · 협업 · 공유</strong>
+</div>
+
 <div v-click class="pt-3 text-sm">
-<span style="color: var(--lane-main)">add는 무대에 올리는 일, commit은 셔터.</span> 아까 그 단체사진 그림 그대로입니다
+컴퓨터가 망가져도 <span style="color: var(--lane-main)">원격에 전부 남아 있습니다</span>. 픽사에서 배운 그대로죠
 </div>
 
 <!--
-실습을 하다 보면 git status를 정말 자주 치게 됩니다. 터미널이 하는 말을 읽는 법을 정리해두죠.
+마지막으로 GitHub 이야기입니다. 먼저 구분부터. Git과 GitHub는 다릅니다. Git은 지금까지 쓴 버전 관리 도구, 그러니까 소프트웨어고, GitHub는 그 Git 저장소를 인터넷에 올려두는 웹 서비스입니다. GitLab이나 Bitbucket 같은 비슷한 서비스도 있어요.
 
-Untracked files는 Git이 아직 추적하지 않는 새 파일입니다. 방금 만든 파일이 여기에 있어요. Changes not staged는 수정되었지만 아직 스테이징되지 않은 파일. 그리고 Changes to be committed는 스테이징되어 커밋 대기 중인 파일입니다. 어느 쪽이든 git add를 하면 무대 위, 그러니까 커밋 대기 상태로 올라오고, git commit을 하면 기록이 됩니다. 커밋한 파일을 다시 고치면? Changes not staged로 돌아와서 이 그림을 다시 한 바퀴 돕니다.
+지금까지 우리가 쓴 건 내 컴퓨터에만 있는 로컬 저장소였습니다. GitHub에 올리면 원격 저장소가 생기고, 둘 사이를 두 명령이 오갑니다. git push는 내 커밋을 원격으로 올리기, git pull은 원격의 변경을 내려받기. 그리고 남의 저장소를 처음 통째로 복사해 오는 게 아까 특징 2에서 봤던 clone입니다.
 
-[click] 눈치채셨겠지만 아까 단체사진 그림 그대로입니다. add는 무대에 올리는 일, commit은 셔터를 누르는 일. 실습 중에 터미널에서 이 문구들이 보이면, 이 그림에서 내 파일이 어디에 있는지 찾아보세요. 이 슬라이드는 실습 내내 띄워두겠습니다.
+[click] 원격 저장소가 주는 게 세 가지입니다. 컴퓨터가 망가져도 안전한 백업, 여러 명이 같은 저장소에서 일하는 협업, 그리고 전 세계에 코드를 여는 공유.
+
+[click] 기억나시죠? 픽사를 구한 건 전체 사본을 가진 또 한 사람이었습니다. Susman의 집 컴퓨터가 하던 그 역할을, 이제는 GitHub가 합니다. 내일 2일차에는 여기에 직접 저장소를 올리고, 첫 Pull Request까지 보내볼 겁니다.
 -->
