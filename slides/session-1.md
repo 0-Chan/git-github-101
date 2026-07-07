@@ -675,6 +675,81 @@ layout: center
 
 ---
 
+# 브랜치: 본진을 지키는 실험실
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+가지를 쳐서, 원본에 영향 없이 작업합니다
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '13px'}}
+gitGraph
+  commit id: "기존 작업"
+  commit id: "안정 버전"
+  branch feature
+  commit id: "feature.txt 추가"
+```
+
+<div v-click class="pt-2">
+
+```bash
+git branch feature      # 브랜치 만들기
+git checkout feature    # 브랜치로 이동 (-b 옵션이면 한 번에)
+```
+
+</div>
+
+<div v-click class="pt-3 text-sm">
+feature에서 만든 파일은 <span style="color: var(--lane-main)">main으로 돌아가면 보이지 않습니다</span>. 완전히 독립된 작업 공간입니다
+</div>
+
+<!--
+실습에서 곧 만날 브랜치입니다. 브랜치는 독립적인 작업 공간이에요. 나무의 가지처럼 메인 코드에서 갈라져 나와서, 원본에 영향을 주지 않고 새 기능을 개발하거나 실험할 수 있습니다. 기본 가지의 이름이 main이고요.
+
+[click] 명령은 두 개입니다. git branch feature로 가지를 만들고, git checkout feature로 그 가지로 이동합니다. 여기 함정이 하나 있는데, 만들었다고 자동으로 이동되지는 않아요. checkout까지 해야 합니다. 둘을 한 번에 하고 싶으면 git checkout -b feature. 아까 "Git을 모르면 vs 알면"에서 봤던 checkout -b experiment가 바로 이거였습니다.
+
+[click] 브랜치의 진짜 매력은 격리입니다. feature 브랜치에서 만든 파일은 main으로 돌아가면 보이지 않아요. 실무에서는 main은 안정 코드, feature/기능명은 새 기능, bugfix/버그명은 수정처럼 가지를 나눠 씁니다. 그런데 갈라진 가지는 언젠가 다시 합쳐야겠죠? 그게 다음 장입니다.
+-->
+
+---
+
+# 머지: 갈라진 길을 다시 합칩니다
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+브랜치의 작업을 main으로 가져오는 일
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '13px'}}
+gitGraph
+  commit id: "기존 작업"
+  branch feature
+  commit id: "새 기능"
+  checkout main
+  merge feature id: "머지!"
+```
+
+<div v-click class="pt-2">
+
+```bash
+git checkout main    # 1. 합쳐지는 쪽으로 이동
+git merge feature    # 2. feature를 main에 병합
+```
+
+</div>
+
+<div v-click class="pt-3 text-sm">
+핵심 규칙: 머지는 <span style="color: var(--lane-main)">합쳐지는 쪽(main)에서</span> 실행합니다
+</div>
+
+<!--
+브랜치에서 작업을 끝냈으면, 그 결과를 본진으로 가져와야죠. 이걸 머지라고 합니다.
+
+[click] 순서가 중요합니다. 머지는 합쳐지는 쪽에서 실행해요. 그래서 먼저 main으로 이동합니다. 이 시점에 ls를 치면 feature.txt가 안 보입니다. 그 파일은 아직 feature 브랜치에만 있으니까요. 그리고 git merge feature. 이제 main에도 feature.txt가 나타납니다.
+
+[click] 화면에 Fast-forward라는 말이 보일 텐데, main에 새 커밋이 없어서 포인터만 앞으로 밀면 되는 가장 단순한 머지라는 뜻입니다. 병합이 끝난 브랜치는 git branch -d feature로 지워도 됩니다. 그런데 머지가 항상 이렇게 깔끔하지는 않아요. 두 브랜치가 같은 곳을 고쳤다면? 그게 다음 레슨에서 만날 충돌입니다.
+-->
+
+---
+
 # git status를 읽는 법
 
 <div class="text-xl opacity-75 -mt-2 pb-3">
