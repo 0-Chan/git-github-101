@@ -197,6 +197,12 @@ describe("git commands", () => {
       const result = await gitCommands.merge(["feature"], ctx);
       expect(result.output).toContain("CONFLICT (content): Merge conflict in file.txt");
       expect(ctx.pendingMerge).not.toBeNull();
+
+      // 마커는 실제 git 형식이어야 한다 — ours 라벨은 HEAD, 마커는 줄 시작에.
+      // 원본 파일에 끝 줄바꿈이 없어도 블록이 깨지지 않아야 한다.
+      const conflicted = await fs.promises.readFile("/file.txt", "utf8");
+      expect(conflicted).toContain("<<<<<<< HEAD\nmain change\n=======\nfeature change\n>>>>>>> feature");
+      expect(conflicted).not.toContain("<<<<<<< main");
     });
   });
 

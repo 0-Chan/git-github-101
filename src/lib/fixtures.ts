@@ -67,17 +67,19 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   "merge-conflict": {
-    version: 2,
+    version: 3,
     setup: async (fs) => {
+      // 파일은 끝 줄바꿈으로 끝나야 한다 — 없으면 diff3가 충돌 마커를
+      // 마지막 줄에 이어 붙여 <<<<<<< 블록이 깨진 모양으로 나온다.
       await initRepo(fs);
-      await addAndCommit(fs, "greeting.txt", "Hello", "add greeting");
+      await addAndCommit(fs, "greeting.txt", "Hello\n", "add greeting");
       await git.branch({ fs, dir: "/", ref: "feature" });
       await git.checkout({ fs, dir: "/", ref: "feature" });
-      await fs.promises.writeFile("/greeting.txt", "Hi! Nice to meet you!");
+      await fs.promises.writeFile("/greeting.txt", "Hi! Nice to meet you!\n");
       await git.add({ fs, dir: "/", filepath: "greeting.txt" });
       await git.commit({ fs, dir: "/", message: "feature: update greeting", author });
       await git.checkout({ fs, dir: "/", ref: "main" });
-      await fs.promises.writeFile("/greeting.txt", "Hello! Welcome!");
+      await fs.promises.writeFile("/greeting.txt", "Hello! Welcome!\n");
       await git.add({ fs, dir: "/", filepath: "greeting.txt" });
       await git.commit({ fs, dir: "/", message: "main: update greeting", author });
     },

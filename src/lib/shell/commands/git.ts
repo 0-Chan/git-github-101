@@ -391,6 +391,22 @@ export const gitCommands: Record<string, GitSubcommand> = {
         // MergeConflictError.data.filepaths에 충돌 파일 목록이 들어있다 —
         // 실제 git처럼 어떤 파일이 충돌했는지 알려준다.
         const filepaths: string[] = mergeErr?.data?.filepaths ?? [];
+
+        // isomorphic-git은 마커 라벨에 브랜치 이름을 쓰고, 끝 줄바꿈 없는
+        // 파일에서는 마커를 마지막 줄에 이어 붙인다. 실제 git 형식으로 보정:
+        // ours 라벨은 HEAD로, 마커는 항상 줄 시작에 오도록.
+        for (const f of filepaths) {
+          try {
+            const path = `${dir === "/" ? "" : dir}/${f}`;
+            const raw: string = await fs.promises.readFile(path, "utf8");
+            const fixed = raw
+              .replace(/([^\n])(<{7} |={7}|>{7} )/g, "$1\n$2")
+              .replaceAll(`<<<<<<< ${ours}`, "<<<<<<< HEAD");
+            if (fixed !== raw) await fs.promises.writeFile(path, fixed);
+          } catch {
+            // 보정 실패는 치명적이지 않다 — 원본 마커라도 남긴다
+          }
+        }
         const lines =
           filepaths.length > 0
             ? filepaths.flatMap((f) => [`Auto-merging ${f}`, `CONFLICT (content): Merge conflict in ${f}`])
