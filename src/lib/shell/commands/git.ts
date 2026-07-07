@@ -380,6 +380,11 @@ export const gitCommands: Record<string, GitSubcommand> = {
       await git.checkout({ fs, dir, ref });
       return { output: `Switched to branch '${ref}'` };
     } catch (err) {
+      // 커밋 안 한 변경 때문에 전환이 막힌 경우 stash를 안내한다.
+      const msg = err instanceof Error ? err.message : String(err);
+      if (/would be overwritten/.test(msg)) {
+        return errorResult(err, "먼저 git stash로 변경을 잠깐 치워두면 브랜치를 옮길 수 있어요.");
+      }
       return errorResult(err, "브랜치를 전환하는 명령어입니다. git branch로 브랜치 목록을 확인하세요.");
     }
   },

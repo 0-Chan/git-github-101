@@ -132,6 +132,29 @@ describe("git commands", () => {
       const current = await git.currentBranch({ fs, dir: "/" });
       expect(current).toBe("feature");
     });
+
+    it("blocks switching with a dirty conflicting file and suggests stash", async () => {
+      const author = { name: "학습자", email: "learner@git101.dev" };
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.setConfig({ fs, dir: "/", path: "user.name", value: "학습자" });
+      await git.setConfig({ fs, dir: "/", path: "user.email", value: "learner@git101.dev" });
+      await fs.promises.writeFile("/app.txt", "main\n");
+      await git.add({ fs, dir: "/", filepath: "app.txt" });
+      await git.commit({ fs, dir: "/", message: "main", author });
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await fs.promises.writeFile("/app.txt", "feature\n");
+      await git.add({ fs, dir: "/", filepath: "app.txt" });
+      await git.commit({ fs, dir: "/", message: "feature", author });
+      // uncommitted change on feature
+      await fs.promises.writeFile("/app.txt", "feature\nWIP\n");
+
+      const result = await gitCommands.checkout(["main"], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.output).toContain("git stash");
+      // the switch did not happen
+      expect(await git.currentBranch({ fs, dir: "/" })).toBe("feature");
+    });
   });
 
   describe("git merge", () => {

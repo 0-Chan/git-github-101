@@ -103,12 +103,16 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   stash: {
-    version: 1,
+    version: 2,
     setup: async (fs) => {
-      // 커밋된 파일 하나, 작업트리는 깨끗. 레슨에서 edit으로 더티 변경을
-      // 만든 뒤 stash로 치웠다가 pop으로 되꺼낸다.
+      // feature 브랜치에서 작업 중인 상태로 시작. app.txt가 main과 다르므로,
+      // 더티 변경이 있으면 main으로 전환이 막힌다 — 그게 stash를 쓰는 이유.
       await initRepo(fs);
-      await addAndCommit(fs, "hello.txt", "Hello, Git!\n", "create hello.txt");
+      await addAndCommit(fs, "app.txt", "search: TODO\n", "add search placeholder");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await addAndCommit(fs, "app.txt", "search: 기본 구조\n", "start search feature");
+      // feature에 머문 채 종료 — 학습자는 여기서 작업 중이다.
     },
   },
   tag: {
