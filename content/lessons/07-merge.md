@@ -8,14 +8,14 @@ steps:
     instruction: "main 브랜치로 이동하세요"
     hint: "git checkout main"
     validation:
-      type: command-run
-      matches: "^git checkout main$"
+      type: current-branch
+      name: main
   - id: merge-feature
     instruction: "feature 브랜치를 main에 병합하세요"
     hint: "git merge feature"
     validation:
-      type: file-exists
-      path: /feature.txt
+      type: command-run
+      matches: "^git merge feature$"
 ---
 
 ## 머지(Merge)란?
@@ -23,6 +23,8 @@ steps:
 브랜치에서 작업이 완료되면, 그 내용을 메인 브랜치에 합쳐야 합니다. 이 과정을 **머지**(Merge)라고 합니다.
 
 ## main 브랜치로 이동하기
+
+지금 터미널은 `feature` 브랜치에서 `feature.txt` 커밋을 막 끝낸 상태입니다. `git branch`로 현재 위치를 확인해보세요.
 
 머지는 **합쳐지는 쪽** 브랜치에서 실행합니다. `feature` 브랜치의 내용을 `main`에 합치려면 먼저 `main` 브랜치로 이동합니다:
 

@@ -55,14 +55,15 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   merge: {
-    version: 2,
+    version: 3,
     setup: async (fs) => {
       await initRepo(fs);
       await addAndCommit(fs, "main.txt", "main", "commit on main");
       await git.branch({ fs, dir: "/", ref: "feature" });
       await git.checkout({ fs, dir: "/", ref: "feature" });
       await addAndCommit(fs, "feature.txt", "feature work", "commit on feature");
-      await git.checkout({ fs, dir: "/", ref: "main" });
+      // feature에 남겨둔다 — 레슨 스텝 1이 "main으로 이동"이므로
+      // 시작점은 feature여야 한다.
     },
   },
   "merge-conflict": {
