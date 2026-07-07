@@ -74,17 +74,6 @@
           "tag": "문서 작성"
         }
       ]
-    },
-    {
-      "title": "이 강의",
-      "items": [
-        {
-          "title": "강의 저장소",
-          "url": "https://github.com/0-Chan/git-github-101",
-          "description": "여러분이 지금 쓰는 이 튜토리얼의 소스 코드입니다. Star와 Fork로 직접 실습해보세요.",
-          "tag": "저장소"
-        }
-      ]
     }
   ]
 }
