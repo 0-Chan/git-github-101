@@ -62,7 +62,13 @@ export function getLessonBySlug(slug: string): LessonContent | null {
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
 
-  const processed = remark().use(remarkGfm).use(remarkBashPrompt).use(html, { sanitize: false }).processSync(content);
+  // singleTilde:false — 단일 ~는 취소선으로 보지 않는다. Git 튜토리얼은 HEAD~1
+  // 같은 표기를 자주 써서, ~ 하나가 <del>로 묶이면 문장이 깨진다.
+  const processed = remark()
+    .use(remarkGfm, { singleTilde: false })
+    .use(remarkBashPrompt)
+    .use(html, { sanitize: false })
+    .processSync(content);
 
   return {
     meta: data as LessonMeta,

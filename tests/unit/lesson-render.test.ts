@@ -25,4 +25,11 @@ describe("lesson rendering rules", () => {
     const html = (lesson as NonNullable<typeof lesson>).html;
     expect(html.includes("—"), "em dash(—)는 윤문 규칙상 금지").toBe(false);
   });
+
+  // HEAD~1 같은 표기의 ~ 하나가 취소선(<del>)으로 잘못 파싱되는 회귀 방지.
+  it.each(getAllLessons().map((m) => [m.slug]))("%s has no stray strikethrough", (slug) => {
+    const lesson = getLessonBySlug(slug);
+    const html = (lesson as NonNullable<typeof lesson>).html;
+    expect(html.includes("<del>"), "의도치 않은 취소선(<del>) 발견 — ~ 표기 확인").toBe(false);
+  });
 });
