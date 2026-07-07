@@ -218,7 +218,49 @@ gitGraph
 
 [click] 결론 강조
 
-→ 다음: 나는 지금 어느 이름표에? (HEAD)
+→ 다음: 안 움직이는 이름표, 태그
+-->
+
+---
+
+# 태그: 고정된 이름표
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+브랜치가 따라 움직인다면, 태그는 한 지점에 박아둡니다
+</div>
+
+<v-clicks>
+
+- 브랜치는 새 커밋을 쌓으면 이동, **태그는 특정 커밋에 고정**됩니다
+- 주 용도: **릴리스 지점 표시** (`v1.0.0`, `v1.1.0` 같은 버전 이름)
+
+</v-clicks>
+
+<div v-click class="pt-2">
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+</div>
+
+<div v-click class="pt-3 text-sm">
+GitHub에서 태그는 곧 <span style="color: var(--lane-main)">Release</span>입니다. 3일차 CI에서 자동 릴리스로 다시 만납니다
+</div>
+
+<!--
+브랜치 바로 뒤, 같은 "이름표" 개념으로 연결
+
+[click] 움직이는 이름표(브랜치) vs 박아두는 이름표(태그)
+
+[click] 용도: 릴리스 지점 (시맨틱 버저닝 v1.0.0)
+
+[click] 명령 시연 (annotated·lightweight 구분은 생략, 물으면 구두로)
+
+[click] GitHub Release로 이어짐 + 3일차 자동화 예고
+
+→ 다음: 지금 나는 어디에? (HEAD)
 -->
 
 ---
