@@ -675,6 +675,37 @@ layout: center
 
 ---
 
+# git status를 읽는 법
+
+<div class="text-xl opacity-75 -mt-2 pb-3">
+터미널이 하는 말을 그림으로 옮기면 이렇습니다
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
+flowchart LR
+  U["Untracked files<br/><small>&nbsp;아직 추적하지 않는 새 파일&nbsp;</small>"]
+  M["Changes not staged<br/><small>&nbsp;수정됐지만 스테이징 전&nbsp;</small>"]
+  S["Changes to be committed<br/><small>&nbsp;스테이징 완료, 커밋 대기&nbsp;</small>"]
+  C["커밋 완료"]
+  U -- "git add" --> S
+  M -- "git add" --> S
+  S -- "git commit" --> C
+```
+
+<div v-click class="pt-3 text-sm">
+<span style="color: var(--lane-main)">add는 무대에 올리는 일, commit은 셔터.</span> 아까 그 단체사진 그림 그대로입니다
+</div>
+
+<!--
+실습을 하다 보면 git status를 정말 자주 치게 됩니다. 터미널이 하는 말을 읽는 법을 정리해두죠.
+
+Untracked files는 Git이 아직 추적하지 않는 새 파일입니다. 방금 만든 파일이 여기에 있어요. Changes not staged는 수정되었지만 아직 스테이징되지 않은 파일. 그리고 Changes to be committed는 스테이징되어 커밋 대기 중인 파일입니다. 어느 쪽이든 git add를 하면 무대 위, 그러니까 커밋 대기 상태로 올라오고, git commit을 하면 기록이 됩니다. 커밋한 파일을 다시 고치면? Changes not staged로 돌아와서 이 그림을 다시 한 바퀴 돕니다.
+
+[click] 눈치채셨겠지만 아까 단체사진 그림 그대로입니다. add는 무대에 올리는 일, commit은 셔터를 누르는 일. 실습 중에 터미널에서 이 문구들이 보이면, 이 그림에서 내 파일이 어디에 있는지 찾아보세요. 이 슬라이드는 실습 내내 띄워두겠습니다.
+-->
+
+---
+
 # 브랜치: 본진을 지키는 실험실
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
@@ -748,33 +779,3 @@ git merge feature    # 2. feature를 main에 병합
 [click] 화면에 Fast-forward라는 말이 보일 텐데, main에 새 커밋이 없어서 포인터만 앞으로 밀면 되는 가장 단순한 머지라는 뜻입니다. 병합이 끝난 브랜치는 git branch -d feature로 지워도 됩니다. 그런데 머지가 항상 이렇게 깔끔하지는 않아요. 두 브랜치가 같은 곳을 고쳤다면? 그게 다음 레슨에서 만날 충돌입니다.
 -->
 
----
-
-# git status를 읽는 법
-
-<div class="text-xl opacity-75 -mt-2 pb-3">
-터미널이 하는 말을 그림으로 옮기면 이렇습니다
-</div>
-
-```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
-flowchart LR
-  U["Untracked files<br/><small>&nbsp;아직 추적하지 않는 새 파일&nbsp;</small>"]
-  M["Changes not staged<br/><small>&nbsp;수정됐지만 스테이징 전&nbsp;</small>"]
-  S["Changes to be committed<br/><small>&nbsp;스테이징 완료, 커밋 대기&nbsp;</small>"]
-  C["커밋 완료"]
-  U -- "git add" --> S
-  M -- "git add" --> S
-  S -- "git commit" --> C
-```
-
-<div v-click class="pt-3 text-sm">
-<span style="color: var(--lane-main)">add는 무대에 올리는 일, commit은 셔터.</span> 아까 그 단체사진 그림 그대로입니다
-</div>
-
-<!--
-실습을 하다 보면 git status를 정말 자주 치게 됩니다. 터미널이 하는 말을 읽는 법을 정리해두죠.
-
-Untracked files는 Git이 아직 추적하지 않는 새 파일입니다. 방금 만든 파일이 여기에 있어요. Changes not staged는 수정되었지만 아직 스테이징되지 않은 파일. 그리고 Changes to be committed는 스테이징되어 커밋 대기 중인 파일입니다. 어느 쪽이든 git add를 하면 무대 위, 그러니까 커밋 대기 상태로 올라오고, git commit을 하면 기록이 됩니다. 커밋한 파일을 다시 고치면? Changes not staged로 돌아와서 이 그림을 다시 한 바퀴 돕니다.
-
-[click] 눈치채셨겠지만 아까 단체사진 그림 그대로입니다. add는 무대에 올리는 일, commit은 셔터를 누르는 일. 실습 중에 터미널에서 이 문구들이 보이면, 이 그림에서 내 파일이 어디에 있는지 찾아보세요. 이 슬라이드는 실습 내내 띄워두겠습니다.
--->
