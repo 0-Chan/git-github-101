@@ -47,8 +47,7 @@
 
 ## 설계 원칙
 
-1. **교시(Period)는 시간표일 뿐, 추적 단위가 아니다.** 진행 추적은 활동(Activity) 단위,
-   활동은 회차(Session)에 소속. 교시는 표시 전용.
+1. **진행 추적은 활동(Activity) 단위다.** 활동은 회차(Session)에 소속된다. (시간표/교시는 앱에서 제거됨.)
 2. **레슨은 자동, 미션은 수동.** 튜토리얼 레슨은 기존 검증 시스템(`docs/validation-criteria.md`)이
    자동 체크. GitHub 실전 미션은 수강생이 직접 체크하는 수동 스텝(시트의 "자동차 경주 5단계" 방식).
 3. **이벤트 소싱, 로컬-퍼스트.** 상태 덮어쓰기 대신 append-only 이벤트 로그. 지금은
@@ -71,14 +70,7 @@ interface Session {             // 회차 (6시간)
   order: number;                // 1~4
   title: string;                // "Git 기초 — 커밋이라는 세이브 포인트"
   goal: string;                 // 결론형 학습 목표 한 줄
-  periods: Period[];            // 시간표 6칸 — 표시 전용
-  activities: Activity[];       // 진행 추적 단위 — 교시에 묶이지 않음
-}
-
-interface Period {              // 교시 = 시간 구획 (추적 없음)
-  order: number;                // 1~6
-  title: string;                // "OT", "커밋 실습" …
-  durationMin: number;          // 45
+  activities: Activity[];       // 진행 추적 단위
 }
 
 type Activity =

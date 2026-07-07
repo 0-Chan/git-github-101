@@ -122,14 +122,7 @@ export interface Session {
   order: number; // 1~4
   title: string;
   goal: string;
-  periods: Period[]; // 시간표 — 표시 전용, 추적 없음
   activities: Activity[]; // 진행 추적 단위
-}
-
-export interface Period {
-  order: number; // 1~6
-  title: string;
-  durationMin: number;
 }
 
 export type Activity =
