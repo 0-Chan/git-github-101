@@ -7,6 +7,7 @@ import "@xterm/xterm/css/xterm.css";
 import { emitLessonStep } from "@/lib/events";
 import { FIXTURE_VERSION_KEY, getFixture } from "@/lib/fixtures";
 import { HistoryNavigator, loadHistory, pushHistory, saveHistory } from "@/lib/shell/interactive/history";
+import { colorizeOutput } from "@/lib/shell/interactive/outputHighlight";
 import { renderLine, rowOf } from "@/lib/shell/interactive/render";
 import { complete, ghostSuggestion } from "@/lib/shell/interactive/suggest";
 import { Shell } from "@/lib/shell/Shell";
@@ -218,7 +219,8 @@ export function TerminalPanel({
           if (result.clear) {
             terminal.clear();
           } else if (result.output) {
-            const lines = result.output.split("\n");
+            // 색은 표시 전용 — 명령 반환값은 순수 텍스트, 렌더 때만 ANSI를 입힌다.
+            const lines = colorizeOutput(input, result.output).split("\n");
             lines.forEach((line, i) => {
               terminal.write(line);
               if (i < lines.length - 1) terminal.write("\r\n");
