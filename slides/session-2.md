@@ -698,7 +698,63 @@ GitHub Flow와 대비되는 무거운 전략
 
 2일차는 "이런 것도 있다" 수준, 실무 적용은 팀 상황에서
 
-→ 다음: 커밋 작명 규칙 (conventional commits)
+→ 다음: 갈라진 브랜치를 합치는 두 방식 (merge vs rebase)
+-->
+
+---
+
+# merge vs rebase: 합치는 방법이 다릅니다
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+둘 다 브랜치를 최신 흐름에 맞추지만, 기록 방식이 다릅니다
+</div>
+
+<div class="grid grid-cols-2 gap-3">
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">merge · 기록을 보존한다</div>
+
+```bash
+git merge origin/main
+```
+
+<div class="text-sm opacity-85">
+갈라진 흐름을 <strong>merge commit</strong>으로 묶음.<br>
+언제 갈라지고 합쳐졌는지 남음.<br>
+<strong>공유 브랜치에 안전</strong>
+</div>
+</div>
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">rebase · 내 커밋을 다시 쌓는다</div>
+
+```bash
+git rebase main
+```
+
+<div class="text-sm opacity-85">
+내 커밋을 최신 main 위에 재적용.<br>
+히스토리가 일직선처럼 보임.<br>
+<strong>나만 가진 브랜치에서만</strong>
+</div>
+</div>
+
+</div>
+
+<div v-click class="pt-3 text-sm">
+기준: <span style="color: var(--lane-main)">공유된 이력은 merge, 내 로컬 작업 정리는 rebase</span>
+</div>
+
+<!--
+브랜치 전략(GitHub Flow / Git Flow)까지 봤으니, 이제 갈라놓은 브랜치를 도로 하나로 합치는 이야기입니다. "합친다"는 건 다른 브랜치의 작업을 내 흐름으로 가져오는 것. 방법은 merge와 rebase 둘인데, 최종 파일 결과는 같아도 남는 기록(히스토리)이 다릅니다. 어제 first-contributions에서 PR이 머지된 것도, 방금 GitHub Flow 그림에서 feature가 main으로 들어간 것도 전부 이 merge였습니다. 즉 여러분은 이미 merge를 써봤고, 오늘은 그 옆에 rebase라는 선택지를 하나 더 얹는 셈입니다.
+
+[click] merge: 갈라진 두 흐름을 merge commit 하나로 묶습니다. "언제 갈라져서 언제 다시 합쳐졌는지"가 기록에 그대로 남습니다. 실제 일어난 일을 정직하게 보존하기 때문에, 여럿이 함께 쓰는 공유 브랜치(main 등)에 안전합니다. 단점이라면 머지가 잦을수록 히스토리가 그물처럼 얽혀 보인다는 점. 참고로 갈라진 게 없을 때는 merge commit도 안 만들고 그냥 포인터만 앞으로 당기는 fast-forward가 됩니다. 어제 본 "브랜치는 포인터" 이야기와 이어집니다.
+
+[click] rebase: 내 커밋들을 통째로 들어내서 최신 main 끝에 하나씩 다시 올려붙입니다. 그 결과 히스토리가 갈래 없이 일직선으로 깔끔해집니다. 대신 "다시 쌓는" 과정에서 커밋 해시가 전부 새로 계산됩니다. 즉 내용은 같아 보여도 원래 커밋과는 다른 커밋이 됩니다. 그래서 rebase한 브랜치를 이미 올려뒀다면 force-push가 필요하고, 충돌도 merge처럼 한 번에가 아니라 커밋 단위로 하나씩 풀게 됩니다.
+
+[click] 그래서 황금률이 하나 있습니다: 이미 push해서 남들이 볼 수 있는 커밋에는 rebase를 쓰지 않습니다. 남이 그 해시를 기준으로 작업하고 있는데 내가 해시를 갈아엎으면, 같은 변경이 두 번 나타나거나 히스토리가 어긋나 버립니다. 기준은 한 줄로: 공유된 이력은 merge, 아직 나만 가진 로컬 브랜치 정리는 rebase. 대표적인 rebase 용도는 PR 올리기 전에 git rebase main으로 내 feature 브랜치를 최신화하거나 지저분한 커밋을 다듬는 것입니다. 앞 pull 장에서 언급한 git pull --rebase도 바로 이 rebase고요. 수업에서는 일단 fetch → 확인 → merge를 손에 익히고, rebase는 "나 혼자 가진 브랜치를 정리할 때"부터 시작하길 권합니다.
+
+→ 다음: 커밋 메시지의 공용어 (conventional commits)
 -->
 
 ---
@@ -864,63 +920,7 @@ fork 버튼을 눌러야 했던 진짜 이유
 
 [click] 팀 프로젝트라면 개인 저장소보다 Organization 저장소가 협업의 기준점이 됩니다.
 
-→ 다음: 여럿이 브랜치를 합칠 때, merge와 rebase
--->
-
----
-
-# merge vs rebase: 합치는 방법이 다릅니다
-
-<div class="text-xl opacity-75 -mt-2 pb-2">
-둘 다 브랜치를 최신 흐름에 맞추지만, 기록 방식이 다릅니다
-</div>
-
-<div class="grid grid-cols-2 gap-3">
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm pb-1">merge · 기록을 보존한다</div>
-
-```bash
-git merge origin/main
-```
-
-<div class="text-sm opacity-85">
-갈라진 흐름을 <strong>merge commit</strong>으로 묶음.<br>
-언제 갈라지고 합쳐졌는지 남음.<br>
-<strong>공유 브랜치에 안전</strong>
-</div>
-</div>
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm pb-1">rebase · 내 커밋을 다시 쌓는다</div>
-
-```bash
-git rebase main
-```
-
-<div class="text-sm opacity-85">
-내 커밋을 최신 main 위에 재적용.<br>
-히스토리가 일직선처럼 보임.<br>
-<strong>나만 가진 브랜치에서만</strong>
-</div>
-</div>
-
-</div>
-
-<div v-click class="pt-3 text-sm">
-기준: <span style="color: var(--lane-main)">공유된 이력은 merge, 내 로컬 작업 정리는 rebase</span>
-</div>
-
-<!--
-팀으로 일하면 여러 브랜치를 하나로 합쳐야 할 때가 옵니다. 합치는 방식이 merge와 rebase 둘이라는 점을 짚습니다. 앞서 fetch/pull에서 이미 만난 merge가 그중 한 축입니다.
-
-[click] merge는 실제 협업의 흔적을 남깁니다. 기록이 갈라졌다가 합쳐진 모양이 보이기 때문에, 언제 어떤 브랜치가 합쳐졌는지 추적하기 좋습니다.
-
-[click] rebase는 내 커밋을 최신 main 위에 다시 쌓아 히스토리를 직선처럼 보이게 합니다. 대신 커밋 해시가 바뀌는 이력 재작성입니다.
-
-[click] 이미 push해서 다른 사람이 볼 수 있는 커밋에는 rebase를 쓰지 않습니다. 수업에서는 fetch → 확인 → merge를 먼저 익히고, rebase는 나 혼자 가진 작업을 정리할 때만 사용한다고 정리합니다.
-
-→ 다음: 이 구조 위에서 일감이 도는 방식 (관리 루프)
+→ 다음: 실무의 일감이 도는 궤도 (관리 루프)
 -->
 
 ---
