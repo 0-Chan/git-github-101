@@ -470,7 +470,7 @@ gitGraph
 
 - **main은 항상 배포 가능** 상태로 지킨다
 - 모든 작업은 **브랜치에서**, 합류는 **PR로**
-- 더 복잡한 Git Flow도 있지만, 단순함이 이겼습니다
+- 브랜치 전략은 팀마다 다릅니다. 더 구조적인 `Git Flow`도 있죠
 
 </v-clicks>
 
@@ -481,9 +481,60 @@ gitGraph
 
 [click] PR이 유일한 합류 경로 → 그래서 PR이 중요 문서가 됨
 
-[click] Git Flow는 이름만 언급 (develop/release 브랜치를 두는 무거운 방식, 요즘은 축소 추세)
+[click] 정답은 없음 / 팀마다 다름 → 대비되는 Git Flow는 다음 장에서 자세히
 
-→ 다음: 그 브랜치 위 커밋들의 작명 규칙
+→ 다음: 또 다른 전략, Git Flow
+-->
+
+---
+
+# 또 다른 전략: Git Flow
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+정해진 주기로 버전을 내는 팀의 방식
+</div>
+
+```mermaid {scale: 0.5}
+%%{init: {'theme': 'base', 'themeVariables': {'git0': '#f5a524', 'git1': '#7c3aed', 'git2': '#38bdf8', 'git3': '#34d399', 'gitBranchLabel0': '#ffffff', 'gitBranchLabel1': '#ffffff', 'gitBranchLabel2': '#ffffff', 'gitBranchLabel3': '#ffffff'}, 'gitGraph': {'showCommitLabel': false}}}%%
+gitGraph
+  commit tag: "v1.0"
+  branch develop
+  commit
+  branch feature
+  commit
+  checkout develop
+  merge feature
+  branch release
+  commit
+  checkout main
+  merge release tag: "v1.1"
+  checkout develop
+  merge release
+```
+
+<v-clicks>
+
+- `develop`이 다음 릴리스를 모으고, `main`엔 **완성된 버전만** 태그와 함께 올라갑니다
+- 여기에 `release/*` · `hotfix/*`까지, **역할별 브랜치**가 더 많습니다
+
+</v-clicks>
+
+<div v-click class="pt-3 text-sm">
+지속 배포 웹 서비스는 <span style="color: var(--lane-main)">GitHub Flow</span>, 버전 단위로 내는 팀은 <span style="color: var(--lane-main)">Git Flow</span>를 즐겨 씁니다
+</div>
+
+<!--
+GitHub Flow와 대비되는 무거운 전략
+
+다이어그램: main(배포된 버전만, 태그) / develop(다음 릴리스 통합) / feature / release
+
+[click] 역할별 브랜치: feature(기능) · release(출시 준비) · hotfix(긴급 수정) → 규칙이 GitHub Flow보다 많음
+
+[click] 누가 쓰나: 지속 배포(웹) → GitHub Flow / 버전 단위 배포(앱·패키지·여러 버전 유지) → Git Flow
+
+2일차는 "이런 것도 있다" 수준, 실무 적용은 팀 상황에서
+
+→ 다음: 커밋 작명 규칙 (conventional commits)
 -->
 
 ---
@@ -635,20 +686,40 @@ flowchart LR
   end
 ```
 
-<div v-click class="pt-3 text-sm">
-어제 clone한 주소가 <span style="color: var(--lane-main)">origin(내 fork)</span>이었습니다. PR은 origin의 브랜치를 <span style="color: var(--lane-main)">upstream에 제안</span>하는 것입니다
+<div v-click class="pt-2">
+<table class="w-full border-collapse text-xs">
+  <thead>
+    <tr class="border-b border-gray-400/30 text-left opacity-80">
+      <th class="py-1 pr-3 font-semibold">이름</th>
+      <th class="py-1 pr-3 font-semibold">가리키는 곳</th>
+      <th class="py-1 font-semibold">주로 하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-b border-gray-400/20">
+      <td class="py-1 pr-3 font-mono" style="color: var(--lane-main)">origin</td>
+      <td class="py-1 pr-3">내 fork</td>
+      <td class="py-1">내 작업 브랜치를 push하는 곳</td>
+    </tr>
+    <tr>
+      <td class="py-1 pr-3 font-mono" style="color: var(--lane-main)">upstream</td>
+      <td class="py-1 pr-3">원본 저장소</td>
+      <td class="py-1">원본 최신 변경을 fetch하고 PR을 보내는 곳</td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
-<div v-click class="pt-2 text-sm opacity-80">
-원본이 바뀌면 그 변화를 받아와 내 로컬도 따라잡아야 합니다
+<div v-click class="pt-2 text-sm">
+push는 <code>origin</code>으로, 최신 원본 확인은 <code>upstream</code>에서, PR은 origin의 브랜치를 upstream에 제안합니다
 </div>
 
 <!--
 훅 질문 2·3·4번의 답을 이 그림 하나로 정리합니다.
 
-[click] 어제 한 일을 다시 연결합니다. clone은 origin에서 했고, push도 origin으로 했습니다. PR은 origin의 브랜치를 upstream에 제안한 것입니다.
+[click] 표를 기준으로 origin/upstream 차이를 먼저 못박습니다. origin은 내가 clone한 내 fork, upstream은 원본 저장소입니다. push는 origin으로 합니다.
 
-원본 최신 따라가기: git remote add upstream <원본 주소>로 연결합니다. 실제로 받아오는 방법은 다음 장에서 다룹니다.
+[click] 원본 최신 확인은 upstream에서 합니다. PR은 origin의 브랜치를 upstream에 제안하는 문서입니다. 실제로 받아오는 방법은 다음 장에서 다룹니다.
 
 → 다음: 원격 따라잡기 (fetch vs pull)
 -->
