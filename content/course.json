@@ -49,8 +49,8 @@
           "title": "오프닝 덱: Git 심화와 협업 워크플로우",
           "deck": "/slides/s2"
         },
-        { "type": "lesson", "id": "s2-l16", "slug": "tag" },
         { "type": "lesson", "id": "s2-l13", "slug": "head" },
+        { "type": "lesson", "id": "s2-l16", "slug": "tag" },
         { "type": "lesson", "id": "s2-l14", "slug": "reset" },
         { "type": "lesson", "id": "s2-l15", "slug": "stash" },
         { "type": "lesson", "id": "s2-l27", "slug": "rebase" },

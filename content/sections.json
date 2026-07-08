@@ -111,22 +111,22 @@
       "hasTerminal": false
     },
     {
-      "id": "16-tag",
-      "order": 13,
-      "slug": "tag",
-      "title": "고정된 이름표: tag",
-      "description": "특정 커밋에 태그를 붙여 릴리스 지점을 표시하는 방법을 배웁니다",
-      "file": "16-tag.md",
-      "hasTerminal": true
-    },
-    {
       "id": "13-head",
-      "order": 14,
+      "order": 13,
       "slug": "head",
       "title": "지금 내 위치: HEAD",
       "description": "HEAD가 무엇을 가리키는지, HEAD~1 표기가 무엇인지 짚고 넘어갑니다",
       "file": "13-head.md",
       "hasTerminal": false
+    },
+    {
+      "id": "16-tag",
+      "order": 14,
+      "slug": "tag",
+      "title": "고정된 이름표: tag",
+      "description": "특정 커밋에 태그를 붙여 릴리스 지점을 표시하는 방법을 배웁니다",
+      "file": "16-tag.md",
+      "hasTerminal": true
     },
     {
       "id": "14-reset",

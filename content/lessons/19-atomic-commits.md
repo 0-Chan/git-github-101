@@ -1,7 +1,7 @@
 ---
 title: "좋은 커밋의 단위"
 slug: atomic-commits
-order: 19
+order: 20
 hasTerminal: false
 steps: []
 ---

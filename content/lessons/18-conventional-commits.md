@@ -1,7 +1,7 @@
 ---
 title: "conventional commits"
 slug: conventional-commits
-order: 18
+order: 19
 hasTerminal: true
 steps:
   - id: inspect-log

@@ -1,7 +1,7 @@
 ---
 title: "권한과 fork"
 slug: fork-permissions
-order: 20
+order: 21
 hasTerminal: false
 steps: []
 ---

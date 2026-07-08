@@ -1,7 +1,7 @@
 ---
 title: "GitHub Flow"
 slug: github-flow
-order: 17
+order: 18
 hasTerminal: false
 steps: []
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Issue → branch → PR"
 slug: issue-branch-pr-loop
-order: 22
+order: 23
 hasTerminal: false
 steps: []
 ---
