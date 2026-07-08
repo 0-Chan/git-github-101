@@ -635,7 +635,7 @@ flowchart LR
 </div>
 
 <div v-click class="pt-2 text-sm opacity-80">
-원본이 바뀌면 <code>git fetch upstream</code>으로 내 로컬에 최신을 받아옵니다
+원본이 바뀌면 그 변화를 받아와 내 로컬을 따라잡아야 합니다
 </div>
 
 <!--
@@ -643,9 +643,45 @@ flowchart LR
 
 [click] 어제의 동작 재구성: clone(origin에서) → push(origin으로) → PR(origin → upstream 제안)
 
-원본 최신 따라가기: git remote add upstream <원본 주소> 후 fetch/pull (미션에서 실습)
+원본 최신 따라가기: git remote add upstream <원본 주소> 연결 (받는 법은 다음 장)
 
-→ 다음: 이 구조 위에서 일감이 도는 방식
+→ 다음: 원격 따라잡기 (fetch vs pull)
+-->
+
+---
+
+# fetch와 pull: 원격 따라잡기
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+원격의 변화를 안전하게 받아오는 법
+</div>
+
+```mermaid {scale: 0.6, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
+flowchart LR
+  R["원격<br/><small>&nbsp;GitHub&nbsp;</small>"] -- "git fetch" --> T["origin/main<br/><small>&nbsp;원격의 로컬 거울&nbsp;</small>"] -- "git merge" --> B["내 브랜치<br/><small>&nbsp;main&nbsp;</small>"]
+```
+
+<v-clicks>
+
+- `git fetch` = 원격의 새 커밋을 **`origin/main`(원격의 로컬 거울)** 까지만 받아옵니다. 내 작업과 현재 브랜치는 <strong>그대로</strong>라 확인 후 합칠 수 있어 안전
+- `git pull` = **`fetch` + `merge`**. 받아서 곧장 내 브랜치에 합칩니다
+
+</v-clicks>
+
+<div v-click class="pt-2 text-sm opacity-80">
+헷갈리면 <code>fetch</code>로 먼저 보고 합치세요. fork라면 <code>upstream</code>도 같은 방식으로 따라잡습니다
+</div>
+
+<!--
+origin/upstream 다음: 원격 변화를 어떻게 받아오나
+
+[click] fetch = 원격 추적 브랜치(origin/main)까지만 / 작업 디렉터리·현재 브랜치 안 건드림 → 안전 (ls-remote로 본 "로컬 origin/main vs 라이브 원격"의 그 거울)
+
+[click] pull = fetch + merge 한 번에 / 편하지만 바로 섞임 (충돌은 여기서 남)
+
+[click] 팁: 신중히 할 땐 fetch → 확인 → merge / upstream도 동일
+
+→ 다음: 이 구조 위에서 일감이 도는 방식 (관리 루프)
 -->
 
 ---
