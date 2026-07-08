@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{ current?: number; marker?: string }>(),
 })
 
 const sections = [
-  "어제의 복습과 질문",
+  "first-contributions 복기",
   "Git의 원리",
   "실무 워크플로우",
   "협업의 구조",
