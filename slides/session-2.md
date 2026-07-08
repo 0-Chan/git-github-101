@@ -324,6 +324,10 @@ git revert HEAD
 커밋을 되돌릴 땐: <span style="color: var(--lane-main)">push 전이면 reset, 이미 push했다면 revert</span>
 </div>
 
+<div v-click class="pt-2 text-xs opacity-70">
+이력 <strong>중간</strong> 커밋을 골라 빼거나 고칠 땐 <code>git rebase -i</code> (reset처럼 이력 재작성이라 로컬 전용)
+</div>
+
 <!--
 1일차 키워드 "되돌릴 수 있다"가 드디어 실제 명령으로
 
@@ -332,6 +336,8 @@ git revert HEAD
 [click] revert: 지우는 게 아니라 "되돌렸다"는 사실도 기록
 
 [click] 커밋 되돌릴 때 기준: push 전 reset / push 후 revert (reset은 스테이징 취소·브랜치 되감기 등 용도가 더 많음. 여기선 커밋 되돌리기 맥락) / Q: 왜? (남이 이미 그 이력 위에서 작업 중일 수 있으니)
+
+[click] rebase -i: 이력 "중간" 커밋을 골라 drop(빼기)·edit(고치기). tip에서 물러나는 reset과 달리 중간 것만 제거 가능. reset과 같은 이력 재작성이라 로컬 전용, 이미 push한 이력엔 금물. (2일차엔 개념만, 실습은 나중 회차)
 
 → 다음: 지우지도 커밋하지도 않고 잠깐 치워두기
 -->
