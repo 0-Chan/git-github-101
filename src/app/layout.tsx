@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans_KR } from "next/font/google";
 import Script from "next/script";
 import { Nav } from "@/components/Nav";
-import { ParticipantBadge } from "@/components/ParticipantBadge";
 import "./globals.css";
 
 // "Human voice" — teaching prose and headlines, covers Hangul.
@@ -36,7 +35,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${plexSans.variable} ${plexMono.variable} font-sans antialiased bg-ground text-ink`}>
         <Nav />
         {children}
-        <ParticipantBadge />
       </body>
     </html>
   );

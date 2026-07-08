@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getCourse } from "@/lib/course";
 import { DeckMenu } from "./DeckMenu";
+import { ParticipantBadge } from "./ParticipantBadge";
 import { SessionMenu } from "./SessionMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -13,7 +14,7 @@ export function Nav() {
         <Link href="/" className="font-mono font-bold text-lg text-lane-main">
           ▸ git-github-101
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <SessionMenu sessions={sessions} />
           <DeckMenu sessions={sessions} />
           <Link
@@ -22,6 +23,7 @@ export function Nav() {
           >
             자료
           </Link>
+          <ParticipantBadge />
           <ThemeToggle />
         </div>
       </div>

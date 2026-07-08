@@ -4,7 +4,7 @@ import { useParticipant } from "@/hooks/useParticipant";
 import { registerNameDialog } from "@/lib/nameDialog";
 import { setParticipantName } from "@/lib/participant";
 
-// 좌측 하단 고정 이름 배지 + "수강생 이름을 입력 해주세요." 모달.
+// 상단 nav의 이름 배지(테마 토글 왼쪽) + "수강생 이름을 입력 해주세요." 모달.
 // 배지 클릭으로 언제든 수정할 수 있고, 레슨 쪽 트리거(읽음 완료·다음 레슨)가
 // openNameDialog()로 같은 모달을 연다.
 export function ParticipantBadge() {
@@ -47,14 +47,14 @@ export function ParticipantBadge() {
         type="button"
         onClick={() => setOpen(true)}
         title="이름 수정"
-        className={`fixed bottom-4 left-4 z-40 flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm shadow-lg backdrop-blur transition-colors ${
+        className={`flex max-w-40 items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
           participant
             ? "border-edge bg-surface/90 text-ink hover:border-orange-500/50"
             : "border-dashed border-edge bg-ground/80 text-muted hover:text-ink"
         }`}
       >
         <span aria-hidden>👤</span>
-        {participant ? participant.name : "이름 설정"}
+        <span className="truncate">{participant ? participant.name : "이름 설정"}</span>
       </button>
 
       {open && (
