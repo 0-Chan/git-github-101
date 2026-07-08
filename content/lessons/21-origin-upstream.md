@@ -1,7 +1,7 @@
 ---
 title: "origin과 upstream"
 slug: origin-upstream
-order: 22
+order: 21
 hasTerminal: true
 steps:
   - id: inspect-origin

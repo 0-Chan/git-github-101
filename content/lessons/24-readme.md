@@ -1,7 +1,7 @@
 ---
 title: "README.md"
 slug: readme
-order: 25
+order: 24
 hasTerminal: true
 steps:
   - id: write-summary

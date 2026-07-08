@@ -1,7 +1,7 @@
 ---
 title: "PR이라는 문서"
 slug: pr-document
-order: 24
+order: 23
 hasTerminal: false
 steps: []
 ---

@@ -57,7 +57,6 @@
         { "type": "lesson", "id": "s2-l17", "slug": "github-flow" },
         { "type": "lesson", "id": "s2-l18", "slug": "conventional-commits" },
         { "type": "lesson", "id": "s2-l19", "slug": "atomic-commits" },
-        { "type": "lesson", "id": "s2-l20", "slug": "fork-permissions" },
         { "type": "lesson", "id": "s2-l21", "slug": "origin-upstream" },
         { "type": "lesson", "id": "s2-l22", "slug": "issue-branch-pr-loop" },
         { "type": "lesson", "id": "s2-l23", "slug": "pr-document" },

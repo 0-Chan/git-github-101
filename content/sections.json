@@ -183,17 +183,8 @@
       "hasTerminal": false
     },
     {
-      "id": "20-fork-permissions",
-      "order": 21,
-      "slug": "fork-permissions",
-      "title": "권한과 fork",
-      "description": "write 권한 유무가 팀 브랜치 작업과 fork 협업을 어떻게 나누는지 배웁니다",
-      "file": "20-fork-permissions.md",
-      "hasTerminal": false
-    },
-    {
       "id": "21-origin-upstream",
-      "order": 22,
+      "order": 21,
       "slug": "origin-upstream",
       "title": "origin과 upstream",
       "description": "내 fork와 원본 저장소의 원격 이름을 구분하고 upstream을 추가합니다",
@@ -202,7 +193,7 @@
     },
     {
       "id": "22-issue-branch-pr-loop",
-      "order": 23,
+      "order": 22,
       "slug": "issue-branch-pr-loop",
       "title": "Issue → branch → PR",
       "description": "이슈에서 브랜치와 PR로 이어지는 프로젝트 관리 루프를 배웁니다",
@@ -211,7 +202,7 @@
     },
     {
       "id": "23-pr-document",
-      "order": 24,
+      "order": 23,
       "slug": "pr-document",
       "title": "PR이라는 문서",
       "description": "PR 제목, 설명, 확인 방법을 리뷰어가 읽는 순서로 쓰는 법을 배웁니다",
@@ -220,7 +211,7 @@
     },
     {
       "id": "24-readme",
-      "order": 25,
+      "order": 24,
       "slug": "readme",
       "title": "README.md",
       "description": "처음 온 사람이 5분 안에 실행할 수 있는 README 기본 구조를 작성합니다",
@@ -229,7 +220,7 @@
     },
     {
       "id": "25-github-record",
-      "order": 26,
+      "order": 25,
       "slug": "github-record",
       "title": "GitHub 기록",
       "description": "커밋, PR, README가 공개 이력으로 남는 이유를 알아봅니다",
@@ -238,7 +229,7 @@
     },
     {
       "id": "26-github-auth",
-      "order": 27,
+      "order": 26,
       "slug": "github-auth",
       "title": "Git과 GitHub 인증",
       "description": "HTTPS 토큰과 SSH key의 차이를 알고 push 인증 문제를 구분합니다",

@@ -1,7 +1,7 @@
 ---
 title: "GitHub 기록"
 slug: github-record
-order: 26
+order: 25
 hasTerminal: false
 steps: []
 ---

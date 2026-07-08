@@ -1,7 +1,7 @@
 ---
 title: "Git과 GitHub 인증"
 slug: github-auth
-order: 27
+order: 26
 hasTerminal: false
 steps: []
 ---
