@@ -35,7 +35,7 @@ $ git remote add upstream ...
 # 목차
 
 <div class="text-xl opacity-75 -mt-2 pb-6">
-어제의 질문에서 출발해, 오늘 만들 것을 정하기까지
+복기부터 다음 걸음까지
 </div>
 
 <SectionToc />
@@ -43,11 +43,11 @@ $ git remote add upstream ...
 <!--
 오늘 하루의 지도 먼저 펼치기 (어제 왔던 분들이라 "오늘 뭐 하나" 궁금)
 
-여섯 정거장: 복습·질문 → 원리 → 워크플로우 → 협업 → 기록 → 다음 걸음
+오늘의 흐름: 복기 → 원리 → 워크플로우 → 협업 → 기록 → 다음 걸음
 
 막이 바뀔 때마다 이 지도를 다시 꺼내 "지금 여기"를 짚어줌
 
-→ 첫 정거장: 어제 만든 PR
+→ 시작: 어제 만든 PR
 -->
 
 ---
@@ -105,47 +105,45 @@ layout: center
 <!--
 어제가 "그림 그리기"였다면 오늘은 그 그림의 속을 뜯어보는 막
 
-지도에서 두 번째 정거장 도착 (복습·질문은 지나옴)
+지도에서 두 번째 순서 (복기는 지나옴)
 
 → 커밋의 정체부터
 -->
 
 ---
 
-# 커밋의 정체: 스냅샷과 지문
+# 커밋 복습: 스냅샷과 지문
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-어제 본 a1b2c3d는 무엇이었나
+어제 본 a1b2c3d만 다시 짚고 갑니다
 </div>
 
 ```text
-commit a1b2c3d (HEAD -> main)
-Author: 김발표 <presenter@example.com>
-Date:   Mon Jul 6 14:32:11 2026 +0900
-
-    자료조사 보강
+a1b2c3d  자료조사 보강
 ```
 
+<v-clicks>
+
+- 커밋 = 그 순간 프로젝트 전체의 **스냅샷**
+- 해시 = 그 스냅샷을 가리키는 **고유 지문**
+- 부모 커밋을 따라 **사슬처럼** 이어집니다
+
+</v-clicks>
+
 <div v-click class="pt-3 text-sm">
-커밋은 변경분이 아니라 <strong>그 순간 프로젝트 전체의 스냅샷</strong>입니다
-</div>
-
-<div v-click class="pt-2 text-sm opacity-90">
-해시는 그 스냅샷에 <strong>내용·부모·작성자·시간·메시지</strong>를 뭉친 지문. <code>a1b2c3d</code>는 그 앞 7자입니다
-</div>
-
-<div v-click class="pt-2 text-sm">
-부모를 품어 <span style="color: var(--lane-main)">사슬로 엮이니</span>, 과거를 바꾸면 그 뒤가 전부 달라집니다 (위조 불가)
+오늘 필요한 건 하나: <span style="color: var(--lane-main)">커밋은 사슬 위의 한 점</span>입니다
 </div>
 
 <!--
-어제 git log에서 본 그 문자열의 정체
+어제 git log에서 본 문자열을 짧게 회수
 
-[click] 스냅샷 강조: 커밋은 diff가 아니라 그 시점 프로젝트 전체 사진 (흔한 오해 교정)
+[click] 커밋은 diff가 아니라 그 시점 프로젝트 전체 사진
 
-[click] 해시 = 지문(fingerprint). 5요소를 뭉침 / a1b2c3d는 40자 해시의 앞 7자 / 내용만이 아님
+[click] 해시는 그 사진을 다시 찾는 지문. 긴 해시 전체를 다 외울 필요는 없고 보통 앞 7자만 봄
 
-[click] 부모 포함 → 사슬(chain) → 과거 위조 불가
+[click] 부모 커밋으로 이어진 사슬이라는 점만 남기기
+
+[click] 다음 HEAD 설명으로 연결: HEAD는 이 사슬 위에서 지금 내가 선 점을 가리킴
 
 → 다음: 브랜치 바꾸면 파일이 사라지는 현상 (HEAD 궁금증)
 -->
@@ -209,10 +207,10 @@ flowchart RL
 
 ---
 
-# 브랜치의 정체: 이름표
+# 브랜치의 정체: 이름 붙은 포인터
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-가지라고 불렀지만, 실은 커밋에 붙인 포스트잇
+커밋을 가리키는 움직이는 이름표
 </div>
 
 ```mermaid {scale: 0.6, theme: 'base', themeVariables: {git0: '#f5a524', git1: '#7c3aed', gitBranchLabel0: '#ffffff', gitBranchLabel1: '#ffffff', commitLabelFontSize: '13px'}}
@@ -225,23 +223,26 @@ gitGraph
 
 <v-clicks>
 
-- 브랜치 = 특정 커밋을 가리키는 **이름표**. 새 커밋을 쌓으면 이름표가 따라 이동
-- 그래서 만드는 비용이 사실상 0입니다
+- 브랜치 = 특정 커밋을 가리키는 **이름 붙은 포인터**
+- 새 커밋을 쌓으면 브랜치 포인터가 최신 커밋으로 이동
+- `HEAD`는 보통 `main` 같은 브랜치를 거쳐 커밋을 가리킵니다
 
 </v-clicks>
 
 <div v-click class="pt-3 text-sm">
-결론: <span style="color: var(--lane-main)">브랜치는 공짜입니다. 마음껏 만드세요</span>
+결론: <span style="color: var(--lane-main)">브랜치는 커밋 복사가 아니라 포인터 하나 추가입니다</span>
 </div>
 
 <!--
-어제 "가지" 비유의 실체 공개 / 그래프의 main·feature 라벨이 바로 이름표
+어제 "가지" 비유의 실체 공개 / 그래프의 main·feature 라벨이 바로 이름 붙은 포인터
 
-[click] 이름표는 커밋을 가리킬 뿐, 커밋을 복사하지 않음
+[click] 브랜치도 포인터라고 봐도 됨. 특정 커밋을 가리키는 이름 붙은 포인터
 
-[click] 비용 0 (실험 부담 없음)
+[click] 새 커밋을 만들면 커밋이 복사되는 게 아니라 브랜치 포인터가 앞으로 이동
 
-[click] 결론 강조
+[click] HEAD와 연결: 보통 HEAD → main → 최신 커밋 구조로 이해하면 충분
+
+[click] 결론 강조: 브랜치 생성은 커밋 복사가 아니라 포인터 하나 추가라 가볍다
 
 → 다음: 안 움직이는 이름표, 태그
 -->
