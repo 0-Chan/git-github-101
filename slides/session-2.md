@@ -115,11 +115,15 @@ layout: center
 # 커밋 복습: 스냅샷과 지문
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-어제 본 a1b2c3d만 다시 짚고 갑니다
+어제 본 git log 출력을 다시 짚고 갑니다
 </div>
 
 ```text
-a1b2c3d  자료조사 보강
+commit a1b2c3d (HEAD -> main)
+Author: 김발표 <presenter@example.com>
+Date:   Mon Jul 6 14:32:11 2026 +0900
+
+    자료조사 보강
 ```
 
 <v-clicks>
@@ -135,7 +139,7 @@ a1b2c3d  자료조사 보강
 </div>
 
 <!--
-어제 git log에서 본 문자열을 짧게 회수
+어제 git log에서 본 전체 출력을 회수
 
 [click] 커밋은 diff가 아니라 그 시점 프로젝트 전체 사진
 
@@ -190,8 +194,8 @@ flowchart RL
 
 <v-clicks>
 
-- HEAD는 보통 `main` 같은 브랜치를 거쳐 커밋을 가리키고, **새 커밋도 그 위에 쌓입니다**
-- `HEAD~1`은 **한 칸 전(부모 커밋)**, `HEAD~2`는 두 칸 전. HEAD 기준으로 사슬을 거슬러 세는 표기입니다
+- HEAD는 보통 `main` 같은 **브랜치를 거쳐** 지금 커밋을 가리킵니다
+- `HEAD~1`은 **한 칸 전(부모)**, `HEAD~2`는 두 칸 전. HEAD에서 거슬러 세는 표기
 
 </v-clicks>
 
