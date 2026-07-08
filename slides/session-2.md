@@ -861,6 +861,62 @@ fetch를 자세히 본 뒤 pull을 비교합니다.
 
 [click] 초보자와 수업에서는 fetch → 확인 → merge를 권합니다. pull은 구조를 이해한 뒤 빠르게 쓰는 축약 명령으로 소개합니다.
 
+→ 다음: merge와 rebase 선택 기준
+-->
+
+---
+
+# merge vs rebase: 합치는 방법이 다릅니다
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+둘 다 브랜치를 최신 흐름에 맞추지만, 기록 방식이 다릅니다
+</div>
+
+<div class="grid grid-cols-2 gap-3">
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">merge · 기록을 보존한다</div>
+
+```bash
+git merge origin/main
+```
+
+<div class="text-sm opacity-85">
+갈라진 흐름을 <strong>merge commit</strong>으로 묶음.<br>
+언제 갈라지고 합쳐졌는지 남음.<br>
+<strong>공유 브랜치에 안전</strong>
+</div>
+</div>
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">rebase · 내 커밋을 다시 쌓는다</div>
+
+```bash
+git rebase main
+```
+
+<div class="text-sm opacity-85">
+내 커밋을 최신 main 위에 재적용.<br>
+히스토리가 일직선처럼 보임.<br>
+<strong>나만 가진 브랜치에서만</strong>
+</div>
+</div>
+
+</div>
+
+<div v-click class="pt-3 text-sm">
+기준: <span style="color: var(--lane-main)">공유된 이력은 merge, 내 로컬 작업 정리는 rebase</span>
+</div>
+
+<!--
+pull = fetch + merge라고 배운 직후, 합치는 방식에는 rebase도 있다는 점을 연결합니다.
+
+[click] merge는 실제 협업의 흔적을 남깁니다. 기록이 갈라졌다가 합쳐진 모양이 보이기 때문에, 언제 어떤 브랜치가 합쳐졌는지 추적하기 좋습니다.
+
+[click] rebase는 내 커밋을 최신 main 위에 다시 쌓아 히스토리를 직선처럼 보이게 합니다. 대신 커밋 해시가 바뀌는 이력 재작성입니다.
+
+[click] 이미 push해서 다른 사람이 볼 수 있는 커밋에는 rebase를 쓰지 않습니다. 수업에서는 fetch → 확인 → merge를 먼저 익히고, rebase는 나 혼자 가진 작업을 정리할 때만 사용한다고 정리합니다.
+
 → 다음: 이 구조 위에서 일감이 도는 방식 (관리 루프)
 -->
 
@@ -939,6 +995,40 @@ flowchart LR
 [click] 3문단 템플릿 / "리뷰어가 코드를 열기 전에 읽는 것"
 
 [click] 훅 회수 선언 + 리뷰 왕복은 내일(3일차) 예고
+
+→ 다음: 빨리 리뷰받는 PR
+-->
+
+---
+
+# 빨리 리뷰받는 PR
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+리뷰어의 수고를 줄이면 피드백이 빨라집니다
+</div>
+
+<v-clicks>
+
+- **작게 쪼개기**: 작은 PR일수록 빨리 읽히고 빨리 머지됩니다
+- **올리기 전 셀프리뷰**: 내 diff를 먼저 한 번 읽고 다듬습니다
+- **봐달라 지점 명시**: 설명에 "어디를 집중해서 볼지"를 적어둡니다
+
+</v-clicks>
+
+<div v-click class="pt-3 text-sm">
+리뷰어 지정, CI 통과 확인 같은 <span style="color: var(--lane-main)">리뷰 자동화</span>는 3일차에서 다룹니다
+</div>
+
+<!--
+PR을 "잘 쓰는 것"에서 "빨리 리뷰받는 것"으로 한 걸음 (작성자가 할 수 있는 몫)
+
+[click] 작게: 좋은 커밋의 단위와 같은 원리 / 큰 PR은 리뷰가 밀림
+
+[click] 셀프리뷰: 올리기 전 내가 먼저 diff 훑기로 사소한 실수 미리 제거
+
+[click] 봐달라 지점: "이 함수 로직만 봐주세요" 한 줄이 왕복을 줄임
+
+[click] 리뷰어 지정·CI·팔로업은 3일차(코드 리뷰)에서 본격적으로
 
 → 5막: 이 기록들이 자산이 되는 이야기
 -->
