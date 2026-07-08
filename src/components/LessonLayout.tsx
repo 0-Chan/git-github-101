@@ -126,7 +126,9 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       <div className="hidden lg:block">
         <Sidebar sections={sections} progress={progress} />
       </div>
-      <div className={`flex-1 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : "flex-col"}`}>
+      {/* min-w-0: xterm이 박아둔 고정 픽셀 폭(min-content)이 이 컨테이너를
+          벌려 페이지를 가로로 넘치게 하는 것을 차단 */}
+      <div className={`flex-1 min-w-0 flex ${lesson.meta.hasTerminal ? "flex-col lg:flex-row" : "flex-col"}`}>
         <GuidePanel
           html={lesson.html}
           steps={lesson.meta.steps}
@@ -153,7 +155,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
               terminalExpanded ? "lg:w-[70%] h-[60vh]" : "lg:w-1/2 h-80"
             } lg:h-full lg:min-w-[420px] p-4 flex flex-col gap-2 transition-[width,height] duration-300 ease-in-out`}
           >
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 min-w-0 overflow-hidden">
               <TerminalPanel
                 key={terminalKey}
                 namespace={`lesson-${lesson.meta.slug}`}
