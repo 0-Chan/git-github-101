@@ -210,26 +210,17 @@
       "hasTerminal": false
     },
     {
-      "id": "24-readme",
-      "order": 24,
-      "slug": "readme",
-      "title": "README.md",
-      "description": "처음 온 사람이 5분 안에 실행할 수 있는 README 기본 구조를 작성합니다",
-      "file": "24-readme.md",
-      "hasTerminal": true
-    },
-    {
       "id": "25-github-record",
-      "order": 25,
+      "order": 24,
       "slug": "github-record",
-      "title": "GitHub 기록",
-      "description": "커밋, PR, README가 공개 이력으로 남는 이유를 알아봅니다",
+      "title": "GitHub 기록과 GFM",
+      "description": "커밋, PR, README가 공개 기록으로 남는 이유와 GitHub Flavored Markdown 기본 표현을 배웁니다",
       "file": "25-github-record.md",
       "hasTerminal": false
     },
     {
       "id": "26-github-auth",
-      "order": 26,
+      "order": 25,
       "slug": "github-auth",
       "title": "Git과 GitHub 인증",
       "description": "HTTPS 토큰과 SSH key의 차이를 알고 push 인증 문제를 구분합니다",

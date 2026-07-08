@@ -160,13 +160,6 @@ const fixtures: Record<string, FixtureConfig> = {
       });
     },
   },
-  readme: {
-    version: 1,
-    setup: async (fs) => {
-      await initRepo(fs);
-      await addAndCommit(fs, "README.md", "# Mini Git Tool\n\nTODO\n", "chore: create placeholder README");
-    },
-  },
 };
 
 export function getFixture(slug: string): FixtureConfig {
