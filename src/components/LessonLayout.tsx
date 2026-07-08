@@ -1,14 +1,19 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useProgress } from "@/hooks/useProgress";
 import { useTabLock } from "@/hooks/useTabLock";
+import { celebrate } from "@/lib/confetti";
 import { FIXTURE_VERSION_KEY } from "@/lib/fixtures";
+import { openNameDialog } from "@/lib/nameDialog";
+import { nextSection } from "@/lib/nextSection";
+import { getParticipant } from "@/lib/participant";
 import type { Shell } from "@/lib/shell/Shell";
 import { validateAllSteps } from "@/lib/validation";
 import type { LessonContent, Section } from "@/types";
 import { GuidePanel } from "./GuidePanel";
 import { MarkReadButton } from "./MarkReadButton";
+import { NextLessonButton } from "./NextLessonButton";
 import { Sidebar } from "./Sidebar";
 
 const TerminalPanel = dynamic(() => import("./TerminalPanel").then((m) => ({ default: m.TerminalPanel })), {
@@ -26,8 +31,13 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<boolean[]>(new Array(lesson.meta.steps.length).fill(false));
   const [terminalKey, setTerminalKey] = useState(0);
+  const [terminalExpanded, setTerminalExpanded] = useState(false);
   const currentStep = completedSteps.findIndex((c) => !c);
   const _allComplete = completedSteps.every(Boolean);
+  const nextLesson = nextSection(sections, lesson.meta.slug);
+  const terminalColRef = useRef<HTMLDivElement>(null);
+  // 라이브 완주 순간에만 한 번 터뜨린다 (Strict Mode 이중 호출·복원 경로 방지)
+  const celebrationFiredRef = useRef(false);
 
   const handleStepComplete = useCallback(
     (stepIndex: number) => {
@@ -36,6 +46,10 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
         next[stepIndex] = true;
         if (next.every(Boolean)) {
           markComplete(lesson.meta.slug);
+          if (!celebrationFiredRef.current) {
+            celebrationFiredRef.current = true;
+            celebrate(terminalColRef.current);
+          }
         }
         return next;
       });
@@ -50,6 +64,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
     await destroyFS(`lesson-${slug}`);
     localStorage.removeItem(`${FIXTURE_VERSION_KEY}-${slug}`);
     clearHistory(`lesson-${slug}`);
+    celebrationFiredRef.current = false; // 재완주 시 다시 축하
     setCompletedSteps(new Array(lesson.meta.steps.length).fill(false));
     setTerminalKey((k) => k + 1);
   }, [lesson.meta.slug, lesson.meta.steps.length]);
@@ -57,10 +72,15 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
   const handleShellReady = useCallback(
     async (shell: Shell) => {
       if (lesson.meta.steps.length > 0) {
-        const results = await validateAllSteps(lesson.meta.steps, shell.getFS(), "/");
+        const { loadHistory } = await import("@/lib/shell/interactive/history");
+        const results = await validateAllSteps(lesson.meta.steps, shell.getFS(), "/", {
+          history: loadHistory(`lesson-${lesson.meta.slug}`),
+        });
         setCompletedSteps(results);
         if (results.every(Boolean)) {
           markComplete(lesson.meta.slug);
+          // 복원으로 이미 완료된 레슨 — 리로드마다 confetti가 터지면 안 된다
+          celebrationFiredRef.current = true;
         }
       }
     },
@@ -80,7 +100,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
       <button
         type="button"
         onClick={() => setMobileMenuOpen(true)}
-        className="lg:hidden fixed bottom-4 left-4 z-40 p-3 bg-orange-500 text-white rounded-full shadow-lg"
+        className="lg:hidden fixed bottom-20 left-4 z-40 p-3 bg-orange-500 text-white rounded-full shadow-lg"
         aria-label="Open menu"
       >
         ☰
@@ -114,10 +134,25 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
           currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
         />
         {!lesson.meta.hasTerminal && (
-          <MarkReadButton done={!!progress[lesson.meta.slug]} onMarkRead={() => markComplete(lesson.meta.slug)} />
+          <MarkReadButton
+            done={!!progress[lesson.meta.slug]}
+            onMarkRead={() => {
+              markComplete(lesson.meta.slug);
+              celebrate();
+              // 완료는 즉시 처리하고, 이름이 없으면 입력을 유도한다
+              if (!getParticipant()) openNameDialog();
+            }}
+            nextHref={nextLesson ? `/lessons/${nextLesson.slug}` : undefined}
+            nextTitle={nextLesson?.title}
+          />
         )}
         {lesson.meta.hasTerminal && (
-          <div className="lg:w-1/2 h-80 lg:h-full p-4 flex flex-col gap-2">
+          <div
+            ref={terminalColRef}
+            className={`${
+              terminalExpanded ? "lg:w-[70%] h-[60vh]" : "lg:w-1/2 h-80"
+            } lg:h-full lg:min-w-[420px] p-4 flex flex-col gap-2 transition-[width,height] duration-300 ease-in-out`}
+          >
             <div className="flex-1 min-h-0">
               <TerminalPanel
                 key={terminalKey}
@@ -126,6 +161,8 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
                 currentStep={currentStep === -1 ? lesson.meta.steps.length : currentStep}
                 onStepComplete={handleStepComplete}
                 onReady={handleShellReady}
+                expanded={terminalExpanded}
+                onToggleExpand={() => setTerminalExpanded((v) => !v)}
               />
             </div>
             {/* Goal bar: the terminal column never scrolls, so this stays visible below it. */}
@@ -133,9 +170,10 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
               {lesson.meta.steps.length > 0 && (
                 <div className="flex min-w-0 flex-1 items-center gap-4">
                   {currentStep === -1 ? (
-                    <p className="truncate text-base font-medium text-ink">
-                      🎉 모든 단계 완료! 다음 레슨으로 넘어가 보세요.
-                    </p>
+                    <div className="flex min-w-0 flex-1 items-center justify-between gap-4">
+                      <p className="truncate text-base font-medium text-ink">🎉 모든 단계 완료!</p>
+                      {nextLesson && <NextLessonButton href={`/lessons/${nextLesson.slug}`} title={nextLesson.title} />}
+                    </div>
                   ) : (
                     <>
                       <span className="shrink-0 font-mono text-base font-bold text-lane-main">
@@ -156,7 +194,7 @@ export function LessonLayout({ lesson, sections }: LessonLayoutProps) {
                 onClick={handleReset}
                 className="ml-auto shrink-0 text-sm px-3 py-1.5 rounded-lg border border-edge hover:bg-ground transition-colors"
               >
-                리셋
+                터미널 리셋
               </button>
             </div>
           </div>

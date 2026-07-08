@@ -9,6 +9,25 @@ function errorResult(err: unknown, hint: string): CommandResult {
   return { output: `${msg}\n💡 ${hint}`, isError: true };
 }
 
+// HEAD~N / HEAD^ / 브랜치명 / oid를 커밋 oid로 해석한다. resolveRef는 ~N을
+// 확장하지 못하므로 부모 커밋을 직접 거슬러 올라간다.
+async function resolveCommitish(fs: any, dir: string, target: string): Promise<string> {
+  const tilde = target.match(/^(.+?)(?:~(\d+)|(\^+))$/);
+  if (tilde) {
+    const base = tilde[1];
+    const steps = tilde[2] ? Number.parseInt(tilde[2], 10) : (tilde[3]?.length ?? 0);
+    let oid = await git.resolveRef({ fs, dir, ref: base });
+    for (let i = 0; i < steps; i++) {
+      const { commit } = await git.readCommit({ fs, dir, oid });
+      const parent = commit.parent[0];
+      if (!parent) throw new Error(`fatal: ambiguous argument '${target}': unknown revision`);
+      oid = parent;
+    }
+    return oid;
+  }
+  return git.resolveRef({ fs, dir, ref: target });
+}
+
 interface LogEntry {
   oid: string;
   commit: { parent: string[]; message: string; author: { name: string; email: string; timestamp: number } };
@@ -107,9 +126,14 @@ export const gitCommands: Record<string, GitSubcommand> = {
       const staged: string[] = [];
       const modified: string[] = [];
       const untracked: string[] = [];
+      const unmerged: string[] = [];
 
       for (const [filepath, head, workdir, stage] of matrix) {
-        if (head === 0 && stage === 0 && workdir === 2) {
+        if (stage === 3) {
+          // 충돌 파일 — 인덱스에 stage 1/2/3 conflict 엔트리가 남으면
+          // statusMatrix의 stage 열이 문서화 범위(0~2) 밖의 3이 된다.
+          unmerged.push(filepath as string);
+        } else if (head === 0 && stage === 0 && workdir === 2) {
           // Untracked
           untracked.push(filepath as string);
         } else if (head === 0 && stage === 2) {
@@ -127,6 +151,22 @@ export const gitCommands: Record<string, GitSubcommand> = {
       const lines: string[] = [];
       const branch = (await git.currentBranch({ fs, dir })) || "main";
       lines.push(`On branch ${branch}`);
+
+      if (unmerged.length > 0) {
+        lines.push("");
+        lines.push("You have unmerged paths.");
+        lines.push('  (fix conflicts and run "git commit")');
+        lines.push("");
+        lines.push("Unmerged paths:");
+        lines.push('  (use "git add <file>..." to mark resolution)');
+        for (const u of unmerged) {
+          lines.push(`\tboth modified:   ${u}`);
+        }
+      } else if (ctx.pendingMerge) {
+        lines.push("");
+        lines.push("All conflicts fixed but you are still merging.");
+        lines.push('  (use "git commit" to conclude merge)');
+      }
 
       if (staged.length > 0) {
         lines.push("");
@@ -152,7 +192,7 @@ export const gitCommands: Record<string, GitSubcommand> = {
         }
       }
 
-      if (staged.length === 0 && modified.length === 0 && untracked.length === 0) {
+      if (staged.length === 0 && modified.length === 0 && untracked.length === 0 && unmerged.length === 0) {
         lines.push("");
         lines.push("nothing to commit, working tree clean");
       }
@@ -340,6 +380,11 @@ export const gitCommands: Record<string, GitSubcommand> = {
       await git.checkout({ fs, dir, ref });
       return { output: `Switched to branch '${ref}'` };
     } catch (err) {
+      // 커밋 안 한 변경 때문에 전환이 막힌 경우 stash를 안내한다.
+      const msg = err instanceof Error ? err.message : String(err);
+      if (/would be overwritten/.test(msg)) {
+        return errorResult(err, "먼저 git stash로 변경을 잠깐 치워두면 브랜치를 옮길 수 있어요.");
+      }
       return errorResult(err, "브랜치를 전환하는 명령어입니다. git branch로 브랜치 목록을 확인하세요.");
     }
   },
@@ -383,14 +428,39 @@ export const gitCommands: Record<string, GitSubcommand> = {
           return { output: `Updating ${beforeOid.slice(0, 7)}..${afterOid.slice(0, 7)}\nFast-forward` };
         }
         return { output: "Merge made by the 'ort' strategy." };
-      } catch (_mergeErr: any) {
+      } catch (mergeErr: any) {
         // Merge conflict - isomorphic-git throws on conflicts
         const theirsOid = await git.resolveRef({ fs, dir, ref: theirs });
         ctx.setPendingMerge({ theirs: theirsOid });
 
-        return {
-          output: `Auto-merging failed\nCONFLICT (content): Merge conflict detected\n💡 충돌을 해결한 후 git add와 git commit을 사용하세요.`,
-        };
+        // MergeConflictError.data.filepaths에 충돌 파일 목록이 들어있다 —
+        // 실제 git처럼 어떤 파일이 충돌했는지 알려준다.
+        const filepaths: string[] = mergeErr?.data?.filepaths ?? [];
+
+        // isomorphic-git은 마커 라벨에 브랜치 이름을 쓰고, 끝 줄바꿈 없는
+        // 파일에서는 마커를 마지막 줄에 이어 붙인다. 실제 git 형식으로 보정:
+        // ours 라벨은 HEAD로, 마커는 항상 줄 시작에 오도록.
+        for (const f of filepaths) {
+          try {
+            const path = `${dir === "/" ? "" : dir}/${f}`;
+            const raw: string = await fs.promises.readFile(path, "utf8");
+            const fixed = raw
+              .replace(/([^\n])(<{7} |={7}|>{7} )/g, "$1\n$2")
+              .replaceAll(`<<<<<<< ${ours}`, "<<<<<<< HEAD");
+            if (fixed !== raw) await fs.promises.writeFile(path, fixed);
+          } catch {
+            // 보정 실패는 치명적이지 않다 — 원본 마커라도 남긴다
+          }
+        }
+        const lines =
+          filepaths.length > 0
+            ? filepaths.flatMap((f) => [`Auto-merging ${f}`, `CONFLICT (content): Merge conflict in ${f}`])
+            : ["Auto-merging failed", "CONFLICT (content): Merge conflict detected"];
+        lines.push(
+          "Automatic merge failed; fix conflicts and then commit the result.",
+          "💡 충돌 파일을 열어 <<<<<<< 표시를 정리한 뒤 git add와 git commit을 하세요.",
+        );
+        return { output: lines.join("\n") };
       }
     } catch (err) {
       return errorResult(err, "브랜치를 병합하는 명령어입니다.");
@@ -531,6 +601,35 @@ export const gitCommands: Record<string, GitSubcommand> = {
     }
   },
 
+  async fetch(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      if (args.length > 1) {
+        return {
+          output: "error: usage: git fetch [<remote>]\n💡 원격 이름 하나만 입력하세요. 예: git fetch upstream",
+          isError: true,
+        };
+      }
+
+      const remotes = await git.listRemotes({ fs, dir });
+      const remoteName = args[0] || "origin";
+      const remote = remotes.find((r: any) => r.remote === remoteName);
+      if (!remote) {
+        return { output: `fatal: '${remoteName}' does not appear to be a git repository`, isError: true };
+      }
+
+      return {
+        output: [
+          `From ${remote.url}`,
+          ` * [new branch]      main       -> ${remoteName}/main`,
+          "Fetched remote refs. (network simulated)",
+        ].join("\n"),
+      };
+    } catch (err) {
+      return errorResult(err, "원격 저장소의 최신 이력을 받아오는 명령어입니다. 예: git fetch upstream");
+    }
+  },
+
   async push(args, ctx) {
     try {
       const { fs, dir } = ctx;
@@ -547,6 +646,192 @@ export const gitCommands: Record<string, GitSubcommand> = {
       return { output: lines.join("\n") };
     } catch (err) {
       return errorResult(err, "원격 저장소에 변경사항을 보내는 명령어입니다.");
+    }
+  },
+
+  async reset(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      let mode: "soft" | "mixed" | "hard" = "mixed";
+      const rest: string[] = [];
+      for (const a of args) {
+        if (a === "--soft") mode = "soft";
+        else if (a === "--mixed") mode = "mixed";
+        else if (a === "--hard") mode = "hard";
+        else if (a.startsWith("--")) {
+          return { output: `error: unknown option: ${a}\n💡 지원 옵션: --soft, --mixed, --hard`, isError: true };
+        } else rest.push(a);
+      }
+
+      const branch = await git.currentBranch({ fs, dir });
+      if (!branch) return { output: "fatal: 현재 브랜치를 찾을 수 없습니다.", isError: true };
+      const oid = await resolveCommitish(fs, dir, rest[0] || "HEAD");
+
+      // 현재 브랜치 이름표를 target 커밋으로 옮긴다.
+      await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: oid, force: true });
+
+      if (mode === "hard") {
+        // 작업트리 + 인덱스를 target으로 되돌린다.
+        await git.checkout({ fs, dir, ref: branch, force: true });
+      } else if (mode === "mixed") {
+        // 인덱스만 target으로 리셋, 작업트리는 보존.
+        await git.checkout({ fs, dir, ref: branch, noCheckout: true });
+      }
+      // soft는 ref만 이동 — 인덱스·작업트리 모두 그대로.
+
+      const { commit } = await git.readCommit({ fs, dir, oid });
+      return { output: `HEAD is now at ${oid.slice(0, 7)} ${commit.message.split("\n")[0]}` };
+    } catch (err) {
+      return errorResult(err, "커밋을 되돌리는 명령어입니다. 예: git reset --hard HEAD~1");
+    }
+  },
+
+  async stash(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      const supported = ["push", "pop", "apply", "drop", "list", "clear"] as const;
+      type StashOp = (typeof supported)[number];
+      const op = (args[0] || "push") as StashOp;
+      if (!supported.includes(op)) {
+        return {
+          output: `error: unknown stash op: ${args[0]}\n💡 지원: push, pop, apply, drop, list, clear`,
+          isError: true,
+        };
+      }
+
+      if (op === "list") {
+        const result = await git.stash({ fs, dir, op: "list" });
+        const text = typeof result === "string" ? result.trim() : "";
+        return { output: text.length > 0 ? text : "" };
+      }
+
+      await git.stash({ fs, dir, op });
+      switch (op) {
+        case "push":
+          return { output: "Saved working directory and index state WIP on branch" };
+        case "pop":
+        case "apply":
+          return { output: "Restored working directory from stash" };
+        case "drop":
+          return { output: "Dropped stash entry" };
+        case "clear":
+          return { output: "" };
+        default:
+          return { output: "" };
+      }
+    } catch (err) {
+      return errorResult(err, "작업을 잠깐 치워두는 명령어입니다. 예: git stash, git stash pop");
+    }
+  },
+
+  async tag(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+
+      // git tag -d <name>: 태그 삭제
+      if (args[0] === "-d") {
+        if (!args[1])
+          return { output: "error: tag name required after -d\n💡 삭제할 태그 이름을 입력하세요.", isError: true };
+        await git.deleteTag({ fs, dir, ref: args[1] });
+        return { output: `Deleted tag '${args[1]}'` };
+      }
+
+      // 인자 없음: 태그 목록
+      if (args.length === 0) {
+        const tags = await git.listTags({ fs, dir });
+        return { output: [...tags].sort().join("\n") };
+      }
+
+      // git tag <name> [<commit-ish>]: 경량 태그 생성 (실제 git처럼 성공 시 무출력)
+      const ref = args[0];
+      const object = args[1] ? await resolveCommitish(fs, dir, args[1]) : undefined;
+      await git.tag({ fs, dir, ref, object });
+      return { output: "" };
+    } catch (err) {
+      return errorResult(err, "커밋에 이름표를 박아두는 명령어입니다. 예: git tag v1.0.0");
+    }
+  },
+
+  async rebase(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      if (!args[0]) {
+        return {
+          output: "usage: git rebase <branch>\n💡 어느 브랜치 위로 재적용할지 알려주세요. 예: git rebase main",
+          isError: true,
+        };
+      }
+
+      const branch = await git.currentBranch({ fs, dir });
+      if (!branch) return { output: "fatal: 현재 브랜치를 찾을 수 없습니다.", isError: true };
+
+      // 실제 git처럼 더러운 작업트리에서는 시작하지 않는다 (untracked는 허용).
+      const matrix = await git.statusMatrix({ fs, dir });
+      const dirty = matrix.some(
+        ([, head, workdir, stage]: [string, number, number, number]) =>
+          !(head === 0 && stage === 0) && !(head === 1 && workdir === 1 && stage === 1),
+      );
+      if (dirty) {
+        return {
+          output:
+            "error: cannot rebase: You have unstaged changes.\n💡 커밋하지 않은 변경이 있어요. 먼저 커밋하거나 git stash로 치워두세요.",
+          isError: true,
+        };
+      }
+
+      const baseOid = await resolveCommitish(fs, dir, args[0]);
+      const headOid = await git.resolveRef({ fs, dir, ref: "HEAD" });
+      const [mergeBase] = await git.findMergeBase({ fs, dir, oids: [headOid, baseOid] });
+
+      if (mergeBase === baseOid) {
+        return { output: `Current branch ${branch} is up to date.` };
+      }
+      if (mergeBase === headOid) {
+        // 내 커밋 없이 base만 앞서 있음 — 그냥 따라잡는다.
+        await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: baseOid, force: true });
+        await git.checkout({ fs, dir, ref: branch, force: true });
+        return { output: `Fast-forwarded ${branch} to ${args[0]}.` };
+      }
+
+      // 분기점 이후 내 커밋들 (오래된 순으로 재적용)
+      const log = await git.log({ fs, dir, ref: "HEAD" });
+      const toReplay: LogEntry[] = [];
+      for (const entry of log) {
+        if (entry.oid === mergeBase) break;
+        toReplay.push(entry as LogEntry);
+      }
+      toReplay.reverse();
+
+      const name = (await git.getConfig({ fs, dir, path: "user.name" })) || "학습자";
+      const email = (await git.getConfig({ fs, dir, path: "user.email" })) || "learner@git101.dev";
+      const committer = { name, email };
+
+      // 브랜치를 base 끝으로 옮긴 뒤 cherry-pick으로 하나씩 재적용한다
+      // (실제 git 2.26+의 merge 백엔드와 같은 원리).
+      await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: baseOid, force: true });
+      await git.checkout({ fs, dir, ref: branch, force: true });
+
+      for (const entry of toReplay) {
+        try {
+          await git.cherryPick({ fs, dir, oid: entry.oid, committer });
+        } catch {
+          // 충돌: 통째로 원상 복구 — git rebase --abort와 동일한 결과.
+          await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: headOid, force: true });
+          await git.checkout({ fs, dir, ref: branch, force: true });
+          return {
+            output: [
+              `CONFLICT: '${entry.commit.message.split("\n")[0]}' 커밋을 재적용하다 충돌이 났어요.`,
+              "이 튜토리얼의 rebase는 충돌 없는 경우만 지원해요. 원래 상태로 되돌렸습니다 (git rebase --abort와 동일).",
+              "💡 이런 경우에는 git merge로 합친 뒤 충돌을 해결하세요.",
+            ].join("\n"),
+            isError: true,
+          };
+        }
+      }
+
+      return { output: `Successfully rebased and updated refs/heads/${branch}.` };
+    } catch (err) {
+      return errorResult(err, "커밋들을 새 밑동 위로 재적용하는 명령어입니다. 예: git rebase main");
     }
   },
 };

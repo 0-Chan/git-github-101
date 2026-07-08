@@ -16,12 +16,24 @@ steps:
     validation:
       type: current-branch
       name: feature
-  - id: create-file-on-branch
-    instruction: "feature.txt 파일을 만들고 커밋하세요"
-    hint: 'touch feature.txt && git add feature.txt && git commit -m "add file on feature branch"'
+  - id: create-file
+    instruction: "feature.txt 파일을 만드세요"
+    hint: "touch feature.txt"
     validation:
       type: file-exists
       path: /feature.txt
+  - id: stage-file
+    instruction: "파일을 스테이징하세요"
+    hint: "git add feature.txt"
+    validation:
+      type: git-staged
+      path: feature.txt
+  - id: commit-on-branch
+    instruction: "feature 브랜치에 커밋을 만드세요"
+    hint: 'git commit -m "add file on feature branch"'
+    validation:
+      type: commit-count
+      min: 2
 ---
 
 ## 브랜치(Branch)란?
@@ -81,4 +93,4 @@ git commit -m "add file on feature branch"
 
 ---
 
-브랜치의 기본을 익혔습니다! 다음 레슨에서는 브랜치를 합치는 **머지(Merge)**를 배워보겠습니다.
+브랜치의 기본을 익혔습니다! 다음 레슨에서는 브랜치를 합치는 **머지**(Merge)를 배워보겠습니다.

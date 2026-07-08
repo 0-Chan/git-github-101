@@ -9,7 +9,7 @@ interface GuidePanelProps {
 
 export function GuidePanel({ html, steps, completedSteps, currentStep }: GuidePanelProps) {
   return (
-    <div className="flex-1 overflow-y-auto p-6">
+    <div className="flex-1 min-w-0 overflow-y-auto p-6">
       <div className="prose prose-zinc dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
       {steps.length > 0 && (
         <div className="mt-8 space-y-3">

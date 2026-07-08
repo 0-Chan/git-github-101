@@ -45,13 +45,7 @@ export function SessionMenu({ sessions }: SessionMenuProps) {
       </button>
       {open && (
         <nav className="absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border border-edge bg-ground p-1 shadow-lg">
-          <Link
-            href="/course"
-            onClick={() => setOpen(false)}
-            className="block rounded-md px-3 py-2 text-sm text-muted transition-colors hover:bg-surface hover:text-ink"
-          >
-            전체 회차 보기
-          </Link>
+          {/* "전체 회차 보기"(/course)는 당분간 숨김 — 회차 목록만으로 충분 */}
           {sessions.map((session) =>
             READY_SESSIONS.has(session.id) ? (
               <Link

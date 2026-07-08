@@ -16,14 +16,12 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <SessionMenu sessions={sessions} />
           <DeckMenu sessions={sessions} />
-          <a
-            href="https://github.com/0-Chan/git-github-101"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-lg text-sm text-muted hover:bg-surface hover:text-ink transition-colors"
+          <Link
+            href="/reference"
+            className="p-2 rounded-lg text-sm text-muted transition-colors hover:bg-surface hover:text-ink"
           >
-            GitHub
-          </a>
+            자료
+          </Link>
           <ThemeToggle />
         </div>
       </div>

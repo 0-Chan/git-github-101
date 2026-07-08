@@ -14,8 +14,8 @@ steps:
     instruction: "충돌이 해결된 파일을 스테이징하세요"
     hint: "git add greeting.txt"
     validation:
-      type: git-staged
-      path: greeting.txt
+      type: command-run
+      matches: "^git add (greeting\\.txt|\\.)$"
   - id: commit-merge
     instruction: "머지 커밋을 만드세요"
     hint: 'git commit -m "merge: resolve greeting.txt conflict"'
@@ -26,7 +26,7 @@ steps:
 
 ## 충돌(Conflict)이란?
 
-두 브랜치에서 **같은 파일의 같은 부분**을 서로 다르게 수정하면, Git은 어느 쪽을 선택해야 할지 알 수 없습니다. 이때 **충돌(Merge Conflict)**이 발생합니다.
+두 브랜치에서 **같은 파일의 같은 부분**을 서로 다르게 수정하면, Git은 어느 쪽을 선택해야 할지 알 수 없습니다. 이때 **충돌**(Merge Conflict)이 발생합니다.
 
 ## 충돌이 발생한 파일 확인하기
 
@@ -37,6 +37,17 @@ git merge feature
 # Auto-merging greeting.txt
 # CONFLICT (content): Merge conflict in greeting.txt
 # Automatic merge failed; fix conflicts and then commit the result.
+```
+
+`git status`로도 어떤 파일이 충돌 중인지 확인할 수 있습니다:
+
+```bash
+git status
+# On branch main
+# You have unmerged paths.
+#
+# Unmerged paths:
+#         both modified:   greeting.txt
 ```
 
 ## 충돌 마커 이해하기

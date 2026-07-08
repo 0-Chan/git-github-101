@@ -67,6 +67,45 @@
   background: #52525b;
 }
 
+/* 긴 코드/출력 한 줄은 블록 안에서 가로 스크롤시킨다. pre가 폭을 밀어내
+   가이드 패널을 넓히고 옆의 터미널을 찌그러뜨리는 것을 막는다. */
+.prose pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Lesson bash code blocks — "$ prompt + semantic coloring".
+   토큰 색은 터미널 하이라이터와 같은 의미 체계: 명령 초록·문자열 앰버·리다이렉트 오렌지.
+   prose의 pre 배경은 라이트/다크 모두 어두우므로 밝은 색 한 세트로 고정한다. */
+.prose pre.bash-block code .prompt {
+  color: #9ca3af;
+  user-select: none; /* 드래그 복사에 $가 섞이지 않는다 */
+}
+
+.prose pre.bash-block code .cmd {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.prose pre.bash-block code .cmd-bad {
+  color: #f87171;
+  font-weight: 600;
+}
+
+.prose pre.bash-block code .str {
+  color: #fbbf24;
+}
+
+.prose pre.bash-block code .redir {
+  color: #fb923c;
+  font-weight: 600;
+}
+
+.prose pre.bash-block code .comment {
+  color: #8a93a3;
+  font-style: italic;
+}
+
 /* Prose code inline */
 .prose code:not(pre code) {
   background: #fff7ed;

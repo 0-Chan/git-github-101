@@ -15,7 +15,6 @@ const fixtureCourse: Course = {
       order: 1,
       title: "픽스처",
       goal: "",
-      periods: [],
       activities: [
         { type: "checkin", id: "fx-checkin" },
         {

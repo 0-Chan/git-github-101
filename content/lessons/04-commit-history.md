@@ -5,11 +5,23 @@ order: 4
 hasTerminal: true
 steps:
   - id: view-log
-    instruction: "커밋 이력을 확인해보세요"
+    instruction: "git log로 전체 커밋 이력을 확인해보세요"
     hint: "git log"
     validation:
-      type: commit-count
-      min: 1
+      type: command-run
+      matches: "^git log"
+  - id: view-oneline
+    instruction: "한 줄 요약 형태로 이력을 확인해보세요"
+    hint: "git log --oneline"
+    validation:
+      type: command-run
+      matches: "^git log(?=.*--oneline)"
+  - id: view-graph
+    instruction: "그래프 형태로 브랜치까지 함께 확인해보세요"
+    hint: "git log --oneline --graph --all"
+    validation:
+      type: command-run
+      matches: "^git log(?=.*--graph)"
 ---
 
 ## 커밋 이력이란?

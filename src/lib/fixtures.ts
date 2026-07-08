@@ -23,13 +23,12 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   "first-commit": {
-    version: 2,
+    version: 3,
     setup: async (fs) => {
+      // 커밋 0개의 갓 초기화된 저장소. placeholder 커밋을 두면 commit-count
+      // 검증(min 1)이 시작부터 충족되어 git add만으로 레슨이 완료되는 버그가
+      // 있었다. 스테이징 검증·루트 커밋 모두 unborn HEAD에서 정상 동작한다.
       await initRepo(fs);
-      // Commit a placeholder so the 'main' branch ref is created;
-      // then remove it so the working tree appears empty for the learner.
-      await addAndCommit(fs, ".gitkeep", "", "(initial setup)");
-      await fs.promises.unlink("/.gitkeep");
     },
   },
   "commit-history": {
@@ -56,28 +55,31 @@ const fixtures: Record<string, FixtureConfig> = {
     },
   },
   merge: {
-    version: 2,
+    version: 3,
     setup: async (fs) => {
       await initRepo(fs);
       await addAndCommit(fs, "main.txt", "main", "commit on main");
       await git.branch({ fs, dir: "/", ref: "feature" });
       await git.checkout({ fs, dir: "/", ref: "feature" });
       await addAndCommit(fs, "feature.txt", "feature work", "commit on feature");
-      await git.checkout({ fs, dir: "/", ref: "main" });
+      // feature에 남겨둔다 — 레슨 스텝 1이 "main으로 이동"이므로
+      // 시작점은 feature여야 한다.
     },
   },
   "merge-conflict": {
-    version: 2,
+    version: 3,
     setup: async (fs) => {
+      // 파일은 끝 줄바꿈으로 끝나야 한다 — 없으면 diff3가 충돌 마커를
+      // 마지막 줄에 이어 붙여 <<<<<<< 블록이 깨진 모양으로 나온다.
       await initRepo(fs);
-      await addAndCommit(fs, "greeting.txt", "Hello", "add greeting");
+      await addAndCommit(fs, "greeting.txt", "Hello\n", "add greeting");
       await git.branch({ fs, dir: "/", ref: "feature" });
       await git.checkout({ fs, dir: "/", ref: "feature" });
-      await fs.promises.writeFile("/greeting.txt", "Hi! Nice to meet you!");
+      await fs.promises.writeFile("/greeting.txt", "Hi! Nice to meet you!\n");
       await git.add({ fs, dir: "/", filepath: "greeting.txt" });
       await git.commit({ fs, dir: "/", message: "feature: update greeting", author });
       await git.checkout({ fs, dir: "/", ref: "main" });
-      await fs.promises.writeFile("/greeting.txt", "Hello! Welcome!");
+      await fs.promises.writeFile("/greeting.txt", "Hello! Welcome!\n");
       await git.add({ fs, dir: "/", filepath: "greeting.txt" });
       await git.commit({ fs, dir: "/", message: "main: update greeting", author });
     },
@@ -87,6 +89,82 @@ const fixtures: Record<string, FixtureConfig> = {
     setup: async (fs) => {
       await initRepo(fs);
       await addAndCommit(fs, "README.md", "# My Project", "start project");
+    },
+  },
+  reset: {
+    version: 1,
+    setup: async (fs) => {
+      // 정상 커밋 2개 위에 버릴 "실수" 커밋 1개를 얹는다. 레슨에서
+      // reset --hard HEAD~1로 마지막 커밋을 되돌린다.
+      await initRepo(fs);
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\n", "create hello.txt");
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\nSecond line.\n", "add second line");
+      await addAndCommit(fs, "hello.txt", "Hello, Git!\nSecond line.\nOops, mistake!\n", "WIP: 실수로 남긴 커밋");
+    },
+  },
+  stash: {
+    version: 2,
+    setup: async (fs) => {
+      // feature 브랜치에서 작업 중인 상태로 시작. app.txt가 main과 다르므로,
+      // 더티 변경이 있으면 main으로 전환이 막힌다 — 그게 stash를 쓰는 이유.
+      await initRepo(fs);
+      await addAndCommit(fs, "app.txt", "search: TODO\n", "add search placeholder");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await addAndCommit(fs, "app.txt", "search: 기본 구조\n", "start search feature");
+      // feature에 머문 채 종료 — 학습자는 여기서 작업 중이다.
+    },
+  },
+  tag: {
+    version: 1,
+    setup: async (fs) => {
+      // 커밋 2개로 HEAD가 "릴리스할 지점"이 되게. 레슨에서 v1.0.0 태그를 붙인다.
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# My Project\n", "start project");
+      await addAndCommit(fs, "app.txt", "first feature\n", "add first feature");
+    },
+  },
+  rebase: {
+    version: 1,
+    setup: async (fs) => {
+      // main과 feature가 서로 다른 파일을 고쳐 갈라진 상태 — 충돌 없는
+      // happy-path rebase용. 학습자는 feature 위에서 시작한다.
+      await initRepo(fs);
+      await addAndCommit(fs, "app.txt", "기본 기능\n", "start app");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await addAndCommit(fs, "feature.txt", "검색 기능 작업\n", "add search skeleton");
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await addAndCommit(fs, "app.txt", "기본 기능\n버그 수정\n", "fix bug on main");
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+    },
+  },
+  "conventional-commits": {
+    version: 1,
+    setup: async (fs) => {
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# Search Notes\n", "docs: add project title");
+      await addAndCommit(fs, "search.txt", "검색 기능: 기본 입력 처리\n", "feat: 검색 입력 처리 추가");
+    },
+  },
+  "origin-upstream": {
+    version: 1,
+    setup: async (fs) => {
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# First Contributions Practice\n", "docs: add README");
+      await git.addRemote({
+        fs,
+        dir: "/",
+        remote: "origin",
+        url: "https://github.com/learner/first-contributions.git",
+      });
+    },
+  },
+  readme: {
+    version: 1,
+    setup: async (fs) => {
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# Mini Git Tool\n\nTODO\n", "chore: create placeholder README");
     },
   },
 };

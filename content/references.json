@@ -1,0 +1,79 @@
+{
+  "categories": [
+    {
+      "title": "기본기 다지기",
+      "items": [
+        {
+          "title": "Pro Git (한국어)",
+          "url": "https://git-scm.com/book/ko/v2",
+          "description": "Git 개발자들이 직접 쓴 공식 책입니다. 한국어로 완역되어 있고 무료입니다. 개념이 막힐 때 찾아보세요.",
+          "tag": "책"
+        },
+        {
+          "title": "Git 공식 문서",
+          "url": "https://git-scm.com/doc",
+          "description": "모든 Git 명령어의 정확한 사용법과 옵션을 확인할 수 있는 원본 레퍼런스입니다.",
+          "tag": "공식 문서"
+        },
+        {
+          "title": "GitHub Docs (한국어)",
+          "url": "https://docs.github.com/ko",
+          "description": "저장소, 이슈, PR, Actions까지 GitHub의 모든 기능을 한국어로 안내합니다.",
+          "tag": "공식 문서"
+        }
+      ]
+    },
+    {
+      "title": "손으로 익히기",
+      "items": [
+        {
+          "title": "Learn Git Branching",
+          "url": "https://learngitbranching.js.org/?locale=ko_KR",
+          "description": "브랜치와 머지가 어떻게 움직이는지 그림으로 직접 조작하며 배우는 인터랙티브 강의입니다. 한국어를 지원합니다.",
+          "tag": "인터랙티브"
+        },
+        {
+          "title": "Oh My Git!",
+          "url": "https://ohmygit.org/",
+          "description": "카드 게임으로 Git을 배우는 오픈소스 게임입니다. 명령어가 실제 커밋 그래프로 어떻게 나타나는지 보여줍니다.",
+          "tag": "게임"
+        },
+        {
+          "title": "Git 치트시트 (GitHub 공식)",
+          "url": "https://education.github.com/git-cheat-sheet-education.pdf",
+          "description": "자주 쓰는 명령어를 한 장으로 요약한 PDF입니다. 인쇄해서 옆에 두면 편합니다.",
+          "tag": "치트시트"
+        }
+      ]
+    },
+    {
+      "title": "실무 습관",
+      "items": [
+        {
+          "title": "Conventional Commits",
+          "url": "https://www.conventionalcommits.org/ko/v1.0.0/",
+          "description": "커밋 메시지를 팀이 알아보기 쉽게 일관된 규칙으로 쓰는 방법입니다.",
+          "tag": "컨벤션"
+        },
+        {
+          "title": "GitHub Flow",
+          "url": "https://docs.github.com/ko/get-started/using-github/github-flow",
+          "description": "브랜치를 만들고 PR로 합치는 협업 흐름을 GitHub가 정리한 공식 가이드입니다.",
+          "tag": "워크플로우"
+        },
+        {
+          "title": "gitignore 템플릿 모음",
+          "url": "https://github.com/github/gitignore",
+          "description": "언어와 도구별로 무엇을 버전 관리에서 제외할지 GitHub가 정리해 둔 .gitignore 모음입니다.",
+          "tag": "템플릿"
+        },
+        {
+          "title": "GitHub 마크다운 문법",
+          "url": "https://docs.github.com/ko/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
+          "description": "README와 PR 설명을 보기 좋게 꾸미는 마크다운 작성법입니다.",
+          "tag": "문서 작성"
+        }
+      ]
+    }
+  ]
+}

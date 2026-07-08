@@ -157,4 +157,96 @@ describe("runValidation", () => {
     const result = await runValidation({ type: "remote-exists", name: "origin" }, fs, "/");
     expect(result).toBe(false);
   });
+
+  it("tag-exists: pass when the tag exists", async () => {
+    await fs.promises.writeFile("/a.txt", "hi");
+    await git.add({ fs, dir: "/", filepath: "a.txt" });
+    await git.commit({ fs, dir: "/", message: "init", author: { name: "학습자", email: "learner@git101.dev" } });
+    await git.tag({ fs, dir: "/", ref: "v1.0.0" });
+    const result = await runValidation({ type: "tag-exists", name: "v1.0.0" }, fs, "/");
+    expect(result).toBe(true);
+  });
+
+  it("tag-exists: fail when the tag does not exist", async () => {
+    const result = await runValidation({ type: "tag-exists", name: "v1.0.0" }, fs, "/");
+    expect(result).toBe(false);
+  });
+
+  describe("rebased-onto", () => {
+    const author = { name: "학습자", email: "learner@git101.dev" };
+    async function commit(path: string, content: string, message: string) {
+      await fs.promises.writeFile(path, content);
+      await git.add({ fs, dir: "/", filepath: path.slice(1) });
+      await git.commit({ fs, dir: "/", message, author });
+    }
+
+    it("passes for a linear history sitting on top of the base tip", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      await commit("/a.txt", "1\n2\n", "c2 main tip");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await commit("/b.txt", "b\n", "c3 on top");
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(true);
+    });
+
+    it("fails while the branches are still diverged", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await commit("/b.txt", "b\n", "feature work");
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await commit("/a.txt", "1\nfix\n", "main fix");
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+    });
+
+    it("fails when the base was merged in instead of rebased", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await commit("/b.txt", "b\n", "feature work");
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await commit("/a.txt", "1\nfix\n", "main fix");
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await git.merge({ fs, dir: "/", ours: "feature", theirs: "main", author });
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+    });
+
+    it("fails when HEAD is the base tip itself", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+    });
+  });
+});
+
+describe("command-run", () => {
+  const fsStub = null as any; // fs를 쓰지 않는 검증
+
+  it("passes when a matching command exists in history", async () => {
+    const ok = await runValidation({ type: "command-run", matches: "^git log" }, fsStub, "/", {
+      history: ["ls", "git log"],
+    });
+    expect(ok).toBe(true);
+  });
+
+  it("supports lookahead patterns for flag combos regardless of order", async () => {
+    const rule = { type: "command-run", matches: "^git log(?=.*--graph)(?=.*--oneline)" } as const;
+    expect(await runValidation(rule, fsStub, "/", { history: ["git log --oneline --graph --all"] })).toBe(true);
+    expect(await runValidation(rule, fsStub, "/", { history: ["git log --graph --oneline"] })).toBe(true);
+    expect(await runValidation(rule, fsStub, "/", { history: ["git log --oneline"] })).toBe(false);
+  });
+
+  it("fails without history or matching command", async () => {
+    expect(await runValidation({ type: "command-run", matches: "^git log" }, fsStub, "/")).toBe(false);
+    expect(
+      await runValidation({ type: "command-run", matches: "^git log" }, fsStub, "/", { history: ["git status"] }),
+    ).toBe(false);
+  });
+
+  it("trims whitespace around history entries", async () => {
+    const ok = await runValidation({ type: "command-run", matches: "^git checkout main$" }, fsStub, "/", {
+      history: ["  git checkout main  "],
+    });
+    expect(ok).toBe(true);
+  });
 });

@@ -11,15 +11,6 @@ describe("course.json shape", () => {
     expect(course.sessions.map((s) => s.order)).toEqual([1, 2, 3, 4]);
   });
 
-  it("every session has 6 periods of 45 minutes", () => {
-    for (const session of course.sessions) {
-      expect(session.periods).toHaveLength(6);
-      for (const period of session.periods) {
-        expect(period.durationMin).toBe(45);
-      }
-    }
-  });
-
   it("activity ids are unique across the whole course", () => {
     const ids = course.sessions.flatMap((s) => s.activities.map((a) => a.id));
     expect(new Set(ids).size).toBe(ids.length);

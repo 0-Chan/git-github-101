@@ -35,7 +35,10 @@ export type ValidationType =
   | "commit-message"
   | "merge-commit"
   | "no-conflict-markers"
-  | "remote-exists";
+  | "remote-exists"
+  | "tag-exists"
+  | "command-run"
+  | "rebased-onto";
 
 export interface ValidationRule {
   type: ValidationType;
@@ -84,6 +87,23 @@ export interface SectionsData {
   sections: Section[];
 }
 
+// Reference types — content/references.json (강의 참고 자료)
+export interface Reference {
+  title: string;
+  url: string;
+  description: string;
+  tag?: string;
+}
+
+export interface ReferenceCategory {
+  title: string;
+  items: Reference[];
+}
+
+export interface ReferenceData {
+  categories: ReferenceCategory[];
+}
+
 // Progress types
 export type ProgressMap = Record<string, boolean>;
 
@@ -104,14 +124,7 @@ export interface Session {
   order: number; // 1~4
   title: string;
   goal: string;
-  periods: Period[]; // 시간표 — 표시 전용, 추적 없음
   activities: Activity[]; // 진행 추적 단위
-}
-
-export interface Period {
-  order: number; // 1~6
-  title: string;
-  durationMin: number;
 }
 
 export type Activity =

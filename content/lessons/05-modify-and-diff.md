@@ -11,9 +11,15 @@ steps:
       type: file-content
       path: /hello.txt
       contains: "Hello, Git"
+  - id: stage-changes
+    instruction: "변경사항을 스테이징하세요"
+    hint: "git add hello.txt"
+    validation:
+      type: git-staged
+      path: hello.txt
   - id: commit-changes
-    instruction: "변경사항을 스테이징하고 커밋하세요"
-    hint: 'git add hello.txt && git commit -m "update hello.txt"'
+    instruction: "변경사항을 커밋하세요"
+    hint: 'git commit -m "update hello.txt"'
     validation:
       type: commit-count
       min: 2
