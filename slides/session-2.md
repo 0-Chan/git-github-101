@@ -926,7 +926,41 @@ layout: center
 
 지금까지 만든 커밋·PR이 그냥 사라지지 않고 자산으로 쌓인다는 관점 전환
 
-→ README부터
+→ GitHub 계정부터
+-->
+
+---
+
+# GitHub 계정은 개발자의 공개 신분증
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+코드, 협업, 신뢰가 한곳에 쌓입니다
+</div>
+
+<v-clicks>
+
+- **작업 기록**: 커밋, PR, 이슈가 시간순으로 남습니다
+- **협업 방식**: 메시지, 설명, 리뷰 대화에서 일하는 태도가 보입니다
+- **기회의 주소**: 채용, 오픈소스, 팀 프로젝트가 이 프로필로 연결됩니다
+
+</v-clicks>
+
+<div v-click class="pt-4 text-sm">
+GitHub 계정은 <span style="color: var(--lane-main)">코드를 올리는 곳</span>을 넘어, 개발자로 일한 흔적이 누적되는 공개 프로필입니다
+</div>
+
+<!--
+개발자는 말보다 기록으로 신뢰를 얻습니다.
+
+[click] 작업 기록: 커밋, PR, 이슈가 시간순으로 남으니 "무엇을 해봤는가"가 말이 아니라 기록으로 보입니다.
+
+[click] 협업 방식: 커밋 메시지, PR 설명, 이슈 대화, 리뷰 답변에서 작업 습관과 태도가 드러납니다. 잔디 자체보다 이 품질이 더 중요합니다.
+
+[click] 기회의 주소: 포트폴리오, 협업 이력, 오픈소스 참여, 팀 프로젝트 초대가 이 프로필로 연결됩니다.
+
+[click] GitHub 계정은 포트폴리오, 협업 이력, 작업 습관이 동시에 보이는 공개 프로필입니다.
+
+→ 다음: 그 프로필에서 사람들이 처음 읽는 README
 -->
 
 ---
@@ -957,40 +991,6 @@ layout: center
 
 [click] 5분 기준 / 나쁜 README = 빈 파일 or 프레임워크 기본 문구 방치
 
-→ 다음: 이 기록들을 누가 보는가
--->
-
----
-
-# 깃허브에 기록 = 공개 이력서
-
-<div class="text-xl opacity-75 -mt-2 pb-2">
-채용담당자는 정말로 봅니다
-</div>
-
-<v-clicks>
-
-- **잔디**(contribution graph): 꾸준함의 증거
-- **커밋 메시지**: 글쓰기와 일하는 방식이 드러남
-- **PR 설명**: 커뮤니케이션 능력의 표본
-
-</v-clicks>
-
-<div v-click class="pt-4 text-sm">
-여러분의 저장소가 <span style="color: var(--lane-main)">3일차(CI 배지) → 4일차(포트폴리오)</span>로 자랍니다
-</div>
-
-<!--
-개발자 채용에서 GitHub 프로필 확인은 흔한 절차
-
-[click] 잔디: 양보다 꾸준함
-
-[click] 커밋 메시지: 오늘 배운 conventional commits가 그대로 보임 (회수)
-
-[click] PR 설명: 방금 배운 3문단 템플릿이 그대로 보임
-
-[click] 로드맵 한 줄 (완성은 4일차)
-
 → 6막: 실전 준비
 -->
 
@@ -1009,49 +1009,9 @@ layout: center
 <!--
 5막(기록) 닫고 마지막 막 진입
 
-여정의 종착지 = 환경을 갖추고, 앞으로 무엇을 만들지 스스로 정하기
+여정의 종착지 = 앞으로 무엇을 만들지 스스로 정하기 (인증 설정은 맨 끝 참고 장에)
 
-→ 먼저 Git-GitHub 연결
--->
-
----
-
-# Git과 GitHub 연결
-
-<div class="text-xl opacity-75 -mt-2 pb-2">
-push에서 막히면 십중팔구 인증 문제입니다
-</div>
-
-<div class="grid grid-cols-2 gap-4">
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm">HTTPS</div>
-<div class="text-xs opacity-70 pb-2">https://github.com/...</div>
-<div class="text-xs opacity-80">PAT 토큰 발급 → 첫 push 때 입력<br><strong>credential helper</strong>가 기억해줌<br>시작이 쉬움</div>
-</div>
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm">SSH</div>
-<div class="text-xs opacity-70 pb-2">git@github.com:...</div>
-<div class="text-xs opacity-80">키 생성 → GitHub에 공개키 등록<br>이후 <strong>비밀번호 없이</strong> push<br>한 번 고생, 오래 편함</div>
-</div>
-
-</div>
-
-<div v-click class="pt-4 text-sm">
-오늘은 <span style="color: var(--lane-main)">HTTPS + credential helper</span>로 갑니다. SSH는 익숙해지면 전환
-</div>
-
-<!--
-GitHub는 계정 비밀번호로 push 불가 (2021년부터) → 토큰 or 키
-
-[click] HTTPS: PAT 발급 경로 안내 (Settings > Developer settings) / helper가 저장
-
-[click] SSH: ssh-keygen → 공개키 등록 (설정 가이드 링크 제공)
-
-[click] 오늘의 선택 고지 / "push 401·403 뜨면 이 장으로"
-
-→ 다음: 무엇을 만들까
+→ 무엇을 만들까
 -->
 
 ---
@@ -1104,4 +1064,44 @@ layout: center
 3일차 예고: 반복 검사·빌드를 기계에게 맡기는 GitHub Actions (CI/CD)
 
 수고 인사
+-->
+
+---
+
+# Git과 GitHub 연결
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+push에서 막히면 십중팔구 인증 문제입니다
+</div>
+
+<div class="grid grid-cols-2 gap-4">
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm">HTTPS</div>
+<div class="text-xs opacity-70 pb-2">https://github.com/...</div>
+<div class="text-xs opacity-80">PAT 토큰 발급 → 첫 push 때 입력<br><strong>credential helper</strong>가 기억해줌<br>시작이 쉬움</div>
+</div>
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm">SSH</div>
+<div class="text-xs opacity-70 pb-2">git@github.com:...</div>
+<div class="text-xs opacity-80">키 생성 → GitHub에 공개키 등록<br>이후 <strong>비밀번호 없이</strong> push<br>한 번 고생, 오래 편함</div>
+</div>
+
+</div>
+
+<div v-click class="pt-4 text-sm">
+오늘은 <span style="color: var(--lane-main)">HTTPS + credential helper</span>로 갑니다. SSH는 익숙해지면 전환
+</div>
+
+<!--
+참고용 마지막 장 (push 막히면 이 장으로 돌아오기)
+
+GitHub는 계정 비밀번호로 push 불가 (2021년부터) → 토큰 or 키
+
+[click] HTTPS: PAT 발급 경로 안내 (Settings > Developer settings) / helper가 저장
+
+[click] SSH: ssh-keygen → 공개키 등록 (설정 가이드 링크 제공)
+
+[click] 오늘의 선택 고지 / "push 401·403 뜨면 이 장으로"
 -->
