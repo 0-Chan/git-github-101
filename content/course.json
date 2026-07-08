@@ -41,12 +41,39 @@
       "id": "s2",
       "order": 2,
       "title": "Git 심화와 협업 워크플로우",
-      "goal": "(설계 예정)",
+      "goal": "1회차에 따라 했던 fork, clone, branch, commit, push, PR의 의미를 설명하고 다음에 만들 작은 주제를 정한다",
       "activities": [
+        {
+          "type": "lecture",
+          "id": "s2-lecture-opening",
+          "title": "오프닝 덱: Git 심화와 협업 워크플로우",
+          "deck": "/slides/s2"
+        },
+        { "type": "lesson", "id": "s2-l16", "slug": "tag" },
         { "type": "lesson", "id": "s2-l13", "slug": "head" },
         { "type": "lesson", "id": "s2-l14", "slug": "reset" },
         { "type": "lesson", "id": "s2-l15", "slug": "stash" },
-        { "type": "lesson", "id": "s2-l16", "slug": "tag" }
+        { "type": "lesson", "id": "s2-l17", "slug": "github-flow" },
+        { "type": "lesson", "id": "s2-l18", "slug": "conventional-commits" },
+        { "type": "lesson", "id": "s2-l19", "slug": "atomic-commits" },
+        { "type": "lesson", "id": "s2-l20", "slug": "fork-permissions" },
+        { "type": "lesson", "id": "s2-l21", "slug": "origin-upstream" },
+        { "type": "lesson", "id": "s2-l22", "slug": "issue-branch-pr-loop" },
+        { "type": "lesson", "id": "s2-l23", "slug": "pr-document" },
+        { "type": "lesson", "id": "s2-l24", "slug": "readme" },
+        { "type": "lesson", "id": "s2-l25", "slug": "github-record" },
+        { "type": "lesson", "id": "s2-l26", "slug": "github-auth" },
+        {
+          "type": "mission",
+          "id": "s2-m01",
+          "title": "자유 주제 결정",
+          "steps": [
+            { "id": "topic-candidates", "label": "불편했던 것, 만들고 싶던 것, 관심 오픈소스에서 후보 3개 적기" },
+            { "id": "small-scope", "label": "후보 하나를 하루 안에 끝낼 수 있는 첫 변경으로 줄이기" },
+            { "id": "issue-title", "label": "Issue 제목 한 줄과 브랜치 이름 정하기" },
+            { "id": "readme-sentence", "label": "README에 들어갈 프로젝트 한 문장 쓰기" }
+          ]
+        }
       ]
     },
     {

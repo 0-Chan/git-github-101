@@ -601,6 +601,35 @@ export const gitCommands: Record<string, GitSubcommand> = {
     }
   },
 
+  async fetch(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      if (args.length > 1) {
+        return {
+          output: "error: usage: git fetch [<remote>]\n💡 원격 이름 하나만 입력하세요. 예: git fetch upstream",
+          isError: true,
+        };
+      }
+
+      const remotes = await git.listRemotes({ fs, dir });
+      const remoteName = args[0] || "origin";
+      const remote = remotes.find((r: any) => r.remote === remoteName);
+      if (!remote) {
+        return { output: `fatal: '${remoteName}' does not appear to be a git repository`, isError: true };
+      }
+
+      return {
+        output: [
+          `From ${remote.url}`,
+          ` * [new branch]      main       -> ${remoteName}/main`,
+          "Fetched remote refs. (network simulated)",
+        ].join("\n"),
+      };
+    } catch (err) {
+      return errorResult(err, "원격 저장소의 최신 이력을 받아오는 명령어입니다. 예: git fetch upstream");
+    }
+  },
+
   async push(args, ctx) {
     try {
       const { fs, dir } = ctx;

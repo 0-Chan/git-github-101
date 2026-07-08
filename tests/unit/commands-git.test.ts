@@ -492,6 +492,25 @@ describe("git commands", () => {
     });
   });
 
+  describe("git fetch", () => {
+    it("outputs simulation text for a registered remote", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.addRemote({ fs, dir: "/", remote: "upstream", url: "https://github.com/source/repo.git" });
+
+      const result = await gitCommands.fetch(["upstream"], ctx);
+      expect(result.output).toContain("From https://github.com/source/repo.git");
+      expect(result.output).toContain("upstream/main");
+    });
+
+    it("errors for an unknown remote", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+
+      const result = await gitCommands.fetch(["upstream"], ctx);
+      expect(result.isError).toBe(true);
+      expect(result.output).toContain("does not appear to be a git repository");
+    });
+  });
+
   describe("git push", () => {
     it("outputs simulation text", async () => {
       await git.init({ fs, dir: "/", defaultBranch: "main" });

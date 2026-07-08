@@ -124,6 +124,34 @@ const fixtures: Record<string, FixtureConfig> = {
       await addAndCommit(fs, "app.txt", "first feature\n", "add first feature");
     },
   },
+  "conventional-commits": {
+    version: 1,
+    setup: async (fs) => {
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# Search Notes\n", "docs: add project title");
+      await addAndCommit(fs, "search.txt", "검색 기능: 기본 입력 처리\n", "feat: 검색 입력 처리 추가");
+    },
+  },
+  "origin-upstream": {
+    version: 1,
+    setup: async (fs) => {
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# First Contributions Practice\n", "docs: add README");
+      await git.addRemote({
+        fs,
+        dir: "/",
+        remote: "origin",
+        url: "https://github.com/learner/first-contributions.git",
+      });
+    },
+  },
+  readme: {
+    version: 1,
+    setup: async (fs) => {
+      await initRepo(fs);
+      await addAndCommit(fs, "README.md", "# Mini Git Tool\n\nTODO\n", "chore: create placeholder README");
+    },
+  },
 };
 
 export function getFixture(slug: string): FixtureConfig {

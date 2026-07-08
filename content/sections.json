@@ -111,8 +111,17 @@
       "hasTerminal": false
     },
     {
-      "id": "13-head",
+      "id": "16-tag",
       "order": 13,
+      "slug": "tag",
+      "title": "고정된 이름표: tag",
+      "description": "특정 커밋에 태그를 붙여 릴리스 지점을 표시하는 방법을 배웁니다",
+      "file": "16-tag.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "13-head",
+      "order": 14,
       "slug": "head",
       "title": "지금 내 위치: HEAD",
       "description": "HEAD가 무엇을 가리키는지, HEAD~1 표기가 무엇인지 짚고 넘어갑니다",
@@ -121,7 +130,7 @@
     },
     {
       "id": "14-reset",
-      "order": 14,
+      "order": 15,
       "slug": "reset",
       "title": "되돌리기: reset",
       "description": "reset으로 커밋을 되돌리는 방법과 reset vs revert를 배웁니다",
@@ -130,7 +139,7 @@
     },
     {
       "id": "15-stash",
-      "order": 15,
+      "order": 16,
       "slug": "stash",
       "title": "잠깐 치워두기: stash",
       "description": "하던 작업을 커밋하지 않고 잠깐 보관했다 꺼내는 방법을 배웁니다",
@@ -138,13 +147,94 @@
       "hasTerminal": true
     },
     {
-      "id": "16-tag",
-      "order": 16,
-      "slug": "tag",
-      "title": "고정된 이름표: tag",
-      "description": "특정 커밋에 태그를 붙여 릴리스 지점을 표시하는 방법을 배웁니다",
-      "file": "16-tag.md",
+      "id": "17-github-flow",
+      "order": 17,
+      "slug": "github-flow",
+      "title": "GitHub Flow",
+      "description": "main을 보호하고 브랜치와 PR로 합류하는 실무 흐름을 배웁니다",
+      "file": "17-github-flow.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "18-conventional-commits",
+      "order": 18,
+      "slug": "conventional-commits",
+      "title": "conventional commits",
+      "description": "feat, fix, docs 같은 커밋 메시지 타입을 실습합니다",
+      "file": "18-conventional-commits.md",
       "hasTerminal": true
+    },
+    {
+      "id": "19-atomic-commits",
+      "order": 19,
+      "slug": "atomic-commits",
+      "title": "좋은 커밋의 단위",
+      "description": "한 커밋에 한 가지 의도만 담는 원자적 커밋 기준을 배웁니다",
+      "file": "19-atomic-commits.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "20-fork-permissions",
+      "order": 20,
+      "slug": "fork-permissions",
+      "title": "권한과 fork",
+      "description": "write 권한 유무가 팀 브랜치 작업과 fork 협업을 어떻게 나누는지 배웁니다",
+      "file": "20-fork-permissions.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "21-origin-upstream",
+      "order": 21,
+      "slug": "origin-upstream",
+      "title": "origin과 upstream",
+      "description": "내 fork와 원본 저장소의 원격 이름을 구분하고 upstream을 추가합니다",
+      "file": "21-origin-upstream.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "22-issue-branch-pr-loop",
+      "order": 22,
+      "slug": "issue-branch-pr-loop",
+      "title": "Issue → branch → PR",
+      "description": "이슈에서 브랜치와 PR로 이어지는 프로젝트 관리 루프를 배웁니다",
+      "file": "22-issue-branch-pr-loop.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "23-pr-document",
+      "order": 23,
+      "slug": "pr-document",
+      "title": "PR이라는 문서",
+      "description": "PR 제목, 설명, 확인 방법을 리뷰어가 읽는 순서로 쓰는 법을 배웁니다",
+      "file": "23-pr-document.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "24-readme",
+      "order": 24,
+      "slug": "readme",
+      "title": "README.md",
+      "description": "처음 온 사람이 5분 안에 실행할 수 있는 README 기본 구조를 작성합니다",
+      "file": "24-readme.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "25-github-record",
+      "order": 25,
+      "slug": "github-record",
+      "title": "GitHub 기록",
+      "description": "커밋, PR, README가 공개 이력으로 남는 이유를 알아봅니다",
+      "file": "25-github-record.md",
+      "hasTerminal": false
+    },
+    {
+      "id": "26-github-auth",
+      "order": 26,
+      "slug": "github-auth",
+      "title": "Git과 GitHub 인증",
+      "description": "HTTPS 토큰과 SSH key의 차이를 알고 push 인증 문제를 구분합니다",
+      "file": "26-github-auth.md",
+      "hasTerminal": false
     }
   ]
 }

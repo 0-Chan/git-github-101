@@ -1,7 +1,7 @@
 ---
 title: "잠깐 치워두기: stash"
 slug: stash
-order: 15
+order: 16
 hasTerminal: true
 steps:
   - id: make-change
@@ -105,4 +105,4 @@ git stash pop
 
 ---
 
-Git의 로컬 안전망(reset, stash)까지 익혔습니다. 이제 이 도구들을 실전 미션에서 겁내지 않고 쓸 수 있습니다.
+Git의 로컬 안전망(reset, stash)까지 익혔습니다. 이제 이 도구들을 팀에서 쓰는 협업 규칙 위에 얹어보겠습니다.

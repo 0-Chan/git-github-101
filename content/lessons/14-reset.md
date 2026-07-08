@@ -1,7 +1,7 @@
 ---
 title: "되돌리기: reset"
 slug: reset
-order: 14
+order: 15
 hasTerminal: true
 steps:
   - id: view-log

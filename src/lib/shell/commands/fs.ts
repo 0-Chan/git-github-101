@@ -141,6 +141,7 @@ export const fsCommands: Record<string, FsCommandHandler> = {
       "  git stash [pop|list]   하던 작업 잠깐 치워두기/꺼내기",
       "  git tag [<이름>]       태그 생성/목록 (예: git tag v1.0.0)",
       "  git remote add <이름> <URL>  원격 저장소 추가 (-v: 목록)",
+      "  git fetch <원격>       원격 이력 받아오기 (시뮬레이션)",
       "  git push <원격> <브랜치>     푸시 (시뮬레이션)",
     ].join("\n");
     return { output: help };
