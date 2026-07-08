@@ -666,7 +666,41 @@ fork 버튼을 눌러야 했던 진짜 이유
 
 [click] 어제의 경험 회수 / read/write/admin 3단계는 말로만
 
-→ 다음: 그 fork의 이름이 origin이었다는 이야기
+→ 다음: 팀 저장소의 집, Organization
+-->
+
+---
+
+# GitHub Organization: 팀의 집
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+개인 계정이 사람이면, Organization은 팀의 계정입니다
+</div>
+
+<v-clicks>
+
+- **저장소를 모으는 공간**: 동아리, 회사, 팀 프로젝트를 한곳에 둡니다
+- **권한을 나누는 단위**: 멤버와 팀별로 읽기, 쓰기, 관리 권한을 줍니다
+- **협업의 공식 주소**: `github.com/org-name/repo-name`이 프로젝트의 대표 위치가 됩니다
+
+</v-clicks>
+
+<div v-click class="pt-4 text-sm">
+팀 프로젝트라면 <span style="color: var(--lane-main)">개인 저장소</span>보다 Organization 저장소가 협업의 기준점이 됩니다
+</div>
+
+<!--
+개인 계정은 사람의 공간, Organization은 팀의 공간입니다.
+
+[click] 저장소를 모으는 공간: 수업 팀, 동아리, 회사 프로젝트처럼 여러 저장소를 한 이름 아래에 둘 수 있습니다.
+
+[click] 권한을 나누는 단위: 특정 개인에게만 모든 권한이 묶이지 않고, 멤버와 팀별로 읽기, 쓰기, 관리 권한을 나눌 수 있습니다.
+
+[click] 협업의 공식 주소: 팀 프로젝트가 특정 개인 계정에만 있으면 소유권과 권한 관리가 애매해집니다. Organization은 저장소, 멤버, 팀, 권한을 함께 관리하는 그릇입니다.
+
+[click] 팀 프로젝트라면 개인 저장소보다 Organization 저장소가 협업의 기준점이 됩니다.
+
+→ 다음: Organization/원본 저장소에 직접 쓸 권한이 없을 때 fork 구조
 -->
 
 ---
@@ -715,9 +749,9 @@ push는 <code>origin</code>으로, 최신 원본 확인은 <code>upstream</code>
 </div>
 
 <!--
-훅 질문 2·3·4번의 답을 이 그림 하나로 정리합니다.
+Organization/원본 저장소에 직접 쓸 권한이 없을 때 fork 구조가 나옵니다. 훅 질문 2·3·4번의 답을 이 그림 하나로 정리합니다.
 
-[click] 표를 기준으로 origin/upstream 차이를 먼저 못박습니다. origin은 내가 clone한 내 fork, upstream은 원본 저장소입니다. push는 origin으로 합니다.
+[click] 표를 기준으로 origin/upstream 차이를 먼저 못박습니다. origin은 내가 clone한 내 fork, upstream은 원본 저장소 또는 Organization 저장소입니다. push는 origin으로 합니다.
 
 [click] 원본 최신 확인은 upstream에서 합니다. PR은 origin의 브랜치를 upstream에 제안하는 문서입니다. 실제로 받아오는 첫 단계는 fetch입니다.
 
