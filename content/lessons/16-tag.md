@@ -16,6 +16,12 @@ steps:
     validation:
       type: command-run
       matches: "^git tag$"
+  - id: push-tag
+    instruction: "만든 태그를 원격으로 올려 릴리스 지점을 공유하세요"
+    hint: "git push origin v1.0.0"
+    validation:
+      type: command-run
+      matches: '^git push origin v1\.0\.0$'
 ---
 
 ## 브랜치와 태그
@@ -50,6 +56,12 @@ git tag
 
 ```bash
 git push origin v1.0.0
+```
+
+성공하면 이렇게 표시됩니다:
+
+```
+ * [new tag]         v1.0.0 -> v1.0.0
 ```
 
 GitHub에서 태그는 곧 **Release**입니다. 올라간 태그가 릴리스 페이지의 버전이 되고, 3일차에는 이 태그를 기준으로 자동 릴리스(CI)를 만들어봅니다.

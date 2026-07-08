@@ -525,6 +525,25 @@ describe("git commands", () => {
       expect(result.output).toContain("Enumerating objects");
       expect(result.output).toContain("Writing objects");
     });
+
+    it("pushes a tag when the second arg names an existing tag", async () => {
+      await git.init({ fs, dir: "/", defaultBranch: "main" });
+      await git.setConfig({ fs, dir: "/", path: "user.name", value: "학습자" });
+      await git.setConfig({ fs, dir: "/", path: "user.email", value: "learner@git101.dev" });
+      await fs.promises.writeFile("/a.txt", "a");
+      await git.add({ fs, dir: "/", filepath: "a.txt" });
+      await git.commit({ fs, dir: "/", message: "init", author: { name: "학습자", email: "learner@git101.dev" } });
+      await git.tag({ fs, dir: "/", ref: "v1.0.0" });
+
+      const result = await gitCommands.push(["origin", "v1.0.0"], ctx);
+      expect(result.output).toContain("[new tag]");
+      expect(result.output).toContain("v1.0.0 -> v1.0.0");
+      expect(result.output).not.toContain("Branch");
+
+      // 태그가 아닌 두 번째 인자는 기존 브랜치 push 출력 유지
+      const branchPush = await gitCommands.push(["origin", "main"], ctx);
+      expect(branchPush.output).toContain("Branch 'main' pushed to 'origin'");
+    });
   });
 
   describe("git reset", () => {

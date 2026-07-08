@@ -637,12 +637,15 @@ export const gitCommands: Record<string, GitSubcommand> = {
       const remotes = await git.listRemotes({ fs, dir });
       const remoteName = args[0] || (remotes.length > 0 ? remotes[0].remote : "origin");
 
-      const lines = [
-        "Enumerating objects... done.",
-        "Counting objects... done.",
-        "Writing objects... done.",
-        `Branch '${branch}' pushed to '${remoteName}'`,
-      ];
+      const lines = ["Enumerating objects... done.", "Counting objects... done.", "Writing objects... done."];
+
+      // git push origin v1.0.0 — 두 번째 인자가 존재하는 태그면 태그 push
+      const tags = await git.listTags({ fs, dir });
+      if (args[1] && tags.includes(args[1])) {
+        lines.push(`To ${remoteName}`, ` * [new tag]         ${args[1]} -> ${args[1]}`);
+      } else {
+        lines.push(`Branch '${branch}' pushed to '${remoteName}'`);
+      }
       return { output: lines.join("\n") };
     } catch (err) {
       return errorResult(err, "원격 저장소에 변경사항을 보내는 명령어입니다.");
