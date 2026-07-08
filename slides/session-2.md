@@ -321,7 +321,7 @@ git revert HEAD
 </div>
 
 <div v-click class="pt-3 text-sm">
-판단 기준은 하나: <span style="color: var(--lane-main)">이미 push했다면 무조건 revert</span>
+헷갈리면 이렇게: <span style="color: var(--lane-main)">push 전이면 reset, 이미 push했다면 revert</span>
 </div>
 
 <!--
@@ -331,7 +331,7 @@ git revert HEAD
 
 [click] revert: 지우는 게 아니라 "되돌렸다"는 사실도 기록
 
-[click] 기준 한 줄 암기 / Q: 왜? (남이 이미 그 이력 위에서 작업 중일 수 있으니)
+[click] 헷갈릴 때 기준: push 전 reset / push 후 revert / Q: 왜? (남이 이미 그 이력 위에서 작업 중일 수 있으니)
 
 → 다음: 지우지도 커밋하지도 않고 잠깐 치워두기
 -->
