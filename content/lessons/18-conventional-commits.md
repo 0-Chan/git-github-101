@@ -10,25 +10,24 @@ steps:
     validation:
       type: command-run
       matches: "^git log(?=.*--oneline)"
-  - id: update-search-copy
-    instruction: "search.txt를 열어 검색 결과가 없을 때 안내 문구를 추가하세요"
-    hint: "edit search.txt"
+  - id: make-file
+    instruction: "연습용 memo.txt 파일을 만드세요"
+    hint: "touch memo.txt"
     validation:
-      type: file-content
-      path: /search.txt
-      contains: "검색 결과가 없을 때"
-  - id: stage-search-copy
-    instruction: "변경한 search.txt를 스테이징하세요"
-    hint: "git add search.txt"
+      type: file-exists
+      path: /memo.txt
+  - id: feat-commit
+    instruction: "스테이징 후 feat 타입으로 커밋하세요 (문구는 자유)"
+    hint: 'git commit -m "feat: 메모 기능 추가"'
     validation:
       type: command-run
-      matches: "^git add search.txt$"
-  - id: commit-with-type
-    instruction: "fix 타입으로 커밋 메시지를 작성하세요"
-    hint: 'git commit -m "fix: 빈 검색 결과 안내 추가"'
+      matches: "^git commit -m [\"']feat: .+"
+  - id: fix-commit
+    instruction: "memo.txt를 고친 뒤 fix 타입으로 커밋하세요 (문구는 자유)"
+    hint: 'git commit -m "fix: 메모 오타 수정"'
     validation:
       type: commit-message
-      pattern: "^fix: 빈 검색 결과 안내 추가"
+      pattern: "^fix: .+"
 ---
 
 ## 커밋 메시지의 공용어
@@ -58,32 +57,36 @@ chore: 의존성 버전 올림
 git log --oneline
 ```
 
-이미 `feat:`과 `docs:`로 시작하는 커밋이 있습니다. 이제 작은 버그 수정 커밋을 하나 추가해보겠습니다.
+이미 `feat:`과 `docs:`로 시작하는 커밋이 있습니다. 이 형식을 직접 써볼 차례입니다.
 
-## 작은 수정 만들기
+## 직접 써보기
 
-`search.txt`를 열고 검색 결과가 없을 때 보여줄 안내 문구를 한 줄 추가하세요.
+내용은 중요하지 않습니다. **타입을 고르고 형식을 지키는 것**이 이번 미션의 전부입니다.
 
-```bash
-edit search.txt
-```
-
-예를 들면 이렇게 적을 수 있습니다.
-
-```text
-검색 결과가 없을 때: 다시 검색어를 확인하세요.
-```
-
-## 타입을 붙여 커밋하기
-
-변경을 스테이징하고 `fix:` 타입으로 커밋합니다.
+먼저 연습용 파일을 하나 만들어 커밋합니다. 새로운 것을 추가했으니 타입은 `feat:`입니다. 요약 문구는 마음대로 적으세요:
 
 ```bash
-git add search.txt
-git commit -m "fix: 빈 검색 결과 안내 추가"
+touch memo.txt
+git add memo.txt
+git commit -m "feat: 메모 기능 추가"
 ```
 
-이 커밋은 "기능 추가"가 아니라 "문제 상황 보완"에 가깝기 때문에 `fix:`가 어울립니다.
+이번엔 방금 만든 파일을 고쳐봅니다. `edit memo.txt`로 아무 내용이나 적어 저장한 뒤, 잘못된 것을 바로잡았다는 의미의 `fix:` 타입으로 커밋하세요:
+
+```bash
+edit memo.txt
+git add memo.txt
+git commit -m "fix: 메모 오타 수정"
+```
+
+## 타입 고르는 감각
+
+- 새로운 것을 **추가**했다면 `feat:`
+- 잘못된 것을 **고쳤다면** `fix:`
+- 코드가 아니라 **문서**를 바꿨다면 `docs:`
+- 동작은 같은데 **구조만 정리**했다면 `refactor:`
+
+`git log --oneline`으로 확인해보세요. 타입이 붙은 이력은 그 자체로 변경 기록 문서가 됩니다.
 
 ---
 
