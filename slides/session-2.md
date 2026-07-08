@@ -321,7 +321,7 @@ git revert HEAD
 </div>
 
 <div v-click class="pt-3 text-sm">
-헷갈리면 이렇게: <span style="color: var(--lane-main)">push 전이면 reset, 이미 push했다면 revert</span>
+커밋을 되돌릴 땐: <span style="color: var(--lane-main)">push 전이면 reset, 이미 push했다면 revert</span>
 </div>
 
 <!--
@@ -331,7 +331,7 @@ git revert HEAD
 
 [click] revert: 지우는 게 아니라 "되돌렸다"는 사실도 기록
 
-[click] 헷갈릴 때 기준: push 전 reset / push 후 revert / Q: 왜? (남이 이미 그 이력 위에서 작업 중일 수 있으니)
+[click] 커밋 되돌릴 때 기준: push 전 reset / push 후 revert (reset은 스테이징 취소·브랜치 되감기 등 용도가 더 많음. 여기선 커밋 되돌리기 맥락) / Q: 왜? (남이 이미 그 이력 위에서 작업 중일 수 있으니)
 
 → 다음: 지우지도 커밋하지도 않고 잠깐 치워두기
 -->
@@ -369,6 +369,49 @@ git stash pop    # 3. 선반에서 다시 꺼낸다
 [click] 커밋 vs stash 구분 (완성 기록 vs 임시 보관)
 
 [click] "wip 커밋" 남발 방지 팁
+
+→ 다음: stash를 안전하게 다시 꺼내는 법
+-->
+
+---
+
+# stash는 목록으로 관리합니다
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+pop만 외우면 나중에 헷갈립니다
+</div>
+
+```bash
+git stash push -m "검색 UI 작업 중"  # 이름 붙여 보관
+git stash list                     # 선반 목록 확인
+git stash show -p stash@{0}        # 무엇이 들어갔는지 확인
+git stash apply stash@{0}          # 꺼내되 목록에는 남김
+git stash drop stash@{0}           # 다 확인했으면 삭제
+```
+
+<v-clicks>
+
+- `pop`은 `apply` + `drop`. 처음엔 `apply`가 덜 위험합니다
+- 새로 만든 파일까지 넣으려면 `git stash -u`
+
+</v-clicks>
+
+<div v-click class="pt-3 text-sm">
+실무 팁: <span style="color: var(--lane-main)">메시지를 붙이고, 꺼내기 전 확인</span>하세요
+</div>
+
+<!--
+앞 장은 "왜 쓰는가", 이 장은 "어떻게 안전하게 쓰는가"
+
+[click] 메시지 붙이기: stash가 여러 개 쌓이면 stash@{0}만으로는 기억이 안 남
+
+[click] list와 show -p: 꺼내기 전에 무엇을 되살리는지 확인
+
+[click] apply는 꺼내도 목록에 남김, drop으로 직접 치움 / pop은 한 번에 적용+삭제라 초보자에게는 실수 여지가 큼
+
+[click] 새 파일(untracked)은 기본 git stash에 안 들어갈 수 있으니 -u 옵션 소개
+
+[click] 안전한 습관 한 줄로 정리
 
 → 3막: 이제 규칙 이야기 (실무 워크플로우)
 -->
