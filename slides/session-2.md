@@ -442,9 +442,173 @@ layout: center
 <!--
 2막(원리) 닫고 3막 진입
 
-혼자 되던 걸 여럿이 되게 만드는 규칙들: 브랜치 전략, 커밋 규격
+실무에서 매일 도는 흐름: 원격과 주고받기(fetch/pull), 원격 이름표(origin/upstream), 브랜치 전략, 커밋 규격
 
-→ branch 전략
+→ 원격과 주고받기부터 (fetch)
+-->
+
+---
+
+# fetch: 원격을 먼저 확인하기
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+내 파일은 그대로 두고, 원격의 최신 상태만 가져옵니다
+</div>
+
+```mermaid {scale: 0.54, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
+flowchart LR
+  R["원격<br/><small>&nbsp;origin&nbsp;</small>"] -- "git fetch" --> T["origin/main<br/><small>&nbsp;원격 추적 브랜치&nbsp;</small>"]
+  T -- "log / diff로 확인" --> D["내 판단"]
+  D -- "merge할지 결정" --> B["내 브랜치<br/><small>&nbsp;main&nbsp;</small>"]
+```
+
+<div class="grid grid-cols-2 gap-3">
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">언제 쓰나</div>
+<div class="text-xs opacity-80">push·PR 전 원격 변화 확인<br>pull 전에 충돌 가능성 점검<br>협업 중 원격 최신 상태 파악</div>
+</div>
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">어떻게 쓰나</div>
+
+```bash
+git fetch origin
+git log --oneline main..origin/main
+git diff main..origin/main
+```
+
+</div>
+
+</div>
+
+<div v-click class="pt-2 text-sm">
+fetch 후에도 <code>main</code>과 작업 디렉터리는 그대로입니다. 확인한 다음 merge할지 결정합니다
+</div>
+
+<!--
+원격과 주고받는 흐름의 출발점입니다. 여기서 origin은 내가 clone한 그 원격을 가리킵니다. 어제 여러분이 clone한 주소가 곧 origin이었습니다. fetch는 이 origin에서 새 커밋만 조용히 받아오는 명령입니다.
+
+핵심 그림 하나: 내 로컬 안에는 origin/main 같은 "원격 추적 브랜치"가 따로 있습니다. 이건 내가 마지막으로 본 원격의 상태를 적어둔 북마크입니다. git fetch는 이 북마크만 최신으로 갱신할 뿐, 내 main과 작업 디렉터리는 건드리지 않습니다. 참고로 git 명령 대부분은 로컬에서만 도는데, fetch는 실제로 네트워크를 타는 몇 안 되는 순간입니다.
+
+[click] 언제 쓰나: 내 브랜치에 섞기 전에 원격에 새 커밋이 있는지 먼저 보고 싶을 때 씁니다. push하려는데 누가 먼저 올렸는지, PR 전 기준 브랜치가 움직였는지, pull하기 전에 충돌이 날지 미리 확인하는 습관을 들이면 사고가 줄어듭니다.
+
+[click] 어떻게 쓰나: git fetch origin으로 받아오면 결과가 origin/main에 쌓입니다. git log --oneline main..origin/main은 "내 main에는 없고 origin/main에만 있는 커밋", 즉 새로 올라온 것만 콕 집어 보여줍니다. git diff로 내용 차이까지 미리 열어볼 수 있습니다. 두 점(..) 표기는 앞 HEAD 장에서 본 상대 표기와 같은 결입니다.
+
+[click] 핵심 안전장치: fetch만으로는 현재 브랜치도 작업 디렉터리도 바뀌지 않습니다. "받아왔다"와 "합쳤다"는 다릅니다. 흔한 오해가 "fetch하면 내 파일이 바뀐다"인데, 바뀌지 않습니다. 받아서 눈으로 확인한 다음 merge할지, 아직 두고 볼지는 내가 정합니다.
+
+→ 다음: pull은 이 확인 단계와 merge를 한 번에 하는 명령
+-->
+
+---
+
+# pull: fetch + merge를 한 번에
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+확인 단계를 건너뛰고 바로 내 브랜치에 합칩니다
+</div>
+
+```mermaid {scale: 0.56, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
+flowchart LR
+  R["원격<br/><small>&nbsp;GitHub&nbsp;</small>"] -- "fetch" --> T["origin/main<br/><small>&nbsp;원격 추적 브랜치&nbsp;</small>"] -- "merge" --> B["내 브랜치<br/><small>&nbsp;main&nbsp;</small>"]
+```
+
+<div class="grid grid-cols-2 gap-3">
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">신중한 순서</div>
+
+```bash
+git fetch origin
+git log --oneline main..origin/main
+git merge origin/main
+```
+
+</div>
+
+<div v-click class="rounded-lg border border-gray-400/30 p-3">
+<div class="font-bold text-sm pb-1">빠른 순서</div>
+
+```bash
+git pull origin main
+```
+
+<div class="text-xs opacity-80 pt-1">위 명령 하나가 fetch와 merge를 이어서 실행합니다</div>
+</div>
+
+</div>
+
+<div v-click class="pt-2 text-sm opacity-80">
+수업과 협업에서는 <code>fetch → 확인 → merge</code>를 먼저 익히고, 익숙해지면 <code>pull</code>을 씁니다
+</div>
+
+<!--
+fetch를 자세히 본 뒤 pull을 비교합니다. 한 문장으로 못박기: pull = fetch + merge. 앞 장에서 둘로 나눠 본 단계를 pull이 한 번에 처리합니다.
+
+[click] 신중한 순서: fetch로 원격 추적 브랜치를 갱신하고, log나 diff로 확인한 다음 merge합니다. 어디서 충돌이 날지 미리 예측할 수 있어 마음이 편합니다.
+
+[click] 빠른 순서: pull은 fetch와 merge를 한 번에 합니다. 편하지만 명령 직후 내 브랜치가 곧바로 바뀝니다. 충돌은 대부분 이 merge 단계에서 터지는데, pull은 그 순간을 눈앞에서 건너뛰기 때문에 초보자는 갑자기 충돌 화면을 만나 당황하기 쉽습니다.
+
+[click] 초보자와 수업에서는 fetch → 확인 → merge를 먼저 권합니다. pull은 구조를 이해한 뒤 빠르게 쓰는 축약으로 소개합니다. 한 가지 더: git pull --rebase는 merge 대신 rebase로 합치는 변형인데, 그 차이는 잠시 뒤 merge vs rebase 장에서 다룹니다.
+
+→ 다음: 원격 이름표, origin과 upstream
+-->
+
+---
+
+# origin과 upstream
+
+<div class="text-xl opacity-75 -mt-2 pb-2">
+fork 협업에서 가장 헷갈리는 두 이름
+</div>
+
+```mermaid {scale: 0.62, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
+flowchart LR
+  L["💻 내 컴퓨터<br/><small>&nbsp;로컬 저장소&nbsp;</small>"] -- "git push" --> O
+  subgraph gh["&nbsp;☁️ GitHub&nbsp;"]
+    direction LR
+    O["내 fork<br/><small>&nbsp;origin&nbsp;</small>"] -- "Pull Request" --> U["원본 저장소<br/><small>&nbsp;upstream&nbsp;</small>"]
+  end
+```
+
+<div v-click class="pt-2">
+<table class="w-full border-collapse text-xs">
+  <thead>
+    <tr class="border-b border-gray-400/30 text-left opacity-80">
+      <th class="py-1 pr-3 font-semibold">이름</th>
+      <th class="py-1 pr-3 font-semibold">가리키는 곳</th>
+      <th class="py-1 font-semibold">주로 하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="border-b border-gray-400/20">
+      <td class="py-1 pr-3 font-mono" style="color: var(--lane-main)">origin</td>
+      <td class="py-1 pr-3">내 fork</td>
+      <td class="py-1">내 작업 브랜치를 push하는 곳</td>
+    </tr>
+    <tr>
+      <td class="py-1 pr-3 font-mono" style="color: var(--lane-main)">upstream</td>
+      <td class="py-1 pr-3">원본 저장소</td>
+      <td class="py-1">원본 최신 변경을 fetch하고 PR을 보내는 곳</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div v-click class="pt-2 text-sm">
+push는 <code>origin</code>으로, 최신 원본 확인은 <code>upstream</code>에서, PR은 origin의 브랜치를 upstream에 제안합니다
+</div>
+
+<!--
+지금까지 원격은 origin 하나였습니다. 그런데 어제처럼 남의 저장소에 fork로 기여할 때는 원격이 둘이 됩니다. 그 둘의 이름이 origin과 upstream입니다.
+
+remote는 거창한 개념이 아니라 원격 저장소 주소에 붙인 별명(북마크)입니다. git remote -v로 지금 내 저장소에 어떤 원격이 연결됐는지 볼 수 있습니다. 새로 clone하면 그 주소가 자동으로 origin이라는 이름을 얻습니다. 어제 clone한 주소가 바로 origin이었죠.
+
+[click] 표로 차이를 못박기: origin은 내가 clone한 내 fork로, 내가 push하는 곳입니다. upstream은 원본 저장소로, 나에게 직접 push 권한은 없는 곳입니다. upstream은 clone할 때 자동으로 안 생기고, git remote add upstream 주소로 내가 직접 추가해줍니다.
+
+[click] 흐름 정리: 내 작업은 origin으로 push하고, 원본이 바뀌면 앞서 배운 fetch를 upstream에 그대로 써서(git fetch upstream) 원본 최신 변경을 따라잡습니다. 최종 반영은 origin의 브랜치를 upstream에 PR로 제안하는 것입니다. 어제 눌렀던 Pull Request 버튼이 정확히 이 방향이었습니다.
+
+→ 다음: 브랜치 전략 (GitHub Flow)
 -->
 
 ---
@@ -700,168 +864,7 @@ fork 버튼을 눌러야 했던 진짜 이유
 
 [click] 팀 프로젝트라면 개인 저장소보다 Organization 저장소가 협업의 기준점이 됩니다.
 
-→ 다음: Organization/원본 저장소에 직접 쓸 권한이 없을 때 fork 구조
--->
-
----
-
-# origin과 upstream
-
-<div class="text-xl opacity-75 -mt-2 pb-2">
-fork 협업에서 가장 헷갈리는 두 이름
-</div>
-
-```mermaid {scale: 0.62, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', clusterBkg: '#18181b', clusterBorder: '#f5a524', fontSize: '15px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 4px 12px; border-radius: 8px; transform: translate(-12px, -4px); }'}
-flowchart LR
-  L["💻 내 컴퓨터<br/><small>&nbsp;로컬 저장소&nbsp;</small>"] -- "git push" --> O
-  subgraph gh["&nbsp;☁️ GitHub&nbsp;"]
-    direction LR
-    O["내 fork<br/><small>&nbsp;origin&nbsp;</small>"] -- "Pull Request" --> U["원본 저장소<br/><small>&nbsp;upstream&nbsp;</small>"]
-  end
-```
-
-<div v-click class="pt-2">
-<table class="w-full border-collapse text-xs">
-  <thead>
-    <tr class="border-b border-gray-400/30 text-left opacity-80">
-      <th class="py-1 pr-3 font-semibold">이름</th>
-      <th class="py-1 pr-3 font-semibold">가리키는 곳</th>
-      <th class="py-1 font-semibold">주로 하는 일</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="border-b border-gray-400/20">
-      <td class="py-1 pr-3 font-mono" style="color: var(--lane-main)">origin</td>
-      <td class="py-1 pr-3">내 fork</td>
-      <td class="py-1">내 작업 브랜치를 push하는 곳</td>
-    </tr>
-    <tr>
-      <td class="py-1 pr-3 font-mono" style="color: var(--lane-main)">upstream</td>
-      <td class="py-1 pr-3">원본 저장소</td>
-      <td class="py-1">원본 최신 변경을 fetch하고 PR을 보내는 곳</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<div v-click class="pt-2 text-sm">
-push는 <code>origin</code>으로, 최신 원본 확인은 <code>upstream</code>에서, PR은 origin의 브랜치를 upstream에 제안합니다
-</div>
-
-<!--
-Organization/원본 저장소에 직접 쓸 권한이 없을 때 fork 구조가 나옵니다. 훅 질문 2·3·4번의 답을 이 그림 하나로 정리합니다.
-
-[click] 표를 기준으로 origin/upstream 차이를 먼저 못박습니다. origin은 내가 clone한 내 fork, upstream은 원본 저장소 또는 Organization 저장소입니다. push는 origin으로 합니다.
-
-[click] 원본 최신 확인은 upstream에서 합니다. PR은 origin의 브랜치를 upstream에 제안하는 문서입니다. 실제로 받아오는 첫 단계는 fetch입니다.
-
-→ 다음: fetch로 원격 상태만 먼저 가져오기
--->
-
----
-
-# fetch: 원격을 먼저 확인하기
-
-<div class="text-xl opacity-75 -mt-2 pb-2">
-내 파일은 그대로 두고, 원격의 최신 상태만 가져옵니다
-</div>
-
-```mermaid {scale: 0.54, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
-flowchart LR
-  R["원격<br/><small>&nbsp;origin / upstream&nbsp;</small>"] -- "git fetch" --> T["origin/main<br/>upstream/main<br/><small>&nbsp;원격 추적 브랜치&nbsp;</small>"]
-  T -- "log / diff로 확인" --> D["내 판단"]
-  D -- "merge할지 결정" --> B["내 브랜치<br/><small>&nbsp;main&nbsp;</small>"]
-```
-
-<div class="grid grid-cols-2 gap-3">
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm pb-1">언제 쓰나</div>
-<div class="text-xs opacity-80">PR 전 원본이 바뀌었는지 확인<br>pull 전에 충돌 가능성 점검<br>fork라면 upstream 최신화</div>
-</div>
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm pb-1">어떻게 쓰나</div>
-
-```bash
-git fetch origin
-git fetch upstream
-git log --oneline main..origin/main
-git diff main..upstream/main
-```
-
-</div>
-
-</div>
-
-<div v-click class="pt-2 text-sm">
-fetch 후에도 <code>main</code>과 작업 디렉터리는 그대로입니다. 확인한 다음 merge할지 결정합니다
-</div>
-
-<!--
-fetch를 pull과 분리해서 안전한 확인 단계로 설명합니다.
-
-[click] 언제 쓰나: 내 브랜치에 섞기 전에 원격에 새 커밋이 있는지 먼저 확인할 때. 특히 PR 전, fork 원본 따라잡기, pull 전 점검에서 씁니다.
-
-[click] 어떻게 쓰나: origin은 내 fork, upstream은 원본 저장소입니다. fetch 결과는 origin/main, upstream/main 같은 원격 추적 브랜치에 쌓입니다. main..origin/main은 내 main에는 없고 origin/main에만 있는 커밋을 봅니다.
-
-[click] 핵심 안전장치: fetch만으로는 현재 브랜치와 작업 디렉터리가 바뀌지 않습니다. 그래서 확인 후 merge할지, rebase할지, 아직 두고 볼지 선택할 수 있습니다.
-
-→ 다음: pull은 이 확인 단계와 merge를 한 번에 하는 명령
--->
-
----
-
-# pull: fetch + merge를 한 번에
-
-<div class="text-xl opacity-75 -mt-2 pb-2">
-확인 단계를 건너뛰고 바로 내 브랜치에 합칩니다
-</div>
-
-```mermaid {scale: 0.56, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
-flowchart LR
-  R["원격<br/><small>&nbsp;GitHub&nbsp;</small>"] -- "fetch" --> T["origin/main<br/><small>&nbsp;원격 추적 브랜치&nbsp;</small>"] -- "merge" --> B["내 브랜치<br/><small>&nbsp;main&nbsp;</small>"]
-```
-
-<div class="grid grid-cols-2 gap-3">
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm pb-1">신중한 순서</div>
-
-```bash
-git fetch origin
-git log --oneline main..origin/main
-git merge origin/main
-```
-
-</div>
-
-<div v-click class="rounded-lg border border-gray-400/30 p-3">
-<div class="font-bold text-sm pb-1">빠른 순서</div>
-
-```bash
-git pull origin main
-```
-
-<div class="text-xs opacity-80 pt-1">위 명령 하나가 fetch와 merge를 이어서 실행합니다</div>
-</div>
-
-</div>
-
-<div v-click class="pt-2 text-sm opacity-80">
-수업과 협업에서는 <code>fetch → 확인 → merge</code>를 먼저 익히고, 익숙해지면 <code>pull</code>을 씁니다
-</div>
-
-<!--
-fetch를 자세히 본 뒤 pull을 비교합니다.
-
-[click] 신중한 순서: fetch로 원격 추적 브랜치를 갱신하고, log나 diff로 확인한 다음 merge합니다. 어디서 충돌이 날지 예측하기 좋습니다.
-
-[click] 빠른 순서: pull은 fetch와 merge를 한 번에 합니다. 편하지만 명령 직후 내 브랜치가 바뀝니다.
-
-[click] 초보자와 수업에서는 fetch → 확인 → merge를 권합니다. pull은 구조를 이해한 뒤 빠르게 쓰는 축약 명령으로 소개합니다.
-
-→ 다음: merge와 rebase 선택 기준
+→ 다음: 여럿이 브랜치를 합칠 때, merge와 rebase
 -->
 
 ---
@@ -909,7 +912,7 @@ git rebase main
 </div>
 
 <!--
-pull = fetch + merge라고 배운 직후, 합치는 방식에는 rebase도 있다는 점을 연결합니다.
+팀으로 일하면 여러 브랜치를 하나로 합쳐야 할 때가 옵니다. 합치는 방식이 merge와 rebase 둘이라는 점을 짚습니다. 앞서 fetch/pull에서 이미 만난 merge가 그중 한 축입니다.
 
 [click] merge는 실제 협업의 흔적을 남깁니다. 기록이 갈라졌다가 합쳐진 모양이 보이기 때문에, 언제 어떤 브랜치가 합쳐졌는지 추적하기 좋습니다.
 
