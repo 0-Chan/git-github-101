@@ -38,7 +38,8 @@ export type ValidationType =
   | "remote-exists"
   | "tag-exists"
   | "command-run"
-  | "rebased-onto";
+  | "rebased-onto"
+  | "file-modified";
 
 export interface ValidationRule {
   type: ValidationType;

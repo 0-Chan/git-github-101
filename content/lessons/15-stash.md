@@ -5,12 +5,11 @@ order: 16
 hasTerminal: true
 steps:
   - id: make-change
-    instruction: "app.txt를 열어 자동완성 작업 중 이라는 줄을 추가하세요"
+    instruction: "app.txt를 열어 아무 내용이나 수정하세요 (작업 중인 상태 만들기)"
     hint: "edit app.txt"
     validation:
-      type: file-content
-      path: /app.txt
-      contains: "자동완성"
+      type: file-modified
+      path: app.txt
   - id: try-switch
     instruction: "급한 요청이 왔습니다. main 브랜치로 이동해보세요"
     hint: "git checkout main"
@@ -47,7 +46,7 @@ steps:
 
 지금 여러분은 `feature` 브랜치에서 검색 자동완성 기능을 만드는 중입니다. 아직 완성되지 않아 커밋하기는 이릅니다. 그런데 팀에서 `main` 브랜치를 급하게 확인해달라는 요청이 왔습니다.
 
-먼저 작업 중인 줄을 하나 추가해봅시다. `edit`으로 `app.txt`를 열어 `자동완성 작업 중`을 적고 저장하세요:
+먼저 작업 중인 상태를 만들어봅시다. `edit`으로 `app.txt`를 열어 아무 내용이나 적고 저장하세요. 무엇을 적는지는 중요하지 않습니다. 커밋하지 않은 변경이 존재한다는 사실이 핵심입니다:
 
 ```bash
 edit app.txt
@@ -94,7 +93,7 @@ git checkout feature
 git stash pop
 ```
 
-`cat app.txt`로 확인하면 `자동완성 작업 중` 줄이 돌아와 있습니다. 끊겼던 작업을 그대로 이어서 하면 됩니다.
+`cat app.txt`로 확인하면 방금 적었던 내용이 돌아와 있습니다. 끊겼던 작업을 그대로 이어서 하면 됩니다.
 
 ## 커밋 vs stash
 

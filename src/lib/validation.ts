@@ -69,6 +69,13 @@ export async function runValidation(
         const tags = await git.listTags({ fs, dir });
         return tags.includes(rule.name!);
       }
+      case "file-modified": {
+        // 추적 중인 파일에 커밋되지 않은 변경이 있으면 통과. 내용은 묻지 않는다
+        // (어떤 수정이든 인정) — "더티 상태 만들기"가 목적인 단계용.
+        const matrix = await git.statusMatrix({ fs, dir, filepaths: [rule.path!] });
+        const row = matrix.find((r: any) => r[0] === rule.path);
+        return row ? row[1] === 1 && row[2] === 2 : false; // HEAD에 있고 workdir이 달라짐
+      }
       case "rebased-onto": {
         // rebase 성공 판정: base 브랜치 팁이 HEAD의 조상이고(HEAD 자신은 아님),
         // 그 사이 히스토리가 전부 단일 부모(선형)여야 한다 — merge로는 통과 불가.

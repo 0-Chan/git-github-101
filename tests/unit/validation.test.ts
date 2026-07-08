@@ -172,6 +172,32 @@ describe("runValidation", () => {
     expect(result).toBe(false);
   });
 
+  describe("file-modified", () => {
+    const author = { name: "학습자", email: "learner@git101.dev" };
+    async function commitFile(path: string, content: string) {
+      await fs.promises.writeFile(path, content);
+      await git.add({ fs, dir: "/", filepath: path.slice(1) });
+      await git.commit({ fs, dir: "/", message: "seed", author });
+    }
+
+    it("passes for any uncommitted change to a tracked file", async () => {
+      await commitFile("/app.txt", "원본\n");
+      await fs.promises.writeFile("/app.txt", "무엇으로 바꿔도 통과\n");
+      expect(await runValidation({ type: "file-modified", path: "app.txt" }, fs, "/")).toBe(true);
+    });
+
+    it("fails when the file matches the committed state", async () => {
+      await commitFile("/app.txt", "원본\n");
+      expect(await runValidation({ type: "file-modified", path: "app.txt" }, fs, "/")).toBe(false);
+    });
+
+    it("fails for untracked files", async () => {
+      await commitFile("/app.txt", "원본\n");
+      await fs.promises.writeFile("/new.txt", "아직 추적 안 됨\n");
+      expect(await runValidation({ type: "file-modified", path: "new.txt" }, fs, "/")).toBe(false);
+    });
+  });
+
   describe("rebased-onto", () => {
     const author = { name: "학습자", email: "learner@git101.dev" };
     async function commit(path: string, content: string, message: string) {
