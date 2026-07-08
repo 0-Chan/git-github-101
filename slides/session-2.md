@@ -151,31 +151,30 @@ Date:   Mon Jul 6 14:32:11 2026 +0900
 -->
 
 ---
+layout: center
+---
 
-# 브랜치를 바꾸자 파일이 사라졌다
+# HEAD와 포인터
 
-<div class="text-xl opacity-75 -mt-2 pb-2">
-checkout 한 번에 작업 디렉터리가 통째로 바뀐 이유
+<div class="text-xl opacity-75 pt-2 pb-6">
+Git은 "지금 어디"인지 포인터로 기억합니다
 </div>
 
 <v-clicks>
 
-- 브랜치를 오가면(checkout) <strong>작업 디렉터리가 그 커밋 모습으로</strong> 통째로 바뀝니다. 어제 feature.txt가 보였다 안 보였다 한 게 이것
-- 무엇이 "지금 어느 커밋"인지 정하는 걸까요? 그 답이 <span style="color: var(--lane-main)">HEAD</span>, Git의 포인터입니다
-- 포인터 = 값을 직접 담지 않고, 무언가를 <strong>가리키기만</strong> 하는 표시. HEAD가 무엇을 가리키는지는 다음 장에서
+- 포인터 = 값을 직접 담지 않고, 무언가를 <strong>가리키기만</strong> 하는 표시
+- <span style="color: var(--lane-main)">HEAD</span>는 그런 포인터. 지금 내가 선 <strong>커밋</strong>을 가리킵니다
 
 </v-clicks>
 
 <!--
-HEAD 도입 훅: 어제 겪은 현상으로 궁금증 유발
+HEAD 개념 도입: 포인터부터
 
-[click] 현상: 브랜치 바꾸니 작업 디렉터리(파일들)가 통째로 바뀜 (feature.txt 미스터리)
+[click] 포인터 = 값이 아니라 "가리킴" (Git 곳곳에 등장, 브랜치·태그도 포인터)
 
-[click] 질문 → 답: 그 뒤에 HEAD라는 포인터가 있다
+[click] HEAD = 그 포인터, 지금 선 커밋을 가리킴
 
-[click] 포인터 아주 간략히: 값이 아니라 "가리킴" / 브랜치·태그도 다 포인터
-
-→ 다음: HEAD가 가리키는 것, HEAD~1
+→ 다음: 그 커밋 사슬에서 HEAD~1, HEAD~2
 -->
 
 ---
@@ -183,7 +182,7 @@ HEAD 도입 훅: 어제 겪은 현상으로 궁금증 유발
 # HEAD: 지금 내가 선 커밋
 
 <div class="text-xl opacity-75 -mt-2 pb-2">
-지금 어느 커밋에 있고, HEAD~1은 무엇인가
+지금 커밋에서 과거를 세는 HEAD~1
 </div>
 
 ```mermaid {scale: 0.62, theme: 'base', themeVariables: {primaryColor: '#27272a', primaryTextColor: '#ffffff', primaryBorderColor: '#f5a524', lineColor: '#f5a524', edgeLabelBackground: '#27272a', tertiaryTextColor: '#ffffff', fontSize: '14px'}, themeCSS: 'foreignObject { overflow: visible; } .labelBkg { background: transparent !important; } span.edgeLabel { display: inline-block; padding: 3px 10px; border-radius: 8px; transform: translate(-10px, -4px); }'}
@@ -193,15 +192,15 @@ flowchart RL
 
 <v-clicks>
 
-- HEAD가 **가리키는 건 지금 내가 선 커밋**입니다. 보통 `main` 같은 브랜치를 거쳐 가리키고, 새 커밋도 그 위에 쌓이죠
+- HEAD는 보통 `main` 같은 브랜치를 거쳐 커밋을 가리키고, **새 커밋도 그 위에 쌓입니다**
 - `HEAD~1`은 **한 칸 전(부모 커밋)**, `HEAD~2`는 두 칸 전. HEAD 기준으로 사슬을 거슬러 세는 표기입니다
 
 </v-clicks>
 
 <!--
-앞 훅에서 "HEAD는 포인터"까지 왔으니, 여기선 HEAD가 가리키는 것 + HEAD~N
+앞 장에서 "HEAD는 포인터"까지 왔으니, 여기선 사슬 위 상대 표기(HEAD~N)
 
-[click] HEAD가 가리키는 건 지금 선 커밋 (보통 브랜치 거쳐) / 새 커밋 쌓이는 지점
+[click] HEAD는 보통 브랜치를 거쳐 가리킴 / 새 커밋 쌓이는 지점
 
 [click] HEAD~1 = 부모, HEAD~2 = 두 칸 전 (HEAD 기준 상대 표기) → 곧 reset --hard HEAD~1에서 씀
 
