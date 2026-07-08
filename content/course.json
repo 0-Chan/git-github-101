@@ -53,6 +53,7 @@
         { "type": "lesson", "id": "s2-l13", "slug": "head" },
         { "type": "lesson", "id": "s2-l14", "slug": "reset" },
         { "type": "lesson", "id": "s2-l15", "slug": "stash" },
+        { "type": "lesson", "id": "s2-l27", "slug": "rebase" },
         { "type": "lesson", "id": "s2-l17", "slug": "github-flow" },
         { "type": "lesson", "id": "s2-l18", "slug": "conventional-commits" },
         { "type": "lesson", "id": "s2-l19", "slug": "atomic-commits" },

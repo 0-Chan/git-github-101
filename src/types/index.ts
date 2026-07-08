@@ -37,7 +37,8 @@ export type ValidationType =
   | "no-conflict-markers"
   | "remote-exists"
   | "tag-exists"
-  | "command-run";
+  | "command-run"
+  | "rebased-onto";
 
 export interface ValidationRule {
   type: ValidationType;

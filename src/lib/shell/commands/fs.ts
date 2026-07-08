@@ -136,6 +136,7 @@ export const fsCommands: Record<string, FsCommandHandler> = {
       "  git branch [-d] <이름> 브랜치 생성/삭제 (인자 없으면 목록)",
       "  git checkout <브랜치>  브랜치 전환",
       "  git merge <브랜치>     브랜치 머지",
+      "  git rebase <브랜치>    커밋을 새 밑동 위로 재적용 (예: git rebase main)",
       "  git diff [--staged]    변경사항 비교",
       "  git reset [--soft|--hard] <대상>  커밋 되돌리기 (예: git reset --hard HEAD~1)",
       "  git stash [pop|list]   하던 작업 잠깐 치워두기/꺼내기",

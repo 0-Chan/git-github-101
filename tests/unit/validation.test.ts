@@ -171,6 +171,52 @@ describe("runValidation", () => {
     const result = await runValidation({ type: "tag-exists", name: "v1.0.0" }, fs, "/");
     expect(result).toBe(false);
   });
+
+  describe("rebased-onto", () => {
+    const author = { name: "학습자", email: "learner@git101.dev" };
+    async function commit(path: string, content: string, message: string) {
+      await fs.promises.writeFile(path, content);
+      await git.add({ fs, dir: "/", filepath: path.slice(1) });
+      await git.commit({ fs, dir: "/", message, author });
+    }
+
+    it("passes for a linear history sitting on top of the base tip", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      await commit("/a.txt", "1\n2\n", "c2 main tip");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await commit("/b.txt", "b\n", "c3 on top");
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(true);
+    });
+
+    it("fails while the branches are still diverged", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await commit("/b.txt", "b\n", "feature work");
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await commit("/a.txt", "1\nfix\n", "main fix");
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+    });
+
+    it("fails when the base was merged in instead of rebased", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await commit("/b.txt", "b\n", "feature work");
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await commit("/a.txt", "1\nfix\n", "main fix");
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await git.merge({ fs, dir: "/", ours: "feature", theirs: "main", author });
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+    });
+
+    it("fails when HEAD is the base tip itself", async () => {
+      await commit("/a.txt", "1\n", "c1");
+      expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+    });
+  });
 });
 
 describe("command-run", () => {

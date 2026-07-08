@@ -69,6 +69,18 @@ export async function runValidation(
         const tags = await git.listTags({ fs, dir });
         return tags.includes(rule.name!);
       }
+      case "rebased-onto": {
+        // rebase 성공 판정: base 브랜치 팁이 HEAD의 조상이고(HEAD 자신은 아님),
+        // 그 사이 히스토리가 전부 단일 부모(선형)여야 한다 — merge로는 통과 불가.
+        const baseTip = await git.resolveRef({ fs, dir, ref: `refs/heads/${rule.name!}` });
+        const log = await git.log({ fs, dir, ref: "HEAD" });
+        if (log.length === 0 || log[0].oid === baseTip) return false;
+        for (const entry of log) {
+          if (entry.oid === baseTip) return true;
+          if (entry.commit.parent.length !== 1) return false;
+        }
+        return false;
+      }
       default:
         return false;
     }

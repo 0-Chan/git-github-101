@@ -124,6 +124,21 @@ const fixtures: Record<string, FixtureConfig> = {
       await addAndCommit(fs, "app.txt", "first feature\n", "add first feature");
     },
   },
+  rebase: {
+    version: 1,
+    setup: async (fs) => {
+      // main과 feature가 서로 다른 파일을 고쳐 갈라진 상태 — 충돌 없는
+      // happy-path rebase용. 학습자는 feature 위에서 시작한다.
+      await initRepo(fs);
+      await addAndCommit(fs, "app.txt", "기본 기능\n", "start app");
+      await git.branch({ fs, dir: "/", ref: "feature" });
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+      await addAndCommit(fs, "feature.txt", "검색 기능 작업\n", "add search skeleton");
+      await git.checkout({ fs, dir: "/", ref: "main" });
+      await addAndCommit(fs, "app.txt", "기본 기능\n버그 수정\n", "fix bug on main");
+      await git.checkout({ fs, dir: "/", ref: "feature" });
+    },
+  },
   "conventional-commits": {
     version: 1,
     setup: async (fs) => {

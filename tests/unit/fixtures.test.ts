@@ -70,4 +70,17 @@ describe("fixtures", () => {
     });
     expect(await runValidation({ type: "commit-count", min: 1 }, fs, "/")).toBe(true);
   });
+
+  it("rebase: starts on feature with main and feature diverged", async () => {
+    const fs = createFS(`fixture-test-${Math.random()}`);
+    const fixture = getFixture("rebase");
+    await fixture.setup(fs);
+
+    expect(await git.currentBranch({ fs, dir: "/" })).toBe("feature");
+    const branches = await git.listBranches({ fs, dir: "/" });
+    expect(branches).toContain("main");
+    expect(branches).toContain("feature");
+    // 아직 갈라진 상태 — 레슨의 rebased-onto 단계가 미리 통과하면 안 된다
+    expect(await runValidation({ type: "rebased-onto", name: "main" }, fs, "/")).toBe(false);
+  });
 });

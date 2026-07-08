@@ -147,8 +147,17 @@
       "hasTerminal": true
     },
     {
-      "id": "17-github-flow",
+      "id": "27-rebase",
       "order": 17,
+      "slug": "rebase",
+      "title": "히스토리 다시 쓰기: rebase",
+      "description": "갈라진 커밋을 새 밑동 위로 재적용해 히스토리를 일직선으로 만듭니다",
+      "file": "27-rebase.md",
+      "hasTerminal": true
+    },
+    {
+      "id": "17-github-flow",
+      "order": 18,
       "slug": "github-flow",
       "title": "GitHub Flow",
       "description": "main을 보호하고 브랜치와 PR로 합류하는 실무 흐름을 배웁니다",
@@ -157,7 +166,7 @@
     },
     {
       "id": "18-conventional-commits",
-      "order": 18,
+      "order": 19,
       "slug": "conventional-commits",
       "title": "conventional commits",
       "description": "feat, fix, docs 같은 커밋 메시지 타입을 실습합니다",
@@ -166,7 +175,7 @@
     },
     {
       "id": "19-atomic-commits",
-      "order": 19,
+      "order": 20,
       "slug": "atomic-commits",
       "title": "좋은 커밋의 단위",
       "description": "한 커밋에 한 가지 의도만 담는 원자적 커밋 기준을 배웁니다",
@@ -175,7 +184,7 @@
     },
     {
       "id": "20-fork-permissions",
-      "order": 20,
+      "order": 21,
       "slug": "fork-permissions",
       "title": "권한과 fork",
       "description": "write 권한 유무가 팀 브랜치 작업과 fork 협업을 어떻게 나누는지 배웁니다",
@@ -184,7 +193,7 @@
     },
     {
       "id": "21-origin-upstream",
-      "order": 21,
+      "order": 22,
       "slug": "origin-upstream",
       "title": "origin과 upstream",
       "description": "내 fork와 원본 저장소의 원격 이름을 구분하고 upstream을 추가합니다",
@@ -193,7 +202,7 @@
     },
     {
       "id": "22-issue-branch-pr-loop",
-      "order": 22,
+      "order": 23,
       "slug": "issue-branch-pr-loop",
       "title": "Issue → branch → PR",
       "description": "이슈에서 브랜치와 PR로 이어지는 프로젝트 관리 루프를 배웁니다",
@@ -202,7 +211,7 @@
     },
     {
       "id": "23-pr-document",
-      "order": 23,
+      "order": 24,
       "slug": "pr-document",
       "title": "PR이라는 문서",
       "description": "PR 제목, 설명, 확인 방법을 리뷰어가 읽는 순서로 쓰는 법을 배웁니다",
@@ -211,7 +220,7 @@
     },
     {
       "id": "24-readme",
-      "order": 24,
+      "order": 25,
       "slug": "readme",
       "title": "README.md",
       "description": "처음 온 사람이 5분 안에 실행할 수 있는 README 기본 구조를 작성합니다",
@@ -220,7 +229,7 @@
     },
     {
       "id": "25-github-record",
-      "order": 25,
+      "order": 26,
       "slug": "github-record",
       "title": "GitHub 기록",
       "description": "커밋, PR, README가 공개 이력으로 남는 이유를 알아봅니다",
@@ -229,7 +238,7 @@
     },
     {
       "id": "26-github-auth",
-      "order": 26,
+      "order": 27,
       "slug": "github-auth",
       "title": "Git과 GitHub 인증",
       "description": "HTTPS 토큰과 SSH key의 차이를 알고 push 인증 문제를 구분합니다",

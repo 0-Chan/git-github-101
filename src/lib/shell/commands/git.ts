@@ -751,4 +751,87 @@ export const gitCommands: Record<string, GitSubcommand> = {
       return errorResult(err, "커밋에 이름표를 박아두는 명령어입니다. 예: git tag v1.0.0");
     }
   },
+
+  async rebase(args, ctx) {
+    try {
+      const { fs, dir } = ctx;
+      if (!args[0]) {
+        return {
+          output: "usage: git rebase <branch>\n💡 어느 브랜치 위로 재적용할지 알려주세요. 예: git rebase main",
+          isError: true,
+        };
+      }
+
+      const branch = await git.currentBranch({ fs, dir });
+      if (!branch) return { output: "fatal: 현재 브랜치를 찾을 수 없습니다.", isError: true };
+
+      // 실제 git처럼 더러운 작업트리에서는 시작하지 않는다 (untracked는 허용).
+      const matrix = await git.statusMatrix({ fs, dir });
+      const dirty = matrix.some(
+        ([, head, workdir, stage]: [string, number, number, number]) =>
+          !(head === 0 && stage === 0) && !(head === 1 && workdir === 1 && stage === 1),
+      );
+      if (dirty) {
+        return {
+          output:
+            "error: cannot rebase: You have unstaged changes.\n💡 커밋하지 않은 변경이 있어요. 먼저 커밋하거나 git stash로 치워두세요.",
+          isError: true,
+        };
+      }
+
+      const baseOid = await resolveCommitish(fs, dir, args[0]);
+      const headOid = await git.resolveRef({ fs, dir, ref: "HEAD" });
+      const [mergeBase] = await git.findMergeBase({ fs, dir, oids: [headOid, baseOid] });
+
+      if (mergeBase === baseOid) {
+        return { output: `Current branch ${branch} is up to date.` };
+      }
+      if (mergeBase === headOid) {
+        // 내 커밋 없이 base만 앞서 있음 — 그냥 따라잡는다.
+        await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: baseOid, force: true });
+        await git.checkout({ fs, dir, ref: branch, force: true });
+        return { output: `Fast-forwarded ${branch} to ${args[0]}.` };
+      }
+
+      // 분기점 이후 내 커밋들 (오래된 순으로 재적용)
+      const log = await git.log({ fs, dir, ref: "HEAD" });
+      const toReplay: LogEntry[] = [];
+      for (const entry of log) {
+        if (entry.oid === mergeBase) break;
+        toReplay.push(entry as LogEntry);
+      }
+      toReplay.reverse();
+
+      const name = (await git.getConfig({ fs, dir, path: "user.name" })) || "학습자";
+      const email = (await git.getConfig({ fs, dir, path: "user.email" })) || "learner@git101.dev";
+      const committer = { name, email };
+
+      // 브랜치를 base 끝으로 옮긴 뒤 cherry-pick으로 하나씩 재적용한다
+      // (실제 git 2.26+의 merge 백엔드와 같은 원리).
+      await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: baseOid, force: true });
+      await git.checkout({ fs, dir, ref: branch, force: true });
+
+      for (const entry of toReplay) {
+        try {
+          await git.cherryPick({ fs, dir, oid: entry.oid, committer });
+        } catch {
+          // 충돌: 통째로 원상 복구 — git rebase --abort와 동일한 결과.
+          await git.writeRef({ fs, dir, ref: `refs/heads/${branch}`, value: headOid, force: true });
+          await git.checkout({ fs, dir, ref: branch, force: true });
+          return {
+            output: [
+              `CONFLICT: '${entry.commit.message.split("\n")[0]}' 커밋을 재적용하다 충돌이 났어요.`,
+              "이 튜토리얼의 rebase는 충돌 없는 경우만 지원해요. 원래 상태로 되돌렸습니다 (git rebase --abort와 동일).",
+              "💡 이런 경우에는 git merge로 합친 뒤 충돌을 해결하세요.",
+            ].join("\n"),
+            isError: true,
+          };
+        }
+      }
+
+      return { output: `Successfully rebased and updated refs/heads/${branch}.` };
+    } catch (err) {
+      return errorResult(err, "커밋들을 새 밑동 위로 재적용하는 명령어입니다. 예: git rebase main");
+    }
+  },
 };
