@@ -1197,6 +1197,47 @@ CI/CD를 애자일 실천과 연결하는 구간입니다.
 
 ---
 
+# 애자일은 긴 계획의 한계를 줄이려는 흐름입니다
+
+<div class="text-xl opacity-75 -mt-2 pb-4">
+요구사항이 바뀌는 환경에서는 늦은 확인이 가장 비쌉니다
+</div>
+
+<div class="grid grid-cols-2 gap-5 pt-3">
+  <div v-click class="s3-card s3-card--rose p-5">
+    <div class="font-bold text-xl pb-3">문제가 컸던 흐름</div>
+    <div class="text-lg leading-relaxed opacity-85">
+      긴 계획 -> 긴 개발 -> 늦은 확인<br>
+      바뀐 요구를 마지막에야 발견<br>
+      실패했을 때 되돌리기 어려움
+    </div>
+  </div>
+  <div v-click class="s3-card s3-card--emerald p-5">
+    <div class="font-bold text-xl pb-3">애자일이 택한 방향</div>
+    <div class="text-lg leading-relaxed opacity-85">
+      작게 만들고<br>
+      자주 보여주고<br>
+      빠르게 고칩니다
+    </div>
+  </div>
+</div>
+
+<div v-click class="pt-5 text-xl opacity-80">
+CI/CD는 이 짧은 피드백 주기를 기술로 받쳐주는 장치입니다.
+</div>
+
+<!--
+애자일을 방법론 이름부터 설명하지 않습니다.
+
+먼저 왜 이런 흐름이 필요했는지 잡습니다. 계획을 길게 세우고, 개발을 오래 진행하고, 마지막에 확인하면 요구사항 변화와 문제를 너무 늦게 발견합니다.
+
+그래서 애자일은 작게 만들고, 자주 보여주고, 빠르게 고치는 방향을 택했습니다.
+
+이제 다음 슬라이드에서 그 핵심을 "짧은 학습 주기"로 정리하고, CI/CD가 그 주기를 어떻게 기술적으로 받쳐주는지 연결합니다.
+-->
+
+---
+
 # 애자일의 핵심은 짧은 학습 주기입니다
 
 <div class="grid grid-cols-4 gap-3 pt-6 text-center">
@@ -1257,28 +1298,6 @@ CI가 왜 작은 PR과 잘 맞는지 설명합니다.
 큰 변경을 오래 쌓아두면 충돌도 커지고, 테스트 실패 원인도 넓어지고, 리뷰어가 읽을 양도 많아집니다.
 
 작은 변경을 자주 PR로 올리면 자동 검사가 빨리 돌고, 실패했을 때 원인 범위도 좁습니다.
--->
-
----
-
-# XP는 지속적 통합을 강하게 밀었습니다
-
-<div class="text-2xl leading-relaxed pt-5">
-Extreme Programming은<br>
-자주 통합하고, 자동 테스트로 확인하는<br>
-실천을 중요하게 다뤘습니다.
-</div>
-
-<div class="pt-6 opacity-75">
-오늘 필요한 연결은 "작은 변경 + 자동 테스트 + 빠른 피드백"입니다.
-</div>
-
-<!--
-XP를 역사 강의처럼 길게 설명하지 않습니다.
-
-다만 Continuous Integration이 어느 날 GitHub Actions와 함께 나온 말이 아니라, 작은 변경을 자주 통합하고 자동 테스트로 확인하려는 실천 전통에서 왔다는 정도만 짚습니다.
-
-여러분이 가져갈 메시지는 XP 이름 자체보다 작은 변경, 자동 테스트, 빠른 피드백입니다.
 -->
 
 ---
