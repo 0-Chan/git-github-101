@@ -62,7 +62,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">reset, restore, reflog, tag, rebase -i를 실무 기준으로 복습</div>
 
-<Session3Toc :current="1" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="1" class="max-w-2xl" />
 
 <!--
 SECTION 01은 2일차 Git 원리를 실무 명령어로 다시 잡는 구간입니다.
@@ -451,7 +451,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">.gitignore, .github, 템플릿, CODEOWNERS</div>
 
-<Session3Toc :current="2" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="2" class="max-w-2xl" />
 
 <!--
 이 섹션은 SECTION 01에서 Git 상태와 이력의 안전장치를 복습한 뒤 이어집니다.
@@ -646,7 +646,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">깊게 외우기보다 상황별로 떠올릴 Git 도구 목록</div>
 
-<Session3Toc :current="3" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="3" class="max-w-2xl" />
 
 <!--
 이 섹션은 고급 명령어를 모두 깊게 설명하는 곳이 아닙니다.
@@ -885,7 +885,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">PR 흐름을 자동 검사와 리뷰의 출발점으로 다시 보기</div>
 
-<Session3Toc :current="4" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="4" class="max-w-2xl" />
 
 <!--
 2일차 PR 흐름은 3일차 맨 앞 복습이 아니라 CI/CD로 들어가기 전의 다리입니다.
@@ -1041,7 +1041,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">반복 검사를 사람이 붙잡지 않도록 자동화하는 이유</div>
 
-<Session3Toc :current="5" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="5" class="max-w-2xl" />
 
 <!--
 여기서 CI/CD를 YAML 기능이 아니라 피드백 루프의 문제로 소개합니다.
@@ -1187,7 +1187,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">작게 나누고, 자주 확인하고, 팀의 기준을 빠르게 맞추기</div>
 
-<Session3Toc :current="6" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="6" class="max-w-2xl" />
 
 <!--
 CI/CD를 애자일 실천과 연결하는 구간입니다.
@@ -1334,7 +1334,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">workflow, event, job, step을 한 장의 구조로 잡기</div>
 
-<Session3Toc :current="7" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="7" class="max-w-2xl" />
 
 <!--
 여기서 GitHub Actions의 핵심 구성요소를 소개합니다.
@@ -1516,7 +1516,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">저장소에 테스트 또는 빌드 확인을 붙이고 PR Checks에서 확인하기</div>
 
-<Session3Toc :current="8" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="8" class="max-w-2xl" />
 
 <!--
 이 섹션은 GitHub Actions 실습 구간입니다.
@@ -1773,7 +1773,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">기계가 확인할 수 있는 것과 사람이 판단해야 하는 것을 나누기</div>
 
-<Session3Toc :current="9" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="9" class="max-w-2xl" />
 
 <!--
 CI가 통과했다고 좋은 코드가 되는 것은 아닙니다.
@@ -1953,7 +1953,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">배포 자동화와 tag 기반 릴리스 흐름으로 Git 복습 회수</div>
 
-<Session3Toc :current="10" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="10" class="max-w-2xl" />
 
 <!--
 후반부에서는 CD와 릴리스를 간단히 다룹니다.
@@ -2117,7 +2117,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">한 저장소에서 여러 브랜치를 동시에 안전하게 실험하기</div>
 
-<Session3Toc :current="11" marker="지금 위치" class="max-w-2xl" />
+<Session3Toc :current="11" class="max-w-2xl" />
 
 <!--
 worktree는 고급 명령어 지도에서 이름만 지나치고, 여기서 별도 섹션으로 다룹니다.
@@ -2314,7 +2314,7 @@ layout: center
 
 <div class="opacity-75 pb-8 -mt-1">오늘 만든 안전장치 위에서 더 큰 기여와 실험으로 넘어가기</div>
 
-<Session3Toc :current="12" marker="마무리" class="max-w-2xl" />
+<Session3Toc :current="12" class="max-w-2xl" />
 
 <!--
 3일차의 끝은 4일차 예고입니다.
