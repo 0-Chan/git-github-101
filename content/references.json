@@ -104,6 +104,29 @@
           "tag": "도구"
         }
       ]
+    },
+    {
+      "title": "AI와 함께",
+      "items": [
+        {
+          "title": "Claude Code 공식 문서 (한국어)",
+          "url": "https://code.claude.com/docs/ko/",
+          "description": "설치부터 CLAUDE.md, 서브에이전트까지 Claude Code의 모든 기능을 한국어로 안내하는 공식 문서입니다.",
+          "tag": "공식 문서"
+        },
+        {
+          "title": "Claude Code Best Practices",
+          "url": "https://www.anthropic.com/engineering/claude-code-best-practices",
+          "description": "Anthropic 엔지니어링 팀이 정리한 Claude Code 활용 모범 사례입니다. 강의에서 다룬 'AI 결과물을 Git으로 통제하기'의 실전편입니다.",
+          "tag": "가이드"
+        },
+        {
+          "title": "Claude Code 101 (Anthropic Academy)",
+          "url": "https://anthropic.skilljar.com/claude-code-101",
+          "description": "AI 코딩 에이전트가 처음인 개발자를 위한 Anthropic 공식 무료 입문 강의입니다.",
+          "tag": "무료 강의"
+        }
+      ]
     }
   ]
 }
