@@ -1,7 +1,6 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ current?: number; marker?: string }>(), {
+const props = withDefaults(defineProps<{ current?: number }>(), {
   current: 0,
-  marker: "",
 })
 
 const sections = [
@@ -18,10 +17,20 @@ const sections = [
   "worktree로 작업 공간 분리하기",
   "4일차와 AI 병렬 실험으로 연결하기",
 ]
+
+// 좌측 열에 앞 절반, 우측 열에 뒤 절반을 세로로 채우기 위한 행 수.
+const rows = Math.ceil(sections.length / 2)
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-x-8 gap-y-2">
+  <div
+    class="grid gap-x-8 gap-y-2"
+    :style="{
+      gridAutoFlow: 'column',
+      gridTemplateRows: `repeat(${rows}, auto)`,
+      gridAutoColumns: 'minmax(0, 1fr)',
+    }"
+  >
     <div
       v-for="(s, i) in sections"
       :key="i"
@@ -40,9 +49,10 @@ const sections = [
         :style="i + 1 === props.current ? 'color: var(--lane-main)' : ''"
       >{{ s }}</span>
       <span
-        v-if="props.marker && i + 1 === props.current"
-        class="text-xs opacity-80"
-      >{{ props.marker }}</span>
+        v-if="i + 1 === props.current"
+        class="text-base leading-none"
+        aria-hidden="true"
+      >👈</span>
     </div>
   </div>
 </template>
