@@ -25,3 +25,48 @@
 .slidev-layout blockquote {
   border-left: none;
 }
+
+.s3-card {
+  --s3-card-border: rgba(244, 244, 245, 0.34);
+  --s3-card-glow: rgba(244, 244, 245, 0.12);
+  --s3-card-tint: rgba(244, 244, 245, 0.08);
+  border: 1px solid var(--s3-card-border);
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(135deg, var(--s3-card-tint), rgba(24, 24, 27, 0) 58%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.86), rgba(9, 9, 11, 0.78));
+  box-shadow:
+    0 0 0 1px var(--s3-card-glow),
+    0 14px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.s3-card--amber {
+  --s3-card-border: rgba(245, 165, 36, 0.68);
+  --s3-card-glow: rgba(245, 165, 36, 0.2);
+  --s3-card-tint: rgba(245, 165, 36, 0.13);
+}
+
+.s3-card--violet {
+  --s3-card-border: rgba(196, 181, 253, 0.66);
+  --s3-card-glow: rgba(139, 92, 246, 0.2);
+  --s3-card-tint: rgba(139, 92, 246, 0.13);
+}
+
+.s3-card--sky {
+  --s3-card-border: rgba(125, 211, 252, 0.66);
+  --s3-card-glow: rgba(14, 165, 233, 0.2);
+  --s3-card-tint: rgba(14, 165, 233, 0.13);
+}
+
+.s3-card--emerald {
+  --s3-card-border: rgba(110, 231, 183, 0.66);
+  --s3-card-glow: rgba(16, 185, 129, 0.19);
+  --s3-card-tint: rgba(16, 185, 129, 0.12);
+}
+
+.s3-card--rose {
+  --s3-card-border: rgba(253, 164, 175, 0.68);
+  --s3-card-glow: rgba(244, 63, 94, 0.19);
+  --s3-card-tint: rgba(244, 63, 94, 0.12);
+}
