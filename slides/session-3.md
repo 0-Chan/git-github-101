@@ -449,7 +449,7 @@ layout: center
 
 # 저장소의 약속 파일들
 
-<div class="opacity-75 pb-8 -mt-1">.gitignore, .gitattributes, .github, 템플릿, CODEOWNERS</div>
+<div class="opacity-75 pb-8 -mt-1">.gitignore, .github, 템플릿, CODEOWNERS</div>
 
 <Session3Toc :current="2" marker="지금 위치" class="max-w-2xl" />
 
@@ -544,39 +544,6 @@ git commit -m "Stop tracking local env file"
 이때 git rm --cached 파일명을 쓰면 작업 디렉터리의 파일은 남기고, Git의 추적 대상에서는 제거합니다. 그 다음 .gitignore 규칙을 함께 커밋합니다.
 
 단, 토큰이나 비밀번호 같은 비밀값이 한 번 커밋됐다면 저장소에서 지웠다고 끝나지 않습니다. 이미 노출된 값으로 보고 해당 키를 revoke하거나 rotate해야 합니다.
--->
-
----
-
-# `.gitattributes`는 파일 처리 규칙입니다
-
-<div class="grid grid-cols-3 gap-4 pt-6">
-  <div class="s3-card s3-card--emerald p-4">
-    <div class="font-bold text-xl">줄바꿈</div>
-    <div class="font-mono opacity-75 pt-2">text eol=lf</div>
-  </div>
-  <div class="s3-card s3-card--rose p-4">
-    <div class="font-bold text-xl">바이너리</div>
-    <div class="font-mono opacity-75 pt-2">*.png binary</div>
-  </div>
-  <div class="s3-card s3-card--sky p-4">
-    <div class="font-bold text-xl">diff</div>
-    <div class="font-mono opacity-75 pt-2">*.lock -diff</div>
-  </div>
-</div>
-
-```text
-* text=auto
-*.sh text eol=lf
-*.png binary
-```
-
-<!--
-.gitattributes는 Git이 파일을 어떻게 다룰지 정하는 규칙 파일입니다.
-
-대표적으로 줄바꿈을 LF로 맞추거나, 이미지 같은 바이너리 파일을 텍스트처럼 diff하지 않게 하거나, 특정 파일의 diff 방식을 조정할 수 있습니다.
-
-.gitignore가 "추적할지 말지"에 가깝다면, .gitattributes는 "추적하는 파일을 어떤 규칙으로 다룰지"에 가깝습니다.
 -->
 
 ---
