@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { capture } from "@/lib/analytics";
-import { READY_SESSIONS } from "@/lib/course";
+import { READY_DECKS } from "@/lib/course";
 import type { Session } from "@/types";
 
 interface DeckMenuProps {
@@ -44,7 +44,7 @@ export function DeckMenu({ sessions }: DeckMenuProps) {
         <nav className="absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border border-edge bg-ground p-1 shadow-lg">
           {sessions.map((session) => {
             const href = `/slides/${session.id}`;
-            if (!READY_SESSIONS.has(session.id)) {
+            if (!READY_DECKS.has(session.id)) {
               return (
                 <span
                   key={session.id}
