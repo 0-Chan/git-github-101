@@ -80,6 +80,12 @@
           "tag": "템플릿"
         },
         {
+          "title": "gitignore 생성기 (Toptal)",
+          "url": "https://www.toptal.com/developers/gitignore",
+          "description": "운영체제, 에디터, 언어 조합을 입력하면 맞춤 .gitignore를 즉석에서 만들어 주는 생성기입니다.",
+          "tag": "도구"
+        },
+        {
           "title": "GitHub 마크다운 문법",
           "url": "https://docs.github.com/ko/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
           "description": "README와 PR 설명을 보기 좋게 꾸미는 마크다운 작성법입니다.",
