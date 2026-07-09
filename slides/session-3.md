@@ -1234,17 +1234,22 @@ CI/CD를 애자일 실천과 연결하는 구간입니다.
 
 # 큰 배치는 늦게 깨집니다
 
-```mermaid
+```mermaid {scale: 0.6}
+%%{init: {'flowchart': {'rankSpacing': 24, 'nodeSpacing': 30}}}%%
 flowchart LR
   subgraph Big[큰 배치]
+    direction TB
     A[일주일 작업] --> B[큰 PR]
     B --> C[큰 충돌]
   end
 
   subgraph Small[작은 배치]
+    direction TB
     D[작은 PR] --> E[빠른 검사]
     E --> F[빠른 병합]
   end
+
+  Big ~~~ Small
 ```
 
 <div class="pt-6 text-xl opacity-75">
