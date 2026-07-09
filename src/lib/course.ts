@@ -13,7 +13,7 @@ export function getCourse(): Course {
 export const READY_SESSIONS = new Set(["s1", "s2"]);
 
 // 덱은 회차 페이지보다 먼저 열릴 수 있다 (슬라이드만 완성된 회차용 별도 게이트).
-export const READY_DECKS = new Set(["s1", "s2", "s3"]);
+export const READY_DECKS = new Set(["s1", "s2", "s3", "s4"]);
 
 export function getSession(id: string): Session | null {
   return course.sessions.find((s) => s.id === id) ?? null;
