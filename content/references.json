@@ -43,6 +43,18 @@
           "url": "https://education.github.com/git-cheat-sheet-education.pdf",
           "description": "자주 쓰는 명령어를 한 장으로 요약한 PDF입니다. 인쇄해서 옆에 두면 편합니다.",
           "tag": "치트시트"
+        },
+        {
+          "title": "git-101-portfolio",
+          "url": "https://github.com/git-101-portfolio/",
+          "description": "이 강의의 실습용 GitHub 조직입니다. 미션과 포트폴리오 저장소가 여기에 모입니다.",
+          "tag": "강의 실습"
+        },
+        {
+          "title": "tldr pages",
+          "url": "https://tldr.inbrowser.app/",
+          "description": "명령어별 핵심 사용 예시만 추린 커뮤니티 치트시트의 웹 버전입니다. 낯선 명령을 만났을 때 가장 빠르게 감을 잡을 수 있습니다.",
+          "tag": "치트시트"
         }
       ]
     },
@@ -72,6 +84,18 @@
           "url": "https://docs.github.com/ko/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
           "description": "README와 PR 설명을 보기 좋게 꾸미는 마크다운 작성법입니다.",
           "tag": "문서 작성"
+        },
+        {
+          "title": "GitHub Flavored Markdown 스펙",
+          "url": "https://github.github.com/gfm/",
+          "description": "표, 체크리스트, 자동 링크 같은 GitHub 마크다운 확장이 정확히 어떻게 동작하는지 정의한 공식 명세입니다.",
+          "tag": "스펙"
+        },
+        {
+          "title": "Star History",
+          "url": "https://www.star-history.com/",
+          "description": "GitHub 저장소들의 스타 증가 추이를 그래프로 그려 비교하는 도구입니다. 오픈소스를 고를 때 성장세를 참고할 수 있습니다.",
+          "tag": "도구"
         }
       ]
     }
