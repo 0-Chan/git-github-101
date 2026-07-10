@@ -35,6 +35,7 @@ $ gh pr create
 <v-clicks>
 
 - **작업 공간 분리**: worktree로 브랜치마다 폴더 만들기
+- **gh CLI**: 터미널에서 PR·이슈, 코딩 에이전트로 자동화
 - **오픈소스 기여**: 이슈 찾기부터 첫 기여 PR까지
 - **포트폴리오 저장소**: README, 커밋 히스토리, CI 배지 다듬기
 - **GitHub 프로필**: pinned repo와 프로필 README 완성
@@ -439,3 +440,253 @@ $ git worktree list</code></pre>
 
 PR이 끝나면 worktree와 로컬 브랜치를 정리합니다. 이 루프를 기억한 상태에서 실제 오픈소스 기여 과정을 살펴보겠습니다.
 -->
+
+---
+layout: center
+---
+
+<div class="text-sm opacity-60 font-mono pb-2">GITHUB CLI</div>
+
+# gh: 터미널에서 다루는 GitHub
+
+<div class="opacity-75 pb-6 -mt-1">방금 본 기여 루프의 push와 PR을, 브라우저 대신 명령 한 줄로</div>
+
+<div class="grid grid-cols-2 gap-6 max-w-3xl mx-auto">
+  <div class="s3-card s3-card--violet p-5">
+    <div class="font-mono text-sm opacity-60 pb-2">브라우저</div>
+    <div class="text-xl font-bold">클릭 여러 번</div>
+    <div class="opacity-75 pt-2">탭 열고, 버튼 찾고, 폼 채우기</div>
+  </div>
+  <div class="s3-card s3-card--amber p-5">
+    <div class="font-mono text-sm opacity-60 pb-2">gh</div>
+    <div class="text-xl font-bold">명령 한 줄</div>
+    <div class="opacity-75 pt-2">터미널에서 그대로 이어서</div>
+  </div>
+</div>
+
+<!--
+worktree로 작업 공간을 나눴다면, 이제 그 작업을 GitHub에 올리고 PR로 만드는 단계입니다.
+
+gh는 GitHub 공식 CLI입니다. 브라우저로 하던 PR 생성, 이슈 확인, 릴리스, Actions 상태 확인을 터미널에서 바로 할 수 있습니다.
+
+특히 코딩 에이전트와 함께 쓰면, 자연어 지시만으로 이 명령들을 대신 실행하게 만들 수 있습니다.
+-->
+
+---
+
+# 설치와 로그인은 한 번
+
+```bash
+brew install gh        # macOS (Windows: winget install GitHub.cli)
+gh auth login          # 브라우저로 인증, 토큰은 로컬에 저장
+gh auth status         # 연결 확인
+```
+
+<div class="pt-5 text-xl opacity-75">
+인증은 최초 한 번. 토큰은 내 컴퓨터에만 남습니다.
+</div>
+
+<!--
+설치는 OS마다 다릅니다. macOS는 Homebrew, Windows는 winget, 리눅스는 apt나 dnf를 씁니다. 자세한 방법은 cli.github.com에 있습니다.
+
+gh auth login을 한 번 실행하면 브라우저로 GitHub에 로그인하고, 토큰이 내 컴퓨터에 저장됩니다. 이후 gh 명령은 이 인증을 그대로 씁니다.
+
+코딩 에이전트도 이 인증을 공유합니다. 사람이 한 번 로그인해두면, 에이전트가 gh를 실행할 때 따로 인증할 필요가 없습니다.
+-->
+
+---
+
+# gh 기능 지도
+
+<div class="grid grid-cols-3 gap-3 pt-4 text-left">
+  <div class="s3-card s3-card--amber p-4">
+    <div class="font-bold pb-1">인증·설정</div>
+    <div class="font-mono text-xs opacity-80">auth · config · alias · extension</div>
+    <div class="text-xs opacity-70 pt-2">로그인과 개인화</div>
+  </div>
+  <div class="s3-card s3-card--sky p-4">
+    <div class="font-bold pb-1">저장소</div>
+    <div class="font-mono text-xs opacity-80">repo · browse · search</div>
+    <div class="text-xs opacity-70 pt-2">만들기·클론·포크·검색</div>
+  </div>
+  <div class="s3-card s3-card--violet p-4">
+    <div class="font-bold pb-1">협업 PR·이슈</div>
+    <div class="font-mono text-xs opacity-80">pr · issue · label · project</div>
+    <div class="text-xs opacity-70 pt-2">리뷰와 이슈 트래킹</div>
+  </div>
+  <div class="s3-card s3-card--emerald p-4">
+    <div class="font-bold pb-1">Actions·자동화</div>
+    <div class="font-mono text-xs opacity-80">run · workflow · secret · cache</div>
+    <div class="text-xs opacity-70 pt-2">CI 확인·트리거</div>
+  </div>
+  <div class="s3-card s3-card--rose p-4">
+    <div class="font-bold pb-1">릴리스·공유</div>
+    <div class="font-mono text-xs opacity-80">release · gist</div>
+    <div class="text-xs opacity-70 pt-2">배포 기준점과 코드 조각</div>
+  </div>
+  <div class="s3-card s3-card--sky p-4">
+    <div class="font-bold pb-1">고급</div>
+    <div class="font-mono text-xs opacity-80">api · codespace · ssh-key · status</div>
+    <div class="text-xs opacity-70 pt-2">원시 API·클라우드 환경</div>
+  </div>
+</div>
+
+<div class="pt-5 opacity-75 text-center">외우지 말고, 필요할 때 그룹만 떠올리면 됩니다.</div>
+
+<!--
+gh의 기능은 이렇게 그룹으로 묶어 기억하는 게 좋습니다.
+
+로그인은 auth, 저장소를 만들거나 포크할 때는 repo, PR과 이슈는 pr·issue, CI 실행 확인은 run·workflow, 릴리스는 release입니다.
+
+전부 외울 필요는 없습니다. "이런 종류의 일은 gh로 되겠구나"만 떠올리면, 나머지는 gh --help나 에이전트가 채워줍니다.
+-->
+
+---
+layout: center
+---
+
+<div class="text-sm opacity-60 font-mono pb-2">실습</div>
+
+# 실습: 에이전트에게 gh를 맡긴다
+
+<div class="opacity-75 pb-5 -mt-1">자연어로 지시하면 코딩 에이전트가 gh를 대신 실행합니다</div>
+
+<div class="text-left max-w-2xl mx-auto pb-4">
+
+- 각 실습은 **명령어 → 기대 결과 → 흔한 오류** 순서로 봅니다.
+- 도구는 Claude Code가 아니어도 됩니다. gh를 부를 수 있는 에이전트면 무엇이든.
+- 매번 승인을 안 묻게 하려면 권한을 열어둡니다.
+
+</div>
+
+```json
+{ "permissions": { "allow": ["Bash(gh pr:*)", "Bash(gh issue:*)"] } }
+```
+
+<!--
+핵심은 사람이 gh 문법을 다 외우는 게 아니라, 하고 싶은 일을 자연어로 말하면 에이전트가 적절한 gh 명령으로 옮겨 실행한다는 것입니다.
+
+다만 에이전트가 셸 명령을 실행할 때마다 승인을 물으면 흐름이 끊깁니다. settings.json의 permissions.allow에 gh 관련 명령을 미리 등록하면 반복 승인 없이 진행됩니다.
+
+이제 세 가지 실습을 명령어·기대 결과·흔한 오류 순서로 보겠습니다.
+-->
+
+---
+
+# 실습 ①: 브랜치 → PR 생성
+
+```bash
+# 에이전트에게: "docs 브랜치 만들고 README에 한 줄 추가한 뒤 main으로 PR 올려줘"
+gh pr create --fill --base main
+```
+
+<div class="grid grid-cols-2 gap-4 pt-5">
+  <div class="s3-card s3-card--emerald p-4">
+    <div class="font-bold pb-1">기대 결과</div>
+    <div class="text-sm opacity-80">PR이 생기고 URL이 출력됩니다.</div>
+    <div class="font-mono text-xs opacity-70 pt-2">github.com/내계정/저장소/pull/1</div>
+  </div>
+  <div class="s3-card s3-card--rose p-4">
+    <div class="font-bold pb-1">흔한 오류</div>
+    <div class="text-sm opacity-80">커밋 없이 실행, 브랜치를 안 바꿈, 인증 만료</div>
+    <div class="font-mono text-xs opacity-70 pt-2">→ 먼저 commit / gh auth login</div>
+  </div>
+</div>
+
+<!--
+가장 기본이 되는 실습입니다.
+
+브랜치를 만들고 변경을 커밋한 상태에서 gh pr create --fill을 실행하면, 커밋 메시지를 제목과 본문으로 채워 PR을 만듭니다. --base main은 어느 브랜치로 합칠지 정합니다.
+
+흔한 오류는 대부분 순서 문제입니다. 커밋을 안 했거나, 아직 main에 있거나, 인증이 풀린 경우입니다. 에이전트에게 "먼저 커밋부터" 또는 "gh auth login 먼저"라고 안내하면 됩니다.
+-->
+
+---
+
+# 실습 ②: PR 체크 읽기
+
+```bash
+# 에이전트에게: "방금 올린 PR의 CI 체크 상태 확인해줘"
+gh pr checks          # 체크 목록과 통과 여부
+gh run watch          # 진행 중인 실행을 실시간으로
+```
+
+<div class="grid grid-cols-2 gap-4 pt-5">
+  <div class="s3-card s3-card--emerald p-4">
+    <div class="font-bold pb-1">기대 결과</div>
+    <div class="text-sm opacity-80">각 체크의 pass/fail과 실패 로그 위치가 보입니다.</div>
+  </div>
+  <div class="s3-card s3-card--rose p-4">
+    <div class="font-bold pb-1">흔한 오류</div>
+    <div class="text-sm opacity-80">워크플로가 없어 "no checks reported", 또는 pending으로 대기</div>
+  </div>
+</div>
+
+<!--
+PR을 올렸으면 자동 검사가 어떻게 됐는지 봐야 합니다.
+
+gh pr checks는 그 PR에 붙은 체크의 통과 여부를 한눈에 보여줍니다. gh run watch는 실행이 끝날 때까지 실시간으로 상태를 따라갑니다.
+
+체크가 안 보이면 대개 저장소에 워크플로가 없어서입니다. 3일차에서 만든 CI 워크플로가 있어야 체크가 붙습니다. pending이면 잠시 기다리면 됩니다.
+-->
+
+---
+
+# 실습 ③: 리뷰 코멘트 대응
+
+```bash
+# 에이전트에게: "이 PR에 달린 코멘트 보여주고, 요청대로 고쳐서 다시 push해줘"
+gh pr view --comments   # 리뷰 코멘트 확인
+# 수정 후
+git push                # PR이 자동으로 업데이트됨
+```
+
+<div class="grid grid-cols-2 gap-4 pt-5">
+  <div class="s3-card s3-card--emerald p-4">
+    <div class="font-bold pb-1">기대 결과</div>
+    <div class="text-sm opacity-80">코멘트 확인 → 수정 커밋 → PR 자동 업데이트 → 체크 재실행</div>
+  </div>
+  <div class="s3-card s3-card--rose p-4">
+    <div class="font-bold pb-1">흔한 오류</div>
+    <div class="text-sm opacity-80">브랜치가 어긋나 push 대상이 틀리거나, 체크 재실행을 기다려야 함</div>
+  </div>
+</div>
+
+<!--
+리뷰가 붙으면 코멘트를 읽고 반영하는 반복이 시작됩니다.
+
+gh pr view --comments로 코멘트를 확인하고, 에이전트에게 요청 내용을 고치게 한 뒤 push하면 됩니다. PR은 같은 브랜치를 계속 추적하므로, push 한 번으로 자동 업데이트되고 체크도 다시 돕니다.
+
+새 PR을 또 만들 필요가 없다는 점이 핵심입니다. 같은 브랜치에 push만 하면 됩니다.
+-->
+
+---
+layout: center
+---
+
+# 정리: 터미널에서 끝나는 협업 루프
+
+<div class="text-left max-w-2xl mx-auto pt-2">
+
+<v-clicks>
+
+- 브라우저 왕복 없이 **PR·이슈·체크를 명령으로**
+- 자연어 지시로 **에이전트가 gh를 대신 실행**
+- 핵심은 **명령어·기대 결과·흔한 오류를 읽는 눈**
+
+</v-clicks>
+
+</div>
+
+<div class="pt-6 text-xl opacity-75 text-center">
+worktree로 나눈 작업 공간 + gh로 만드는 PR = 오픈소스 기여의 실전 도구.
+</div>
+
+<!--
+정리하면, gh는 GitHub 작업을 터미널로 가져오는 도구이고, 코딩 에이전트는 그 gh를 자연어로 구동하는 조종석입니다.
+
+가장 중요한 건 명령어 자체보다, 결과를 읽고 오류를 해석하는 눈입니다. 그래야 에이전트가 무엇을 했는지 판단할 수 있습니다.
+
+worktree로 작업을 나누고 gh로 PR을 올리는 이 조합이, 다음에 볼 실제 오픈소스 기여의 실전 도구가 됩니다.
+-->
+
