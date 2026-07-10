@@ -1061,14 +1061,7 @@ worktree로 나눈 작업 공간 + gh + <span style="color: var(--lane-main)" cl
       </div>
     </div>
   </div>
-  <!-- 이미지 준비 후 아래 플레이스홀더를 <img src="./public/s4/good-first-issue.png" class="h-full w-full rounded-lg border border-white/15 object-contain" alt="good first issue 라벨로 필터한 GitHub Issues 목록">으로 교체 -->
-  <div class="rounded-lg border border-dashed border-white/20 p-4 flex items-center justify-center text-center">
-    <div class="text-xs opacity-60 leading-relaxed">
-      스크린샷: good first issue 필터<br>
-      <span class="font-mono text-xs">./public/s4/good-first-issue.png</span><br>
-      추가 후 &lt;img&gt;로 교체
-    </div>
-  </div>
+  <img src="./public/s4/good-first-issue.png" class="h-full w-full rounded-lg border border-white/15 object-contain" alt="GitHub Trending과 goodfirstissue.dev에서 첫 기여 프로젝트를 찾는 화면">
 </div>
 
 ```bash
