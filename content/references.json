@@ -7,19 +7,22 @@
           "title": "Pro Git (한국어)",
           "url": "https://git-scm.com/book/ko/v2",
           "description": "Git 개발자들이 직접 쓴 공식 책입니다. 한국어로 완역되어 있고 무료입니다. 개념이 막힐 때 찾아보세요.",
-          "tag": "책"
+          "tag": "책",
+          "thumb": "/reference-thumbs/git-scm-com-book-ko-v2.jpg"
         },
         {
           "title": "Git 공식 문서",
           "url": "https://git-scm.com/doc",
           "description": "모든 Git 명령어의 정확한 사용법과 옵션을 확인할 수 있는 원본 레퍼런스입니다.",
-          "tag": "공식 문서"
+          "tag": "공식 문서",
+          "thumb": "/reference-thumbs/git-scm-com-doc.jpg"
         },
         {
           "title": "GitHub Docs (한국어)",
           "url": "https://docs.github.com/ko",
           "description": "저장소, 이슈, PR, Actions까지 GitHub의 모든 기능을 한국어로 안내합니다.",
-          "tag": "공식 문서"
+          "tag": "공식 문서",
+          "thumb": "/reference-thumbs/docs-github-com-ko.jpg"
         }
       ]
     },
@@ -30,13 +33,15 @@
           "title": "Learn Git Branching",
           "url": "https://learngitbranching.js.org/?locale=ko_KR",
           "description": "브랜치와 머지가 어떻게 움직이는지 그림으로 직접 조작하며 배우는 인터랙티브 강의입니다. 한국어를 지원합니다.",
-          "tag": "인터랙티브"
+          "tag": "인터랙티브",
+          "thumb": "/reference-thumbs/learngitbranching-js-org.jpg"
         },
         {
           "title": "Oh My Git!",
           "url": "https://ohmygit.org/",
           "description": "카드 게임으로 Git을 배우는 오픈소스 게임입니다. 명령어가 실제 커밋 그래프로 어떻게 나타나는지 보여줍니다.",
-          "tag": "게임"
+          "tag": "게임",
+          "thumb": "/reference-thumbs/ohmygit-org.jpg"
         },
         {
           "title": "Git 치트시트 (GitHub 공식)",
@@ -48,13 +53,15 @@
           "title": "git-101-portfolio",
           "url": "https://github.com/git-101-portfolio/",
           "description": "이 강의의 실습용 GitHub 조직입니다. 미션과 포트폴리오 저장소가 여기에 모입니다.",
-          "tag": "강의 실습"
+          "tag": "강의 실습",
+          "thumb": "/reference-thumbs/github-com-git-101-portfolio.jpg"
         },
         {
           "title": "tldr pages",
           "url": "https://tldr.inbrowser.app/",
           "description": "명령어별 핵심 사용 예시만 추린 커뮤니티 치트시트의 웹 버전입니다. 낯선 명령을 만났을 때 가장 빠르게 감을 잡을 수 있습니다.",
-          "tag": "치트시트"
+          "tag": "치트시트",
+          "thumb": "/reference-thumbs/tldr-inbrowser-app.jpg"
         }
       ]
     },
@@ -65,43 +72,50 @@
           "title": "Conventional Commits",
           "url": "https://www.conventionalcommits.org/ko/v1.0.0/",
           "description": "커밋 메시지를 팀이 알아보기 쉽게 일관된 규칙으로 쓰는 방법입니다.",
-          "tag": "컨벤션"
+          "tag": "컨벤션",
+          "thumb": "/reference-thumbs/conventionalcommits-org-ko-v1-0-0.jpg"
         },
         {
           "title": "GitHub Flow",
           "url": "https://docs.github.com/ko/get-started/using-github/github-flow",
           "description": "브랜치를 만들고 PR로 합치는 협업 흐름을 GitHub가 정리한 공식 가이드입니다.",
-          "tag": "워크플로우"
+          "tag": "워크플로우",
+          "thumb": "/reference-thumbs/docs-github-com-ko-get-started-using-github-github-flow.jpg"
         },
         {
           "title": "gitignore 템플릿 모음",
           "url": "https://github.com/github/gitignore",
           "description": "언어와 도구별로 무엇을 버전 관리에서 제외할지 GitHub가 정리해 둔 .gitignore 모음입니다.",
-          "tag": "템플릿"
+          "tag": "템플릿",
+          "thumb": "/reference-thumbs/github-com-github-gitignore.jpg"
         },
         {
           "title": "gitignore 생성기 (Toptal)",
           "url": "https://www.toptal.com/developers/gitignore",
           "description": "운영체제, 에디터, 언어 조합을 입력하면 맞춤 .gitignore를 즉석에서 만들어 주는 생성기입니다.",
-          "tag": "도구"
+          "tag": "도구",
+          "thumb": "/reference-thumbs/toptal-com-developers-gitignore.jpg"
         },
         {
           "title": "GitHub 마크다운 문법",
           "url": "https://docs.github.com/ko/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax",
           "description": "README와 PR 설명을 보기 좋게 꾸미는 마크다운 작성법입니다.",
-          "tag": "문서 작성"
+          "tag": "문서 작성",
+          "thumb": "/reference-thumbs/docs-github-com-ko-get-started-writing-on-github-getting-started-with-writing-and-formatting-on-github-basic-writing-and-formatting-syntax.jpg"
         },
         {
           "title": "GitHub Flavored Markdown 스펙",
           "url": "https://github.github.com/gfm/",
           "description": "표, 체크리스트, 자동 링크 같은 GitHub 마크다운 확장이 정확히 어떻게 동작하는지 정의한 공식 명세입니다.",
-          "tag": "스펙"
+          "tag": "스펙",
+          "thumb": "/reference-thumbs/github-github-com-gfm.jpg"
         },
         {
           "title": "Star History",
           "url": "https://www.star-history.com/",
           "description": "GitHub 저장소들의 스타 증가 추이를 그래프로 그려 비교하는 도구입니다. 오픈소스를 고를 때 성장세를 참고할 수 있습니다.",
-          "tag": "도구"
+          "tag": "도구",
+          "thumb": "/reference-thumbs/star-history-com.jpg"
         }
       ]
     },
@@ -112,19 +126,22 @@
           "title": "Claude Code 공식 문서 (한국어)",
           "url": "https://code.claude.com/docs/ko/",
           "description": "설치부터 CLAUDE.md, 서브에이전트까지 Claude Code의 모든 기능을 한국어로 안내하는 공식 문서입니다.",
-          "tag": "공식 문서"
+          "tag": "공식 문서",
+          "thumb": "/reference-thumbs/code-claude-com-docs-ko.jpg"
         },
         {
           "title": "Claude Code Best Practices",
           "url": "https://www.anthropic.com/engineering/claude-code-best-practices",
           "description": "Anthropic 엔지니어링 팀이 정리한 Claude Code 활용 모범 사례입니다. 강의에서 다룬 'AI 결과물을 Git으로 통제하기'의 실전편입니다.",
-          "tag": "가이드"
+          "tag": "가이드",
+          "thumb": "/reference-thumbs/anthropic-com-engineering-claude-code-best-practices.jpg"
         },
         {
           "title": "Claude Code 101 (Anthropic Academy)",
           "url": "https://anthropic.skilljar.com/claude-code-101",
           "description": "AI 코딩 에이전트가 처음인 개발자를 위한 Anthropic 공식 무료 입문 강의입니다.",
-          "tag": "무료 강의"
+          "tag": "무료 강의",
+          "thumb": "/reference-thumbs/anthropic-skilljar-com-claude-code-101.jpg"
         }
       ]
     }

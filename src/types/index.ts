@@ -94,6 +94,8 @@ export interface Reference {
   url: string;
   description: string;
   tag?: string;
+  /** 정적 썸네일 경로 (scripts/capture-reference-thumbs.mjs가 채움) */
+  thumb?: string;
 }
 
 export interface ReferenceCategory {
